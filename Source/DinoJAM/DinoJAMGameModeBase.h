@@ -19,6 +19,9 @@ struct FDialogItem
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Character")
 	class ACharacter* OwnerCharacter;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Timer")
+	float DelayToNextDialog;
 };
 
 /**
@@ -34,6 +37,8 @@ public:
 
 	void PlayDialog(FDialogItem DialogItem);
 
+	void StartDialogSystem(TArray<struct FDialogItem> NewDialogs);
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSubclassOf<class UUserWidget> WidgetDialogTextReference;
 
@@ -41,6 +46,9 @@ public:
 	TArray<struct FDialogItem> Dialogs;
 
 protected:
+	UPROPERTY()
+	struct FDialogItem CurrentDialogItem;
+	
 	UPROPERTY()
 	class UUserWidget* WidgetDialogText;
 
@@ -50,5 +58,9 @@ protected:
 	UPROPERTY()
 	struct FTimerHandle CurrentDialogSoundTimerHandle;
 	void OnDialogSoundFinish();
+
+	UPROPERTY()
+	struct FTimerHandle DelayToNextDialogTimerHandle;
+	void PlayNextDialog();
 };
 
