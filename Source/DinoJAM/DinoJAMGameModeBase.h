@@ -47,6 +47,9 @@ public:
 
 protected:
 	UPROPERTY()
+	class UAudioComponent* DialogAudioComponent;
+	
+	UPROPERTY()
 	struct FDialogItem CurrentDialogItem;
 	
 	UPROPERTY()

@@ -4,6 +4,7 @@
 #include "DinoJAMGameModeBase.h"
 
 #include "Blueprint/UserWidget.h"
+#include "Components/AudioComponent.h"
 #include "Components/TextBlock.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -37,9 +38,12 @@ void ADinoJAMGameModeBase::StartDialogSystem(TArray<struct FDialogItem> NewDialo
 
 void ADinoJAMGameModeBase::PlayDialog(FDialogItem DialogItem)
 {
+	if(DialogAudioComponent != nullptr)
+		DialogAudioComponent->Stop();
+	
 	CurrentDialogItem = DialogItem;
 	
-	UGameplayStatics::PlaySound2D(GetWorld(), DialogItem.Sound);
+	DialogAudioComponent = UGameplayStatics::SpawnSound2D(GetWorld(), DialogItem.Sound);
 
 	if(CurrentDialogSoundTimerHandle.IsValid())
 		GetWorld()->GetTimerManager().ClearTimer(CurrentDialogSoundTimerHandle);
@@ -76,6 +80,7 @@ void ADinoJAMGameModeBase::OnDialogSoundFinish()
 
 void ADinoJAMGameModeBase::PlayNextDialog()
 {
+	GetWorld()->GetTimerManager().ClearTimer(CurrentDialogSoundTimerHandle);
 	GetWorld()->GetTimerManager().ClearTimer(DelayToNextDialogTimerHandle);
 	
 	if(Dialogs.Num() > 0)
