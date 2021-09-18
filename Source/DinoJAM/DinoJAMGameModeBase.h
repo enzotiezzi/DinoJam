@@ -22,6 +22,9 @@ struct FDialogItem
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Timer")
 	float DelayToNextDialog;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Flow")
+	bool AutomaticPlayNextDialog = false;
 };
 
 /**
@@ -34,15 +37,15 @@ class DINOJAM_API ADinoJAMGameModeBase : public AGameModeBase
 
 public:
 	virtual void BeginPlay() override;
-
-	void PlayDialog(FDialogItem DialogItem);
-
+	
+	void PlayNextDialog();
+	
 	void StartDialogSystem(TArray<struct FDialogItem> NewDialogs);
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="HUD")
 	TSubclassOf<class UUserWidget> WidgetDialogTextReference;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog System")
 	TArray<struct FDialogItem> Dialogs;
 
 protected:
@@ -64,6 +67,6 @@ protected:
 
 	UPROPERTY()
 	struct FTimerHandle DelayToNextDialogTimerHandle;
-	void PlayNextDialog();
-};
 
+	void PlayDialog(FDialogItem DialogItem);
+};

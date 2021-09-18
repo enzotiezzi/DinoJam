@@ -53,7 +53,8 @@ void ADinoJAMGameModeBase::PlayDialog(FDialogItem DialogItem)
 	
 	GetWorld()->GetTimerManager().SetTimer(CurrentDialogSoundTimerHandle, this, &ADinoJAMGameModeBase::OnDialogSoundFinish, DialogItem.Sound->Duration);
 
-	WidgetDialogText->AddToViewport();
+	if(!WidgetDialogText->IsInViewport())
+		WidgetDialogText->AddToViewport();
 
 	WidgetDialogTextBlock->SetText(FText::FromString(DialogItem.TextLine));
 }
@@ -61,20 +62,16 @@ void ADinoJAMGameModeBase::PlayDialog(FDialogItem DialogItem)
 void ADinoJAMGameModeBase::OnDialogSoundFinish()
 {
 	GetWorld()->GetTimerManager().ClearTimer(CurrentDialogSoundTimerHandle);
-	
-	if(WidgetDialogText)
+
+	if(CurrentDialogItem.AutomaticPlayNextDialog)
 	{
-		WidgetDialogTextBlock->SetText(FText::FromString(""));
+		if(Dialogs.Num() > 0)
+		{
+			if(DelayToNextDialogTimerHandle.IsValid())
+				GetWorld()->GetTimerManager().ClearTimer(DelayToNextDialogTimerHandle);
 
-		WidgetDialogText->RemoveFromViewport();
-	}
-
-	if(Dialogs.Num() > 0)
-	{
-		if(DelayToNextDialogTimerHandle.IsValid())
-			GetWorld()->GetTimerManager().ClearTimer(DelayToNextDialogTimerHandle);
-
-		GetWorld()->GetTimerManager().SetTimer(DelayToNextDialogTimerHandle, this, &ADinoJAMGameModeBase::PlayNextDialog, CurrentDialogItem.DelayToNextDialog);
+			GetWorld()->GetTimerManager().SetTimer(DelayToNextDialogTimerHandle, this, &ADinoJAMGameModeBase::PlayNextDialog, CurrentDialogItem.DelayToNextDialog);
+		}
 	}
 }
 
@@ -89,5 +86,18 @@ void ADinoJAMGameModeBase::PlayNextDialog()
 		Dialogs.RemoveAt(0);
 
 		PlayDialog(DialogItem);
+	}
+	else
+	{
+		if(WidgetDialogText)
+		{
+			WidgetDialogTextBlock->SetText(FText::FromString(""));
+
+			if(WidgetDialogText->IsInViewport())
+				WidgetDialogText->RemoveFromViewport();
+		}
+
+		if(DialogAudioComponent != nullptr)
+			DialogAudioComponent->Stop();
 	}
 }
