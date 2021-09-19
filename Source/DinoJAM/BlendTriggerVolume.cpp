@@ -17,12 +17,19 @@ ABlendTriggerVolume::ABlendTriggerVolume()
 	OverlapVolume->SetupAttachment(RootComponent);
 
 	CameraToFind = CreateDefaultSubobject<ACameraActor>(TEXT("CameraToFind"));
+
+	OverlapVolume->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 // Called when the game starts or when spawned
 void ABlendTriggerVolume::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if(EnableCollisionTimerHandle.IsValid())
+		GetWorld()->GetTimerManager().ClearTimer(EnableCollisionTimerHandle);
+	
+	GetWorld()->GetTimerManager().SetTimer(EnableCollisionTimerHandle, this, &ABlendTriggerVolume::EnableOverlapVolumeCollision, DelayToEnalbeOverlapVolumeCollision);
 }
 
 void ABlendTriggerVolume::NotifyActorBeginOverlap(AActor* OtherActor)
@@ -36,20 +43,16 @@ void ABlendTriggerVolume::NotifyActorBeginOverlap(AActor* OtherActor)
 	}
 }
 
-void ABlendTriggerVolume::NotifyActorEndOverlap(AActor* OtherActor)
-{
-	if (APlayerCharacter* PlayerCharacterCheck = Cast<APlayerCharacter>(OtherActor))
-	{
-		if (APlayerController* PlayerCharacterController = Cast<APlayerController>(PlayerCharacterCheck->GetController()))
-		{
-			PlayerCharacterController->SetViewTargetWithBlend(PlayerCharacterController->GetPawn(), CameraBlendTime, EViewTargetBlendFunction::VTBlend_Linear);
-		}
-	}
-}
-
 // Called every frame
 void ABlendTriggerVolume::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ABlendTriggerVolume::EnableOverlapVolumeCollision()
+{
+	GetWorld()->GetTimerManager().ClearTimer(EnableCollisionTimerHandle);
+	
+	OverlapVolume->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 }

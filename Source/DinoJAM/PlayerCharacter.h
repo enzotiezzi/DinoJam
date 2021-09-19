@@ -23,6 +23,10 @@ protected:
 
 	bool bIsOnDialog = true;
 
+	void MoveForward(float AxisValue);
+	
+	void MoveSides(float AxisValue);
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

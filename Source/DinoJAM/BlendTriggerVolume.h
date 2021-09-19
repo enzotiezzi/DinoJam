@@ -11,11 +11,11 @@ class DINOJAM_API ABlendTriggerVolume : public AActor
 {
 	GENERATED_BODY()
 
-	public:    
+public:    
 	// Sets default values for this actor's properties
 	ABlendTriggerVolume();
 
-	protected:
+protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -28,12 +28,15 @@ class DINOJAM_API ABlendTriggerVolume : public AActor
 	UPROPERTY(EditDefaultsOnly, meta =(ClampMin = 0.0f), Category="Camera")
 	float CameraBlendTime;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Collision")
+	float DelayToEnalbeOverlapVolumeCollision = 0.5;;
+
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor);
 
-	virtual void NotifyActorEndOverlap(AActor* OtherActor);
+	struct FTimerHandle EnableCollisionTimerHandle;
+	void EnableOverlapVolumeCollision();
 
-	public:    
+public:    
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
 };
