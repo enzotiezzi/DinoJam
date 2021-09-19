@@ -5,6 +5,7 @@
 #include "PlayerCharacter.h"
 #include "Components/BoxComponent.h"
 #include "Camera/CameraActor.h"
+#include "Components/ArrowComponent.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -14,7 +15,10 @@ ABlendTriggerVolume::ABlendTriggerVolume()
 	PrimaryActorTick.bCanEverTick = true;
 
 	OverlapVolume = CreateDefaultSubobject<UBoxComponent>(TEXT("CameraProximityVolume"));
+	ArrrowMovementDirectionComponent = CreateDefaultSubobject<UArrowComponent>(TEXT("ArrrowMovementDirectionComponent"));
+	
 	OverlapVolume->SetupAttachment(RootComponent);
+	ArrrowMovementDirectionComponent->SetupAttachment(OverlapVolume);
 
 	CameraToFind = CreateDefaultSubobject<ACameraActor>(TEXT("CameraToFind"));
 
@@ -39,6 +43,7 @@ void ABlendTriggerVolume::NotifyActorBeginOverlap(AActor* OtherActor)
 		if (APlayerController* PlayerCharacterController = Cast<APlayerController>(PlayerCharacterCheck->GetController()))
 		{
 			PlayerCharacterController->SetViewTargetWithBlend(CameraToFind, CameraBlendTime, EViewTargetBlendFunction::VTBlend_Linear);
+			PlayerCharacterController->SetControlRotation(ArrrowMovementDirectionComponent->GetComponentRotation());
 		}
 	}
 }

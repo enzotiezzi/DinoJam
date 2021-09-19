@@ -22,6 +22,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UBoxComponent* OverlapVolume;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UArrowComponent* ArrrowMovementDirectionComponent;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Camera")
 	ACameraActor* CameraToFind;
 
