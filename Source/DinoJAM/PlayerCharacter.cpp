@@ -4,14 +4,21 @@
 #include "PlayerCharacter.h"
 
 #include "DinoJAMGameModeBase.h"
+#include "DrawDebugHelpers.h"
+#include "Components/ArrowComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "PhysicalMaterials/PhysicalMaterial.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	StepArrowComponent = CreateDefaultSubobject<UArrowComponent>(TEXT("StepArrowComponent"));
+
+	StepArrowComponent->SetupAttachment(GetMesh());
 
 	GetMesh()->SetRelativeLocationAndRotation(FVector(0.0, 0.0, -90.0), FQuat(FRotator(0.0, -90.0, 0.0)));
 
@@ -89,5 +96,33 @@ void APlayerCharacter::MoveSides(float AxisValue)
 		FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
 		AddMovementInput(Direction, AxisValue);
+	}
+}
+
+void APlayerCharacter::PlayStepSound_Implementation()
+{
+	FVector StepLocation = StepArrowComponent->GetComponentLocation();
+
+	FCollisionShape CollisionShape = FCollisionShape::MakeSphere(30.0);
+
+	FHitResult OutHit;
+	
+	DrawDebugSphere(GetWorld(), StepLocation, CollisionShape.GetSphereRadius(), 16, FColor::Red);
+	bool Success = GetWorld()->SweepSingleByChannel(OutHit, StepLocation, StepLocation, FQuat::Identity, ECollisionChannel::ECC_WorldStatic, CollisionShape);
+
+	if(Success)
+	{
+		switch (OutHit.PhysMaterial->SurfaceType)
+		{
+			case SurfaceType1:
+				{
+					if(ConcreteStepSound)
+						UGameplayStatics::PlaySoundAtLocation(GetWorld(), ConcreteStepSound, StepLocation);
+				}
+			case SurfaceType2:;
+			case SurfaceType3:;
+			case SurfaceType4:;
+			default: ;
+		}
 	}
 }

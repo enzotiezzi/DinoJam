@@ -32,7 +32,7 @@ protected:
 	float CameraBlendTime;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Collision")
-	float DelayToEnalbeOverlapVolumeCollision = 0.5;;
+	float DelayToEnalbeOverlapVolumeCollision = 0.5;
 
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor);
 
