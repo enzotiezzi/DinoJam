@@ -105,13 +105,14 @@ void APlayerCharacter::MoveSides(float AxisValue)
 void APlayerCharacter::PlayStepSound_Implementation()
 {
 	FVector StepLocation = StepArrowComponent->GetComponentLocation();
-
-	FCollisionShape CollisionShape = FCollisionShape::MakeSphere(15.0);
 	
 	FHitResult OutHit;
 
-	DrawDebugLine(GetWorld(), GetActorLocation(), GetActorLocation() - FVector(0.0, 0.0, 500.0), FColor::Red, true);
-	bool Success = GetWorld()->LineTraceSingleByChannel(OutHit, StepLocation, StepLocation - FVector(0.0, 0.0, 500.0), ECC_Visibility);
+	FCollisionQueryParams CollisionQueryParams = FCollisionQueryParams::DefaultQueryParam;
+	CollisionQueryParams.bReturnPhysicalMaterial = true;
+
+	// DrawDebugLine(GetWorld(), GetActorLocation(), GetActorLocation() - FVector(0.0, 0.0, 500.0), FColor::Red, true);
+	bool Success = GetWorld()->LineTraceSingleByChannel(OutHit, StepLocation, StepLocation - FVector(0.0, 0.0, 500.0), ECC_Visibility, CollisionQueryParams);
 
 	if(Success)
 	{

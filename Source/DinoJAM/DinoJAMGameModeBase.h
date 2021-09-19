@@ -31,14 +31,14 @@ struct FDialogItem
 };
 
 /**
- * 
- */
+* 
+*/
 UCLASS()
 class DINOJAM_API ADinoJAMGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 
-public:
+	public:
 	virtual void BeginPlay() override;
 	
 	void PlayNextDialog();
@@ -51,7 +51,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog System")
 	TArray<struct FDialogItem> Dialogs;
 
-protected:
+	protected:
 	UPROPERTY()
 	class UAudioComponent* DialogAudioComponent;
 	
