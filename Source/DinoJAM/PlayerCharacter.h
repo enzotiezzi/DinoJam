@@ -14,16 +14,16 @@ class DINOJAM_API APlayerCharacter : public ACharacter
 protected:
 	// STEP SOUNDS
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Step Sounds")
-	class USoundBase* ConcreteStepSound;
+	class USoundCue* ConcreteStepSound;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Step Sounds")
-	class USoundBase* WoodenStepSound;
+	class USoundCue* WoodenStepSound;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Step Sounds")
-	class USoundBase* DirtStepSound;
+	class USoundCue* DirtStepSound;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Step Sounds")
-	class USoundBase* TiledStepSound;
+	class USoundCue* TiledStepSound;
 
 public:
 	// Sets default values for this character's properties

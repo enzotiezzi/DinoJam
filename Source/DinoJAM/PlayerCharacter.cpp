@@ -5,10 +5,13 @@
 
 #include "DinoJAMGameModeBase.h"
 #include "DrawDebugHelpers.h"
+#include "LandscapeComponent.h"
+#include "LandscapeInfo.h"
 #include "Components/ArrowComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
+#include "Sound/SoundCue.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -103,26 +106,41 @@ void APlayerCharacter::PlayStepSound_Implementation()
 {
 	FVector StepLocation = StepArrowComponent->GetComponentLocation();
 
-	FCollisionShape CollisionShape = FCollisionShape::MakeSphere(30.0);
-
-	FHitResult OutHit;
+	FCollisionShape CollisionShape = FCollisionShape::MakeSphere(15.0);
 	
-	DrawDebugSphere(GetWorld(), StepLocation, CollisionShape.GetSphereRadius(), 16, FColor::Red);
-	bool Success = GetWorld()->SweepSingleByChannel(OutHit, StepLocation, StepLocation, FQuat::Identity, ECollisionChannel::ECC_WorldStatic, CollisionShape);
+	FHitResult OutHit;
+
+	DrawDebugLine(GetWorld(), GetActorLocation(), GetActorLocation() - FVector(0.0, 0.0, 500.0), FColor::Red, true);
+	bool Success = GetWorld()->LineTraceSingleByChannel(OutHit, StepLocation, StepLocation - FVector(0.0, 0.0, 500.0), ECC_Visibility);
 
 	if(Success)
 	{
-		switch (OutHit.PhysMaterial->SurfaceType)
-		{
-			case SurfaceType1:
-				{
-					if(ConcreteStepSound)
-						UGameplayStatics::PlaySoundAtLocation(GetWorld(), ConcreteStepSound, StepLocation);
-				}
-			case SurfaceType2:;
-			case SurfaceType3:;
-			case SurfaceType4:;
-			default: ;
-		}
+	    if(OutHit.PhysMaterial != nullptr)
+	    {
+	    	switch (OutHit.PhysMaterial->SurfaceType)
+	    	{
+	    		case SurfaceType1:
+	    			{
+	    				if(ConcreteStepSound)
+	    					UGameplayStatics::PlaySound2D(GetWorld(), ConcreteStepSound);
+	    			}
+	    		case SurfaceType2:
+	    			{
+	    				if(WoodenStepSound)
+	    					UGameplayStatics::PlaySound2D(GetWorld(), WoodenStepSound);
+	    			}
+	    		case SurfaceType3:
+	    			{
+	    				if(DirtStepSound)
+	    					UGameplayStatics::PlaySound2D(GetWorld(), DirtStepSound);
+	    			}
+	    		case SurfaceType4:
+	    			{
+	    				if(TiledStepSound)
+	    					UGameplayStatics::PlaySound2D(GetWorld(), TiledStepSound);
+	    			}
+	    		default: ;
+	    	}
+	    }
 	}
 }
