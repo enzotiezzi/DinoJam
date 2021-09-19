@@ -43,6 +43,7 @@ void ABlendTriggerVolume::NotifyActorBeginOverlap(AActor* OtherActor)
 		if (APlayerController* PlayerCharacterController = Cast<APlayerController>(PlayerCharacterCheck->GetController()))
 		{
 			PlayerCharacterController->SetViewTargetWithBlend(CameraToFind, CameraBlendTime, EViewTargetBlendFunction::VTBlend_Linear);
+			
 			PlayerCharacterController->SetControlRotation(ArrrowMovementDirectionComponent->GetComponentRotation());
 		}
 	}
