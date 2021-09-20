@@ -20,12 +20,16 @@ void ADinoJAMGameModeBase::BeginPlay()
 		}
 	}
 
-	StartDialogSystem(TArray<struct FDialogItem>());
+	FOnDialogFinish OnDialogFinishTest;
+	OnDialogFinishTest.BindUObject(this, &ADinoJAMGameModeBase::TestDialogFinish);
+
+	StartDialogSystem(TArray<struct FDialogItem>(), OnDialogFinishTest);
 }
 
-void ADinoJAMGameModeBase::StartDialogSystem(TArray<struct FDialogItem> NewDialogs)
+void ADinoJAMGameModeBase::StartDialogSystem(TArray<struct FDialogItem> NewDialogs, FOnDialogFinish OnNewDialogFinish)
 {
 	//Dialogs = NewDialogs;
+	this->OnDialogFinish = OnNewDialogFinish;
 
 	if(Dialogs.Num() > 0)
 	{
@@ -50,8 +54,9 @@ void ADinoJAMGameModeBase::PlayDialog(FDialogItem DialogItem)
 
 	if(DelayToNextDialogTimerHandle.IsValid())
 		GetWorld()->GetTimerManager().ClearTimer(DelayToNextDialogTimerHandle);
-	
-	GetWorld()->GetTimerManager().SetTimer(CurrentDialogSoundTimerHandle, this, &ADinoJAMGameModeBase::OnDialogSoundFinish, DialogItem.Sound->Duration);
+
+	if(DialogItem.Sound)
+		GetWorld()->GetTimerManager().SetTimer(CurrentDialogSoundTimerHandle, this, &ADinoJAMGameModeBase::OnDialogSoundFinish, DialogItem.Sound->Duration);
 
 	if(!WidgetDialogText->IsInViewport())
 		WidgetDialogText->AddToViewport();
@@ -99,5 +104,13 @@ void ADinoJAMGameModeBase::PlayNextDialog()
 
 		if(DialogAudioComponent != nullptr)
 			DialogAudioComponent->Stop();
+
+		if(OnDialogFinish.IsBound())
+			OnDialogFinish.Execute(CurrentDialogItem);
 	}
+}
+
+void ADinoJAMGameModeBase::TestDialogFinish(FDialogItem DialogItem)
+{
+	GEngine->AddOnScreenDebugMessage(rand(), 2, FColor::Red, DialogItem.TextLine);
 }

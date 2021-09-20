@@ -6,6 +6,13 @@
 #include "GameFramework/GameModeBase.h"
 #include "DinoJAMGameModeBase.generated.h"
 
+UENUM()
+enum EDialoggSystemAnimationOwner
+{
+	SELF,
+	PLAYER
+};
+
 USTRUCT(BlueprintType)
 struct FDialogItem
 {
@@ -17,7 +24,7 @@ struct FDialogItem
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="TextLine")
 	FString TextLine;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Character")
+	UPROPERTY(VisibleInstanceOnly ,BlueprintReadWrite, Category="Character")
 	class ACharacter* OwnerCharacter;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Timer")
@@ -28,6 +35,12 @@ struct FDialogItem
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Animation")
 	class UAnimMontage* Animation;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Animation")
+	class UAnimMontage* PlayerAnimation;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Animation")
+	TEnumAsByte<EDialoggSystemAnimationOwner> AnimationOwner;
 };
 
 /**
@@ -37,13 +50,15 @@ UCLASS()
 class DINOJAM_API ADinoJAMGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
-
-	public:
+	
+	DECLARE_DELEGATE_OneParam(FOnDialogFinish, FDialogItem);
+	
+public:
 	virtual void BeginPlay() override;
 	
 	void PlayNextDialog();
 	
-	void StartDialogSystem(TArray<struct FDialogItem> NewDialogs);
+	void StartDialogSystem(TArray<struct FDialogItem> NewDialogs, FOnDialogFinish OnNewDialogFinish);
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="HUD")
 	TSubclassOf<class UUserWidget> WidgetDialogTextReference;
@@ -51,7 +66,7 @@ class DINOJAM_API ADinoJAMGameModeBase : public AGameModeBase
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog System")
 	TArray<struct FDialogItem> Dialogs;
 
-	protected:
+protected:
 	UPROPERTY()
 	class UAudioComponent* DialogAudioComponent;
 	
@@ -72,4 +87,8 @@ class DINOJAM_API ADinoJAMGameModeBase : public AGameModeBase
 	struct FTimerHandle DelayToNextDialogTimerHandle;
 
 	void PlayDialog(FDialogItem DialogItem);
+
+	FOnDialogFinish OnDialogFinish;
+
+	void TestDialogFinish(FDialogItem DialogItem);
 };
