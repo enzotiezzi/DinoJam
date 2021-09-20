@@ -7,7 +7,15 @@
 #include "DinoJAMGameModeBase.generated.h"
 
 UENUM()
-enum EDialoggSystemAnimationOwner
+enum ELEVEL1_QUESTS
+{
+	SETUP_PIANO,
+	FIND_HAMMER,
+	BUILD_PIANO
+};
+
+UENUM()
+enum EDialogSystemAnimationOwner
 {
 	SELF,
 	PLAYER
@@ -43,7 +51,7 @@ struct FDialogItem
 	class UAnimMontage* PlayerAnimation;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Animation")
-	TEnumAsByte<EDialoggSystemAnimationOwner> AnimationOwner;
+	TEnumAsByte<EDialogSystemAnimationOwner> AnimationOwner;
 };
 
 /**
@@ -54,7 +62,15 @@ class DINOJAM_API ADinoJAMGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+public:
 	DECLARE_DELEGATE_OneParam(FOnDialogFinish, FDialogItem);
+
+	// LEVELS QUESTS AND OBJECTIVES
+protected:
+	TEnumAsByte<ELEVEL1_QUESTS> CurrentLevel1Quest = ELEVEL1_QUESTS::SETUP_PIANO;
+	bool bIsPianoSetup = false;
+	bool bFoundHammer = false;
+	bool bIsPianoBuilt = false;
 	
 public:
 	virtual void BeginPlay() override;
