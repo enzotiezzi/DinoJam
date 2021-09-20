@@ -27,6 +27,9 @@ struct FDialogItem
 	UPROPERTY(VisibleInstanceOnly ,BlueprintReadWrite, Category="Character")
 	class ACharacter* OwnerCharacter;
 
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite, Category="Character")
+	class ACharacter* PlayerCharacter;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Timer")
 	float DelayToNextDialog;
 
