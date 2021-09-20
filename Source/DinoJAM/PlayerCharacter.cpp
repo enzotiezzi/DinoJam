@@ -18,11 +18,7 @@ APlayerCharacter::APlayerCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-	StepArrowComponent = CreateDefaultSubobject<UArrowComponent>(TEXT("StepArrowComponent"));
-
-	StepArrowComponent->SetupAttachment(GetMesh());
-
+	
 	GetMesh()->SetRelativeLocationAndRotation(FVector(0.0, 0.0, -90.0), FQuat(FRotator(0.0, -90.0, 0.0)));
 
 	GetMesh()->SetRelativeScale3D(FVector(0.2, 0.2, 0.2));
@@ -104,15 +100,13 @@ void APlayerCharacter::MoveSides(float AxisValue)
 
 void APlayerCharacter::PlayStepSound_Implementation()
 {
-	FVector StepLocation = StepArrowComponent->GetComponentLocation();
-	
 	FHitResult OutHit;
 
 	FCollisionQueryParams CollisionQueryParams = FCollisionQueryParams::DefaultQueryParam;
 	CollisionQueryParams.bReturnPhysicalMaterial = true;
 
 	// DrawDebugLine(GetWorld(), GetActorLocation(), GetActorLocation() - FVector(0.0, 0.0, 500.0), FColor::Red, true);
-	bool Success = GetWorld()->LineTraceSingleByChannel(OutHit, StepLocation, StepLocation - FVector(0.0, 0.0, 500.0), ECC_Visibility, CollisionQueryParams);
+	bool Success = GetWorld()->LineTraceSingleByChannel(OutHit, GetActorLocation(), GetActorLocation() - FVector(0.0, 0.0, 500.0), ECC_Visibility, CollisionQueryParams);
 
 	if(Success)
 	{
