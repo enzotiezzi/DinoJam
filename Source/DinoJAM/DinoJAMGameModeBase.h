@@ -9,9 +9,13 @@
 UENUM()
 enum ELEVEL1_QUESTS
 {
+	BEFORE_LEVEL,
 	SETUP_PIANO,
+	BEFORE_FIND_HAMMER,
 	FIND_HAMMER,
-	BUILD_PIANO
+	BUILD_PIANO,
+	SIGN_PAPER,
+	LEVEL_FINISH
 };
 
 UENUM()
@@ -21,11 +25,12 @@ enum EDialogSystemAnimationOwner
 	PLAYER
 };
 
-USTRUCT(BlueprintType)
-struct FDialogItem
+UCLASS(Blueprintable, EditInlineNew)
+class UDialogItem: public UObject
 {
 	GENERATED_BODY()
 
+public:	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Sound")
 	class USoundBase* Sound;
 
@@ -36,7 +41,7 @@ struct FDialogItem
 	class ACharacter* OwnerCharacter;
 
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite, Category="Character")
-	class ACharacter* PlayerCharacter;
+	class APlayerCharacter* PlayerCharacter;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Timer")
 	float DelayToNextDialog;
@@ -54,7 +59,7 @@ struct FDialogItem
 	TEnumAsByte<EDialogSystemAnimationOwner> AnimationOwner;
 };
 
-DECLARE_DELEGATE_OneParam(FOnDialogFinish, FDialogItem);
+DECLARE_DELEGATE_OneParam(FOnDialogFinish, UDialogItem*);
 
 /**
 * 
@@ -63,33 +68,82 @@ UCLASS()
 class DINOJAM_API ADinoJAMGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
+	TArray<TSubclassOf<UDialogItem>> DialogBeforeLevel;
+	FOnDialogFinish OnDialogBeforeLevelFinish;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
+	TArray<TSubclassOf<UDialogItem>> DialogBeforeSetupPiano;
+	FOnDialogFinish OnDialogBeforeSetupPianoFinish;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
+	TArray<TSubclassOf<UDialogItem>> DialogDuringSetupPiano;
+	FOnDialogFinish OnDialogDuringSetupPianoFinish;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
+	TArray<TSubclassOf<UDialogItem>> DialogBeforeFindHammer;
+	FOnDialogFinish OnDialogBeforeFindHammerFinish;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
+	TArray<TSubclassOf<UDialogItem>> DialogFindHammer;
+	FOnDialogFinish OnDialogFindHammerFinish;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
+	TArray<TSubclassOf<UDialogItem>> DialogNoHammer;
+	FOnDialogFinish OnDialogNoHammerFinish;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
+	TArray<TSubclassOf<UDialogItem>> DialogFoundHammer;
+	FOnDialogFinish OnDialogFoundHammerFinish;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
+	TArray<TSubclassOf<UDialogItem>> DialogBuildPiano;
+	FOnDialogFinish OnDialogBuildPianoFinish;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
+	TArray<TSubclassOf<UDialogItem>> DialogPlayPiano;
+	FOnDialogFinish OnDialogPlayPianoFinish;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
+	TArray<TSubclassOf<UDialogItem>> DialogSignPaper;
+	FOnDialogFinish OnDialogSignPaperFinish;
 	
-	// LEVELS QUESTS AND OBJECTIVES
-protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
+	TArray<TSubclassOf<UDialogItem>> DialogLevelComplete;
+	FOnDialogFinish OnDialogLevelCompleteFinish;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="LEVEL 1 QUESTS")
 	TEnumAsByte<ELEVEL1_QUESTS> CurrentLevel1Quest = ELEVEL1_QUESTS::SETUP_PIANO;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="LEVEL 1 QUESTS")
 	bool bIsPianoSetup = false;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="LEVEL 1 QUESTS")
 	bool bFoundHammer = false;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="LEVEL 1 QUESTS")
 	bool bIsPianoBuilt = false;
 	
-public:
 	virtual void BeginPlay() override;
 	
 	void PlayNextDialog();
 	
-	void StartDialogSystem(TArray<struct FDialogItem> NewDialogs, FOnDialogFinish OnNewDialogFinish);
+	void StartDialogSystem(TArray<TSubclassOf<UDialogItem>> NewDialogs, FOnDialogFinish OnNewDialogFinish);
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="HUD")
 	TSubclassOf<class UUserWidget> WidgetDialogTextReference;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog System")
-	TArray<struct FDialogItem> Dialogs;
+	TArray<TSubclassOf<UDialogItem>> Dialogs;
 
 protected:
 	UPROPERTY()
 	class UAudioComponent* DialogAudioComponent;
 	
 	UPROPERTY()
-	struct FDialogItem CurrentDialogItem;
+	class UDialogItem* CurrentDialogItem;
 	
 	UPROPERTY()
 	class UUserWidget* WidgetDialogText;
@@ -104,9 +158,12 @@ protected:
 	UPROPERTY()
 	struct FTimerHandle DelayToNextDialogTimerHandle;
 
-	void PlayDialog(FDialogItem DialogItem);
+	void PlayDialog(UDialogItem* DialogItem);
 
 	FOnDialogFinish OnDialogFinish;
 
-	void TestDialogFinish(FDialogItem DialogItem);
+	void TestDialogFinish(UDialogItem* DialogItem);
+
+	// DIALOG FINISH
+	void OnDialogBeforeLevelFinished(UDialogItem* DialogItem);
 };

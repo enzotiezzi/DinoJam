@@ -17,8 +17,6 @@ AKaren::AKaren()
 	GetMesh()->SetRelativeLocationAndRotation(FVector(0.0, 0.0, -90.0), FQuat(FRotator(0.0, -90.0, 0.0)));
 
 	SphereComponent->SetupAttachment(GetRootComponent());
-
-	OnDialogBeforeLevelFinish.BindUObject(this, &AKaren::OnDialogBeforeLevelFinished);
 }
 
 // Called when the game starts or when spawned
@@ -53,22 +51,81 @@ void AKaren::Interact(APlayerCharacter* Interactor)
 	if(MyGameMode)
 	{
 		Interactor->StartDialog();
-		
-		MyGameMode->StartDialogSystem(DialogBeforeLevel, OnDialogBeforeLevelFinish);
+
+		TArray<TSubclassOf<UDialogItem>> DialogToBeUsed;
+		FOnDialogFinish OnDialogFinishToBeUsed;
+
+		switch (MyGameMode->CurrentLevel1Quest)
+		{
+			case ELEVEL1_QUESTS::BEFORE_LEVEL:
+				DialogToBeUsed = MyGameMode->DialogBeforeLevel;
+			    OnDialogFinishToBeUsed = MyGameMode->OnDialogBeforeLevelFinish;
+			break;
+				
+			case ELEVEL1_QUESTS::SETUP_PIANO:
+				if(MyGameMode->bIsPianoSetup)
+				{
+					DialogToBeUsed = MyGameMode->DialogDuringSetupPiano;
+					OnDialogFinishToBeUsed = MyGameMode->OnDialogDuringSetupPianoFinish;
+				}
+				else
+				{
+					DialogToBeUsed = MyGameMode->DialogBeforeSetupPiano;
+					OnDialogFinishToBeUsed = MyGameMode->OnDialogBeforeSetupPianoFinish;
+				}
+				break;
+
+			case ELEVEL1_QUESTS::BEFORE_FIND_HAMMER:
+				DialogToBeUsed = MyGameMode->DialogBeforeFindHammer;
+				OnDialogFinishToBeUsed = MyGameMode->OnDialogBeforeFindHammerFinish;
+				break;
+
+			case ELEVEL1_QUESTS::FIND_HAMMER:
+				if(MyGameMode->bFoundHammer)
+				{
+					DialogToBeUsed = MyGameMode->DialogFoundHammer;
+					OnDialogFinishToBeUsed = MyGameMode->OnDialogFoundHammerFinish;
+				}
+				else
+				{
+					DialogToBeUsed = MyGameMode->DialogNoHammer;
+					OnDialogFinishToBeUsed = MyGameMode->OnDialogNoHammerFinish;
+				}
+				break;
+
+			case ELEVEL1_QUESTS::BUILD_PIANO:
+				DialogToBeUsed = MyGameMode->DialogBuildPiano;
+				OnDialogFinishToBeUsed = MyGameMode->OnDialogBuildPianoFinish;
+				break;
+
+			case ELEVEL1_QUESTS::LEVEL_FINISH:
+				DialogToBeUsed = MyGameMode->DialogBuildPiano;
+				OnDialogFinishToBeUsed = MyGameMode->OnDialogBuildPianoFinish;
+				break;
+
+			case ELEVEL1_QUESTS::SIGN_PAPER:
+				DialogToBeUsed = MyGameMode->DialogSignPaper;
+				OnDialogFinishToBeUsed = MyGameMode->OnDialogSignPaperFinish;
+				break;
+			
+			default:;
+		}
+
+		UpdateDialogAnimationOwner(DialogToBeUsed, Interactor);
+		MyGameMode->StartDialogSystem(DialogToBeUsed, OnDialogFinishToBeUsed);
 	}
 }
 
-void AKaren::UpdateDialogAnimationOwner(TArray<FDialogItem> Dialog, ACharacter* Interactor)
+void AKaren::UpdateDialogAnimationOwner(TArray<TSubclassOf<UDialogItem>> Dialog, APlayerCharacter* Interactor)
 {
-	for (FDialogItem DialogItem : Dialog)
+	for (TSubclassOf<UDialogItem> DialogItem : Dialog)
 	{
-		DialogItem.OwnerCharacter = this;
-		DialogItem.PlayerCharacter = Interactor;
+		if(DialogItem)
+		{
+			UDialogItem* Item = Cast<UDialogItem>(DialogItem->GetDefaultObject());
+			
+			Item->OwnerCharacter = this;
+			Item->PlayerCharacter = Interactor;
+		}
 	}
-}
-
-void AKaren::OnDialogBeforeLevelFinished(FDialogItem DialogItem)
-{
-	if(CurrentInteractor)
-		CurrentInteractor->OnDialogFinish();
 }

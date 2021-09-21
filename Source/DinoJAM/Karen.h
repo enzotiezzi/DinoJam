@@ -16,38 +16,6 @@ class DINOJAM_API AKaren : public ACharacter, public IInteractable
 public:
 	// Sets default values for this character's properties
 	AKaren();
-	
-protected:
-	// DIALOGS
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TArray<FDialogItem> DialogBeforeLevel;
-	FOnDialogFinish OnDialogBeforeLevelFinish;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TArray<FDialogItem> DialogBeforeSetupPiano;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TArray<FDialogItem> DialogDuringSetupPiano;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TArray<FDialogItem> DialogFindHammer;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TArray<FDialogItem> DialogNoHammer;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TArray<FDialogItem> DialogFoundHammer;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TArray<FDialogItem> DialogBuildPiano;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TArray<FDialogItem> DialogPlayPiano;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TArray<FDialogItem> DialogLevelComplete;
-
-public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -64,10 +32,8 @@ protected:
 	
 	virtual void Interact(APlayerCharacter* Interactor) override;
 
-	void UpdateDialogAnimationOwner(TArray<FDialogItem> Dialog, ACharacter* Interactor);
-
-	void OnDialogBeforeLevelFinished(FDialogItem DialogItem);
-
+	void UpdateDialogAnimationOwner(TArray<TSubclassOf<UDialogItem>> Dialog, APlayerCharacter* Interactor);
+	
 	//
 	UPROPERTY()
 	class APlayerCharacter* CurrentInteractor;
