@@ -6,26 +6,6 @@
 #include "GameFramework/GameModeBase.h"
 #include "DinoJAMGameModeBase.generated.h"
 
-UENUM()
-enum ELEVEL1_QUESTS
-{
-	BEFORE_LEVEL,
-	BEFORE_SETUP_PIANO,
-	SETUP_PIANO,
-	BEFORE_FIND_HAMMER,
-	FIND_HAMMER,
-	BUILD_PIANO,
-	SIGN_PAPER,
-	LEVEL_FINISH
-};
-
-UENUM()
-enum EDialogSystemAnimationOwner
-{
-	SELF,
-	PLAYER
-};
-
 UCLASS(Blueprintable, EditInlineNew)
 class UDialogItem: public UObject
 {
@@ -55,9 +35,6 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Animation")
 	class UAnimMontage* PlayerAnimation;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Animation")
-	TEnumAsByte<EDialogSystemAnimationOwner> AnimationOwner;
 };
 
 DECLARE_DELEGATE_OneParam(FOnDialogFinish, UDialogItem*);
