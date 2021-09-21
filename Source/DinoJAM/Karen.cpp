@@ -61,6 +61,11 @@ void AKaren::Interact(APlayerCharacter* Interactor)
 				DialogToBeUsed = MyGameMode->DialogBeforeLevel;
 			    OnDialogFinishToBeUsed = MyGameMode->OnDialogBeforeLevelFinish;
 			break;
+
+			case ELEVEL1_QUESTS::BEFORE_SETUP_PIANO:
+				DialogToBeUsed = MyGameMode->DialogBeforeSetupPiano;
+				OnDialogFinishToBeUsed = MyGameMode->OnDialogBeforeSetupPianoFinish;
+				break;
 				
 			case ELEVEL1_QUESTS::SETUP_PIANO:
 				if(MyGameMode->bIsPianoSetup)
@@ -70,8 +75,8 @@ void AKaren::Interact(APlayerCharacter* Interactor)
 				}
 				else
 				{
-					DialogToBeUsed = MyGameMode->DialogBeforeSetupPiano;
-					OnDialogFinishToBeUsed = MyGameMode->OnDialogBeforeSetupPianoFinish;
+					DialogToBeUsed = MyGameMode->DialogDuringNoSetupPiano;
+					OnDialogFinishToBeUsed = MyGameMode->OnDialogDuringNoSetupPianoFinish;
 				}
 				break;
 

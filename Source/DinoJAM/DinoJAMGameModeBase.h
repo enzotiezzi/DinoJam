@@ -10,6 +10,7 @@ UENUM()
 enum ELEVEL1_QUESTS
 {
 	BEFORE_LEVEL,
+	BEFORE_SETUP_PIANO,
 	SETUP_PIANO,
 	BEFORE_FIND_HAMMER,
 	FIND_HAMMER,
@@ -81,6 +82,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
 	TArray<TSubclassOf<UDialogItem>> DialogDuringSetupPiano;
 	FOnDialogFinish OnDialogDuringSetupPianoFinish;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
+	TArray<TSubclassOf<UDialogItem>> DialogDuringNoSetupPiano;
+	FOnDialogFinish OnDialogDuringNoSetupPianoFinish;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
 	TArray<TSubclassOf<UDialogItem>> DialogBeforeFindHammer;
@@ -161,9 +166,6 @@ protected:
 	void PlayDialog(UDialogItem* DialogItem);
 
 	FOnDialogFinish OnDialogFinish;
-
-	void TestDialogFinish(UDialogItem* DialogItem);
-
-	// DIALOG FINISH
-	void OnDialogBeforeLevelFinished(UDialogItem* DialogItem);
+	
+	void OnDialogSystemFinish(UDialogItem* DialogItem);
 };

@@ -20,8 +20,6 @@ void ADinoJAMGameModeBase::BeginPlay()
 			WidgetDialogTextBlock = Cast<UTextBlock>(WidgetDialogText->GetWidgetFromName("TextBlock_Dialog"));
 		}
 	}
-	
-	OnDialogBeforeLevelFinish.BindUObject(this, &ADinoJAMGameModeBase::OnDialogBeforeLevelFinished);
 }
 
 void ADinoJAMGameModeBase::StartDialogSystem(TArray<TSubclassOf<UDialogItem>> NewDialogs, FOnDialogFinish OnNewDialogFinish)
@@ -108,18 +106,15 @@ void ADinoJAMGameModeBase::PlayNextDialog()
 		if(DialogAudioComponent != nullptr)
 			DialogAudioComponent->Stop();
 
-		if(OnDialogFinish.IsBound())
-			OnDialogFinish.Execute(CurrentDialogItem);
+		OnDialogSystemFinish(CurrentDialogItem);
 	}
 }
 
-void ADinoJAMGameModeBase::TestDialogFinish(UDialogItem* DialogItem)
-{
-	GEngine->AddOnScreenDebugMessage(rand(), 2, FColor::Red, DialogItem->TextLine);
-}
-
-void ADinoJAMGameModeBase::OnDialogBeforeLevelFinished(UDialogItem* DialogItem)
+void ADinoJAMGameModeBase::OnDialogSystemFinish(UDialogItem* DialogItem)
 {
 	if(DialogItem->PlayerCharacter)
 		DialogItem->PlayerCharacter->OnDialogFinish();
+	
+	if(OnDialogFinish.IsBound())
+		OnDialogFinish.Execute(CurrentDialogItem);
 }
