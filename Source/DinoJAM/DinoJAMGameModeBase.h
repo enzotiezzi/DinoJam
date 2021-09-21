@@ -71,65 +71,11 @@ class DINOJAM_API ADinoJAMGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TArray<TSubclassOf<UDialogItem>> DialogBeforeLevel;
-	FOnDialogFinish OnDialogBeforeLevelFinish;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TArray<TSubclassOf<UDialogItem>> DialogBeforeSetupPiano;
-	FOnDialogFinish OnDialogBeforeSetupPianoFinish;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TArray<TSubclassOf<UDialogItem>> DialogDuringSetupPiano;
-	FOnDialogFinish OnDialogDuringSetupPianoFinish;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TArray<TSubclassOf<UDialogItem>> DialogDuringNoSetupPiano;
-	FOnDialogFinish OnDialogDuringNoSetupPianoFinish;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TArray<TSubclassOf<UDialogItem>> DialogBeforeFindHammer;
-	FOnDialogFinish OnDialogBeforeFindHammerFinish;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TArray<TSubclassOf<UDialogItem>> DialogFindHammer;
-	FOnDialogFinish OnDialogFindHammerFinish;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TArray<TSubclassOf<UDialogItem>> DialogNoHammer;
-	FOnDialogFinish OnDialogNoHammerFinish;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TArray<TSubclassOf<UDialogItem>> DialogFoundHammer;
-	FOnDialogFinish OnDialogFoundHammerFinish;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TArray<TSubclassOf<UDialogItem>> DialogBuildPiano;
-	FOnDialogFinish OnDialogBuildPianoFinish;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TArray<TSubclassOf<UDialogItem>> DialogPlayPiano;
-	FOnDialogFinish OnDialogPlayPianoFinish;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TArray<TSubclassOf<UDialogItem>> DialogSignPaper;
-	FOnDialogFinish OnDialogSignPaperFinish;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Quest")
+	TSubclassOf<class UQuest> CurrentQuest;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TArray<TSubclassOf<UDialogItem>> DialogLevelComplete;
-	FOnDialogFinish OnDialogLevelCompleteFinish;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="LEVEL 1 QUESTS")
-	TEnumAsByte<ELEVEL1_QUESTS> CurrentLevel1Quest = ELEVEL1_QUESTS::SETUP_PIANO;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="LEVEL 1 QUESTS")
-	bool bIsPianoSetup = false;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="LEVEL 1 QUESTS")
-	bool bFoundHammer = false;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="LEVEL 1 QUESTS")
-	bool bIsPianoBuilt = false;
+	UPROPERTY()
+	class UQuest* qCurrentQuest;
 	
 	virtual void BeginPlay() override;
 	
@@ -137,6 +83,8 @@ public:
 	
 	void StartDialogSystem(TArray<TSubclassOf<UDialogItem>> NewDialogs, FOnDialogFinish OnNewDialogFinish);
 
+	void StartQuest(UQuest* Quest);
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="HUD")
 	TSubclassOf<class UUserWidget> WidgetDialogTextReference;
 
@@ -144,6 +92,7 @@ public:
 	TArray<TSubclassOf<UDialogItem>> Dialogs;
 
 protected:
+	
 	UPROPERTY()
 	class UAudioComponent* DialogAudioComponent;
 	

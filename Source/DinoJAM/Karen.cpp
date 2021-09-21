@@ -3,6 +3,8 @@
 
 #include "Karen.h"
 
+#include "Level1InitialQuest.h"
+#include "UQuest.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -52,72 +54,8 @@ void AKaren::Interact(APlayerCharacter* Interactor)
 	{
 		Interactor->StartDialog();
 
-		TArray<TSubclassOf<UDialogItem>> DialogToBeUsed;
-		FOnDialogFinish OnDialogFinishToBeUsed;
-
-		switch (MyGameMode->CurrentLevel1Quest)
-		{
-			case ELEVEL1_QUESTS::BEFORE_LEVEL:
-				DialogToBeUsed = MyGameMode->DialogBeforeLevel;
-			    OnDialogFinishToBeUsed = MyGameMode->OnDialogBeforeLevelFinish;
-			break;
-
-			case ELEVEL1_QUESTS::BEFORE_SETUP_PIANO:
-				DialogToBeUsed = MyGameMode->DialogBeforeSetupPiano;
-				OnDialogFinishToBeUsed = MyGameMode->OnDialogBeforeSetupPianoFinish;
-				break;
-				
-			case ELEVEL1_QUESTS::SETUP_PIANO:
-				if(MyGameMode->bIsPianoSetup)
-				{
-					DialogToBeUsed = MyGameMode->DialogDuringSetupPiano;
-					OnDialogFinishToBeUsed = MyGameMode->OnDialogDuringSetupPianoFinish;
-				}
-				else
-				{
-					DialogToBeUsed = MyGameMode->DialogDuringNoSetupPiano;
-					OnDialogFinishToBeUsed = MyGameMode->OnDialogDuringNoSetupPianoFinish;
-				}
-				break;
-
-			case ELEVEL1_QUESTS::BEFORE_FIND_HAMMER:
-				DialogToBeUsed = MyGameMode->DialogBeforeFindHammer;
-				OnDialogFinishToBeUsed = MyGameMode->OnDialogBeforeFindHammerFinish;
-				break;
-
-			case ELEVEL1_QUESTS::FIND_HAMMER:
-				if(MyGameMode->bFoundHammer)
-				{
-					DialogToBeUsed = MyGameMode->DialogFoundHammer;
-					OnDialogFinishToBeUsed = MyGameMode->OnDialogFoundHammerFinish;
-				}
-				else
-				{
-					DialogToBeUsed = MyGameMode->DialogNoHammer;
-					OnDialogFinishToBeUsed = MyGameMode->OnDialogNoHammerFinish;
-				}
-				break;
-
-			case ELEVEL1_QUESTS::BUILD_PIANO:
-				DialogToBeUsed = MyGameMode->DialogBuildPiano;
-				OnDialogFinishToBeUsed = MyGameMode->OnDialogBuildPianoFinish;
-				break;
-
-			case ELEVEL1_QUESTS::LEVEL_FINISH:
-				DialogToBeUsed = MyGameMode->DialogBuildPiano;
-				OnDialogFinishToBeUsed = MyGameMode->OnDialogBuildPianoFinish;
-				break;
-
-			case ELEVEL1_QUESTS::SIGN_PAPER:
-				DialogToBeUsed = MyGameMode->DialogSignPaper;
-				OnDialogFinishToBeUsed = MyGameMode->OnDialogSignPaperFinish;
-				break;
-			
-			default:;
-		}
-
-		UpdateDialogAnimationOwner(DialogToBeUsed, Interactor);
-		MyGameMode->StartDialogSystem(DialogToBeUsed, OnDialogFinishToBeUsed);
+		UpdateDialogAnimationOwner(MyGameMode->qCurrentQuest->Dialog, Interactor);
+		MyGameMode->StartDialogSystem(MyGameMode->qCurrentQuest->Dialog, MyGameMode->qCurrentQuest->OnDialogFinish);
 	}
 }
 

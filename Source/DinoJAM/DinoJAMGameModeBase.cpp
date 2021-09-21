@@ -4,6 +4,7 @@
 #include "DinoJAMGameModeBase.h"
 
 #include "PlayerCharacter.h"
+#include "UQuest.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/AudioComponent.h"
 #include "Components/TextBlock.h"
@@ -20,6 +21,8 @@ void ADinoJAMGameModeBase::BeginPlay()
 			WidgetDialogTextBlock = Cast<UTextBlock>(WidgetDialogText->GetWidgetFromName("TextBlock_Dialog"));
 		}
 	}
+
+	qCurrentQuest = Cast<UQuest>(CurrentQuest.GetDefaultObject());
 }
 
 void ADinoJAMGameModeBase::StartDialogSystem(TArray<TSubclassOf<UDialogItem>> NewDialogs, FOnDialogFinish OnNewDialogFinish)
@@ -117,4 +120,14 @@ void ADinoJAMGameModeBase::OnDialogSystemFinish(UDialogItem* DialogItem)
 	
 	if(OnDialogFinish.IsBound())
 		OnDialogFinish.Execute(CurrentDialogItem);
+}
+
+void ADinoJAMGameModeBase::StartQuest(UQuest* Quest)
+{
+	if (qCurrentQuest)
+		qCurrentQuest->OnQuestFinish();
+
+	qCurrentQuest = Quest;
+
+	qCurrentQuest->OnQuestStart();
 }
