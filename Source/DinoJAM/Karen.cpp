@@ -11,6 +11,14 @@ AKaren::AKaren()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
+
+	GetMesh()->SetRelativeLocationAndRotation(FVector(0.0, 0.0, -90.0), FQuat(FRotator(0.0, -90.0, 0.0)));
+
+	SphereComponent->SetupAttachment(GetRootComponent());
+
+	OnDialogBeforeLevelFinish.BindUObject(this, &AKaren::OnDialogBeforeLevelFinished);
 }
 
 // Called when the game starts or when spawned
@@ -34,14 +42,18 @@ void AKaren::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-void AKaren::Interact(ACharacter* Interactor)
+void AKaren::Interact(APlayerCharacter* Interactor)
 {
+	this->CurrentInteractor = Interactor;
+	
 	AGameModeBase* GameModeBase = UGameplayStatics::GetGameMode(GetWorld());
 
 	ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(GameModeBase);
 
 	if(MyGameMode)
 	{
+		Interactor->StartDialog();
+		
 		MyGameMode->StartDialogSystem(DialogBeforeLevel, OnDialogBeforeLevelFinish);
 	}
 }
@@ -53,4 +65,10 @@ void AKaren::UpdateDialogAnimationOwner(TArray<FDialogItem> Dialog, ACharacter* 
 		DialogItem.OwnerCharacter = this;
 		DialogItem.PlayerCharacter = Interactor;
 	}
+}
+
+void AKaren::OnDialogBeforeLevelFinished(FDialogItem DialogItem)
+{
+	if(CurrentInteractor)
+		CurrentInteractor->OnDialogFinish();
 }

@@ -3,7 +3,12 @@
 
 #include "Interactable.h"
 
-void IInteractable::Interact(ACharacter* Interactor)
+void IInteractable::Interact(APlayerCharacter* Interactor)
+{
+	
+}
+
+void IInteractable::PreviewInteraction(APlayerCharacter* Interactor)
 {
 	
 }

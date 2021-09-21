@@ -16,12 +16,8 @@ class DINOJAM_API AKaren : public ACharacter, public IInteractable
 public:
 	// Sets default values for this character's properties
 	AKaren();
-	DECLARE_DELEGATE_OneParam(FOnDialogFinish, FDialogItem);
-
+	
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
 	// DIALOGS
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
 	TArray<FDialogItem> DialogBeforeLevel;
@@ -59,7 +55,20 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
-	virtual void Interact(ACharacter* Interactor) override;
+	//COMPONENTS
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Overlap")
+	class USphereComponent* SphereComponent;
+	
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+	
+	virtual void Interact(APlayerCharacter* Interactor) override;
 
 	void UpdateDialogAnimationOwner(TArray<FDialogItem> Dialog, ACharacter* Interactor);
+
+	void OnDialogBeforeLevelFinished(FDialogItem DialogItem);
+
+	//
+	UPROPERTY()
+	class APlayerCharacter* CurrentInteractor;
 };

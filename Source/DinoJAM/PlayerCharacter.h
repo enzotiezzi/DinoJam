@@ -35,7 +35,6 @@ protected:
 
 	void Interact();
 
-	bool bIsOnDialog = true;
 
 	void MoveForward(float AxisValue);
 	
@@ -44,12 +43,25 @@ protected:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void PlayStepSound();
 
-public:	
+	bool bIsOnDialog = false;
+	bool bCanMove = true;
+
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void OnDialogFinish();
+	void OnDialogFinish()
+	{
+		bCanMove = true;
+		bIsOnDialog = false;
+	}
+
+	void StartDialog()
+	{
+		bCanMove = false;
+		bIsOnDialog = true;
+	}
 };

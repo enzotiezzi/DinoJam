@@ -5,6 +5,7 @@
 
 #include "DinoJAMGameModeBase.h"
 #include "DrawDebugHelpers.h"
+#include "Interactable.h"
 #include "LandscapeComponent.h"
 #include "LandscapeInfo.h"
 #include "Components/ArrowComponent.h"
@@ -65,16 +66,34 @@ void APlayerCharacter::Interact()
 			MyGameMode->PlayNextDialog();
 		}
 	}
-}
+	else
+	{
+		FVector Start = GetActorLocation();
+		FVector End = GetActorLocation() + (GetActorForwardVector() * 150.0);
 
-void APlayerCharacter::OnDialogFinish()
-{
-	bIsOnDialog = false;
+		FHitResult OutHit;
+
+		FCollisionQueryParams CollisionQueryParams = FCollisionQueryParams::DefaultQueryParam;
+		CollisionQueryParams.AddIgnoredActor(this);
+
+		DrawDebugLine(GetWorld(), Start, End, FColor::Red, true);
+		bool Success = GetWorld()->LineTraceSingleByChannel(OutHit, Start, End, ECC_Pawn, CollisionQueryParams);
+
+		if(Success)
+		{
+			IInteractable* InteractableCharacter = Cast<IInteractable>(OutHit.Actor);
+
+			if(InteractableCharacter)
+			{
+				InteractableCharacter->Interact(this);
+			}
+		}
+	}
 }
 
 void APlayerCharacter::MoveForward(float AxisValue)
 {
-	if(Controller != nullptr && AxisValue != 0.0)
+	if(Controller != nullptr && AxisValue != 0.0 && bCanMove)
 	{
 		FRotator Rotation = GetController()->GetControlRotation();
 		FRotator YawRotation(0.0, Rotation.Yaw, 0.0);
@@ -87,7 +106,7 @@ void APlayerCharacter::MoveForward(float AxisValue)
 
 void APlayerCharacter::MoveSides(float AxisValue)
 {
-	if(Controller != nullptr && AxisValue != 0.0)
+	if(Controller != nullptr && AxisValue != 0.0 && bCanMove)
 	{
 		FRotator Rotation = GetController()->GetControlRotation();
 		FRotator YawRotation(0.0, Rotation.Yaw, 0.0);

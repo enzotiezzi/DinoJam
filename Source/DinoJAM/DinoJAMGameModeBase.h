@@ -54,6 +54,8 @@ struct FDialogItem
 	TEnumAsByte<EDialogSystemAnimationOwner> AnimationOwner;
 };
 
+DECLARE_DELEGATE_OneParam(FOnDialogFinish, FDialogItem);
+
 /**
 * 
 */
@@ -62,9 +64,6 @@ class DINOJAM_API ADinoJAMGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
-public:
-	DECLARE_DELEGATE_OneParam(FOnDialogFinish, FDialogItem);
-
 	// LEVELS QUESTS AND OBJECTIVES
 protected:
 	TEnumAsByte<ELEVEL1_QUESTS> CurrentLevel1Quest = ELEVEL1_QUESTS::SETUP_PIANO;
