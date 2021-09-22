@@ -5,9 +5,9 @@
 
 #include "Kismet/GameplayStatics.h"
 
-void ULevel1SetupPianoQuest::OnQuestStart()
+void ULevel1SetupPianoQuest::OnQuestStart(UWorld* World)
 {
-	ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(World));
 
 	if(MyGameMode)
 	{

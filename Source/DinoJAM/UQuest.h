@@ -34,15 +34,9 @@ public:
 
 	FOnDialogFinish OnDialogFinish;
 
-	UFUNCTION()
-	virtual bool CheckQuestComplention()
-	{
-		return bCompleted;
-	}
+	virtual void OnQuestFinish(UWorld* World);
 
-	virtual void OnQuestFinish();
-
-	virtual void OnQuestStart();
+	virtual void OnQuestStart(UWorld* World);
 	
-	virtual void CompleteQuest();
+	virtual void CompleteQuest(UWorld* World);
 };

@@ -15,7 +15,7 @@ class DINOJAM_API ULevel1SetupPianoQuest : public UQuest
 	GENERATED_BODY()
 
 public:
-	virtual void OnQuestStart() override;
+	virtual void OnQuestStart(UWorld* World) override;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")

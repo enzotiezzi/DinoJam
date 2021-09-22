@@ -125,9 +125,9 @@ void ADinoJAMGameModeBase::OnDialogSystemFinish(UDialogItem* DialogItem)
 void ADinoJAMGameModeBase::StartQuest(UQuest* Quest)
 {
 	if (qCurrentQuest)
-		qCurrentQuest->OnQuestFinish();
+		qCurrentQuest->OnQuestFinish(GetWorld());
 
 	qCurrentQuest = Quest;
 
-	qCurrentQuest->OnQuestStart();
+	qCurrentQuest->OnQuestStart(GetWorld());
 }

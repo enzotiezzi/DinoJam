@@ -7,32 +7,33 @@
 
 UQuest::UQuest()
 {
-	
+	bCompleted = false;
 }
 
-void UQuest::OnQuestFinish()
+void UQuest::OnQuestFinish(UWorld* World)
 {
 	
 }
 
-void UQuest::OnQuestStart()
+void UQuest::OnQuestStart(UWorld* World)
 {
 	
 }
 
-void UQuest::CompleteQuest()
+void UQuest::CompleteQuest(UWorld* World)
 {
-	bCompleted = true;
+	if(!bCompleted)
+		bCompleted = true;
 	
 	if(NextQuest)
 	{
-		AGameModeBase* GameModeBase = UGameplayStatics::GetGameMode(GetWorld());
+		AGameModeBase* GameModeBase = UGameplayStatics::GetGameMode(World);
 
 		ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(GameModeBase);
 
 		if(MyGameMode)
 		{
-			UQuest* Quest = Cast<UQuest>(NextQuest);
+			UQuest* Quest = Cast<UQuest>(NextQuest->GetDefaultObject());
 			
 			MyGameMode->StartQuest(Quest);
 		}
