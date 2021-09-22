@@ -188,3 +188,13 @@ void APlayerCharacter::OnCapsuleComponentEndOverlap(UPrimitiveComponent* Overlap
 		CurrentInteractable = nullptr;
 	}
 }
+
+void APlayerCharacter::PickUpPianoBox(UStaticMeshComponent* PianoBoxComponent)
+{
+	bIsCarryBoxAnimation = true;
+	
+	FAttachmentTransformRules AttachmentTransformRules = FAttachmentTransformRules::SnapToTargetIncludingScale;
+
+	PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	PianoBoxComponent->AttachToComponent(GetMesh(), AttachmentTransformRules, FName("PianoBoxSocket"));
+}

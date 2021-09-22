@@ -13,7 +13,14 @@ class DINOJAM_API APlayerCharacter : public ACharacter
 	GENERATED_BODY()
 
 protected:
-	// STEP SOUNDS
+	//////////////////////////////////////////////////
+	///
+	/// STEP SOUNDS
+	/// 
+	//////////////////////////////////////////////////
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void PlayStepSound();
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Step Sounds")
 	class USoundCue* ConcreteStepSound;
 
@@ -26,6 +33,14 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Step Sounds")
 	class USoundCue* TiledStepSound;
 
+	//////////////////////////////////////////////////
+	///
+	/// ANIMATION MONTAGES
+	///
+	//////////////////////////////////////////////////
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Animations")
+	class UAnimMontage* CarryPianoBoxMontage;
+
 public:
 	// Sets default values for this character's properties
 	APlayerCharacter();
@@ -34,21 +49,33 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	///////////////////////////////////////////////////
+	///
+	/// INTERARCTIONS
+	///
+	////////////////////////////////////////////////////
+	class IInteractable* CurrentInteractable;
+	
 	void Interact();
 
-
+	///////////////////////////////////////////////////
+	///
+	/// MOVEMENT
+	///
+	///////////////////////////////////////////////////
 	void MoveForward(float AxisValue);
 	
 	void MoveSides(float AxisValue);
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void PlayStepSound();
-
+	////////////////////////////////////////////////////
+	///
+	/// FLAGS
+	///
+	///////////////////////////////////////////////////
 	bool bIsOnDialog = false;
 	
 	bool bCanMove = true;
 
-	class IInteractable* CurrentInteractable;
 
 public:
 	// Called every frame
@@ -57,6 +84,11 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	//////////////////////////////////////////////////////////////////
+	///
+	/// FUNCTIONS TO MANAGE DIALOG STATE
+	/// 
+	//////////////////////////////////////////////////////////////////
 	void OnDialogFinish()
 	{
 		bCanMove = true;
@@ -69,9 +101,32 @@ public:
 		bIsOnDialog = true;
 	}
 
+	//////////////////////////////////////////////////////////////////
+	///
+	/// FUNCTION TO HANDLE PIANO BOX PICK UP
+	///
+	/////////////////////////////////////////////////////////////////
+	UFUNCTION()
+	void PickUpPianoBox(UStaticMeshComponent* PianoBoxComponent);
+
+	//////////////////////////////////////////////////////////////////
+	///
+	/// FUNCTIONS TO MANAGE COLLISIONS WITH INTERACTABLES
+	/// 
+	//////////////////////////////////////////////////////////////////
 	UFUNCTION()
 	void OnCapsuleComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
 
 	UFUNCTION()
 	void OnCapsuleComponentEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	////////////////////////////////////////////////////////
+	///
+	/// VARIABLES TO CONTROL THE ANIMATION BLENDS
+	/// 
+	////////////////////////////////////////////////////////
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Animation")
+	bool bIsCarryBoxAnimation = false;
+
+	bool bIsRootMotionAnimation = false;
 };
