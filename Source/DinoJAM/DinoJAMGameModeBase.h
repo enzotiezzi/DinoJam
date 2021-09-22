@@ -67,6 +67,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog System")
 	TArray<TSubclassOf<UDialogItem>> Dialogs;
+	
+	UPROPERTY()
+	class UStaticMeshComponent* PianoBoxComponent;
 
 protected:
 	

@@ -52,8 +52,16 @@ void APianoBox::Interact(ACharacter* Interactor)
 			{
 				Quest->CompleteQuest(GetWorld());
 
+				MyGameMode->PianoBoxComponent = PianoBoxComponent;
+
 				APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(Interactor);
-				PlayerCharacter->PickUpPianoBox(PianoBoxComponent);
+	
+				PlayerCharacter->bIsCarryBoxAnimation = true;
+	
+				FAttachmentTransformRules AttachmentTransformRules = FAttachmentTransformRules::SnapToTargetIncludingScale;
+
+				PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+				PianoBoxComponent->AttachToComponent(PlayerCharacter->GetMesh(), AttachmentTransformRules, FName("PianoBoxSocket"));
 			}
 		}
 	}
