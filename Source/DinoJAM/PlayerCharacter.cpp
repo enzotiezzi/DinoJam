@@ -9,6 +9,7 @@
 #include "LandscapeComponent.h"
 #include "LandscapeInfo.h"
 #include "Components/ArrowComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
@@ -21,11 +22,15 @@ APlayerCharacter::APlayerCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 	
 	GetMesh()->SetRelativeLocationAndRotation(FVector(0.0, 0.0, -90.0), FQuat(FRotator(0.0, -90.0, 0.0)));
-
 	GetMesh()->SetRelativeScale3D(FVector(0.2, 0.2, 0.2));
 
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnCapsuleComponentBeginOverlap);
+	GetCapsuleComponent()->OnComponentEndOverlap.AddDynamic(this, &APlayerCharacter::OnCapsuleComponentEndOverlap);
+	
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	this->bUseControllerRotationYaw = false;
+
+	GetCharacterMovement()->MaxWalkSpeed = 200;
 }
 
 // Called when the game starts or when spawned
@@ -68,24 +73,31 @@ void APlayerCharacter::Interact()
 	}
 	else
 	{
-		FVector Start = GetActorLocation();
-		FVector End = GetActorLocation() + (GetActorForwardVector() * 150.0);
-
-		FHitResult OutHit;
-
-		FCollisionQueryParams CollisionQueryParams = FCollisionQueryParams::DefaultQueryParam;
-		CollisionQueryParams.AddIgnoredActor(this);
-
-		DrawDebugLine(GetWorld(), Start, End, FColor::Red, true);
-		bool Success = GetWorld()->LineTraceSingleByChannel(OutHit, Start, End, ECC_Pawn, CollisionQueryParams);
-
-		if(Success)
+		if(CurrentInteractable)
 		{
-			IInteractable* InteractableCharacter = Cast<IInteractable>(OutHit.Actor);
+			CurrentInteractable->Interact(this);
+		}
+		else
+		{
+			FVector Start = GetActorLocation();
+			FVector End = GetActorLocation() + (GetActorForwardVector() * 150.0);
 
-			if(InteractableCharacter)
+			FHitResult OutHit;
+
+			FCollisionQueryParams CollisionQueryParams = FCollisionQueryParams::DefaultQueryParam;
+			CollisionQueryParams.AddIgnoredActor(this);
+
+			DrawDebugLine(GetWorld(), Start, End, FColor::Red, true);
+			bool Success = GetWorld()->LineTraceSingleByChannel(OutHit, Start, End, ECC_Pawn, CollisionQueryParams);
+
+			if(Success)
 			{
-				InteractableCharacter->Interact(this);
+				IInteractable* InteractableCharacter = Cast<IInteractable>(OutHit.Actor);
+
+				if(InteractableCharacter)
+				{
+					InteractableCharacter->Interact(this);
+				}
 			}
 		}
 	}
@@ -156,5 +168,23 @@ void APlayerCharacter::PlayStepSound_Implementation()
 	    		default: ;
 	    	}
 	    }
+	}
+}
+
+void APlayerCharacter::OnCapsuleComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if(IInteractable* Interactable = Cast<IInteractable>(OtherActor))
+	{
+		CurrentInteractable = Interactable;
+
+		CurrentInteractable->PreviewInteraction(this);
+	}
+}
+
+void APlayerCharacter::OnCapsuleComponentEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if(IInteractable* Interactable = Cast<IInteractable>(OtherActor))
+	{
+		CurrentInteractable = nullptr;
 	}
 }

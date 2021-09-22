@@ -22,7 +22,7 @@ void ADinoJAMGameModeBase::BeginPlay()
 		}
 	}
 
-	qCurrentQuest = Cast<UQuest>(CurrentQuest.GetDefaultObject());
+	StartQuest(CurrentQuest.GetDefaultObject());
 }
 
 void ADinoJAMGameModeBase::StartDialogSystem(TArray<TSubclassOf<UDialogItem>> NewDialogs, FOnDialogFinish OnNewDialogFinish)

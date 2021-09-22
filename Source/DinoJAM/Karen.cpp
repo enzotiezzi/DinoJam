@@ -4,6 +4,7 @@
 #include "Karen.h"
 
 #include "Level1InitialQuest.h"
+#include "PlayerCharacter.h"
 #include "UQuest.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -42,9 +43,9 @@ void AKaren::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-void AKaren::Interact(APlayerCharacter* Interactor)
+void AKaren::Interact(ACharacter* Interactor)
 {
-	this->CurrentInteractor = Interactor;
+	this->CurrentInteractor = Cast<APlayerCharacter>(Interactor);
 	
 	AGameModeBase* GameModeBase = UGameplayStatics::GetGameMode(GetWorld());
 
@@ -52,9 +53,9 @@ void AKaren::Interact(APlayerCharacter* Interactor)
 
 	if(MyGameMode)
 	{
-		Interactor->StartDialog();
+		CurrentInteractor->StartDialog();
 
-		UpdateDialogAnimationOwner(MyGameMode->qCurrentQuest->Dialog, Interactor);
+		UpdateDialogAnimationOwner(MyGameMode->qCurrentQuest->Dialog, CurrentInteractor);
 		MyGameMode->StartDialogSystem(MyGameMode->qCurrentQuest->Dialog, MyGameMode->qCurrentQuest->OnDialogFinish);
 	}
 }

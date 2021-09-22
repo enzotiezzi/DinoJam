@@ -30,7 +30,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
-	virtual void Interact(APlayerCharacter* Interactor) override;
+	virtual void Interact(ACharacter* Interactor) override;
 
 	void UpdateDialogAnimationOwner(TArray<TSubclassOf<UDialogItem>> Dialog, APlayerCharacter* Interactor);
 	

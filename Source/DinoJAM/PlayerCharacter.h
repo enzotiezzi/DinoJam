@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Interactable.h"
 #include "GameFramework/Character.h"
 #include "PlayerCharacter.generated.h"
 
@@ -44,7 +45,10 @@ protected:
 	void PlayStepSound();
 
 	bool bIsOnDialog = false;
+	
 	bool bCanMove = true;
+
+	class IInteractable* CurrentInteractable;
 
 public:
 	// Called every frame
@@ -64,4 +68,10 @@ public:
 		bCanMove = false;
 		bIsOnDialog = true;
 	}
+
+	UFUNCTION()
+	void OnCapsuleComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
+
+	UFUNCTION()
+	void OnCapsuleComponentEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 };
