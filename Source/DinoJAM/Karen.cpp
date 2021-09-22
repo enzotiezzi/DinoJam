@@ -53,23 +53,20 @@ void AKaren::Interact(ACharacter* Interactor)
 
 	if(MyGameMode)
 	{
-		CurrentInteractor->StartDialog();
-
-		UpdateDialogAnimationOwner(MyGameMode->qCurrentQuest->Dialog, CurrentInteractor);
-		MyGameMode->StartDialogSystem(MyGameMode->qCurrentQuest->Dialog, MyGameMode->qCurrentQuest->OnDialogFinish);
-	}
-}
-
-void AKaren::UpdateDialogAnimationOwner(TArray<TSubclassOf<UDialogItem>> Dialog, APlayerCharacter* Interactor)
-{
-	for (TSubclassOf<UDialogItem> DialogItem : Dialog)
-	{
-		if(DialogItem)
+		TArray<TSubclassOf<class UDialogItem>> DialogToBeUsed;
+		FOnDialogFinish OnDialogFinishToBeUsed;
+		
+		if(MyGameMode->qCurrentQuest->bComplexCondition)
 		{
-			UDialogItem* Item = Cast<UDialogItem>(DialogItem->GetDefaultObject());
-			
-			Item->OwnerCharacter = this;
-			Item->PlayerCharacter = Interactor;
+			DialogToBeUsed = MyGameMode->qCurrentQuest->GetDialogBasedOnComplexCondition();
+			OnDialogFinishToBeUsed = MyGameMode->qCurrentQuest->GetOnDialogFinishBasedOnComplexCondition();
 		}
+		else
+		{
+			DialogToBeUsed = MyGameMode->qCurrentQuest->Dialog;
+			OnDialogFinishToBeUsed = MyGameMode->qCurrentQuest->OnDialogFinish;
+		}
+
+		MyGameMode->StartDialogSystem(DialogToBeUsed, OnDialogFinishToBeUsed, CurrentInteractor, this);
 	}
 }

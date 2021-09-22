@@ -23,6 +23,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Name")
 	FString Name;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Condition")
+	bool bComplexCondition = false;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Quest")
 	bool bCompleted = false;
 	
@@ -39,4 +42,14 @@ public:
 	virtual void OnQuestStart(UWorld* World);
 	
 	virtual void CompleteQuest(UWorld* World);
+
+	virtual TArray<TSubclassOf<class UDialogItem>> GetDialogBasedOnComplexCondition()
+	{
+		return TArray<TSubclassOf<class UDialogItem>>();
+	};
+
+	virtual FOnDialogFinish GetOnDialogFinishBasedOnComplexCondition()
+	{
+		return FOnDialogFinish();
+	};
 };

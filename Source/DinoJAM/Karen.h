@@ -31,8 +31,6 @@ protected:
 	virtual void BeginPlay() override;
 	
 	virtual void Interact(ACharacter* Interactor) override;
-
-	void UpdateDialogAnimationOwner(TArray<TSubclassOf<UDialogItem>> Dialog, APlayerCharacter* Interactor);
 	
 	//
 	UPROPERTY()

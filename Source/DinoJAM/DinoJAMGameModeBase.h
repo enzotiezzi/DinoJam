@@ -17,13 +17,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="TextLine")
 	FString TextLine;
-
-	UPROPERTY(VisibleInstanceOnly ,BlueprintReadWrite, Category="Character")
-	class ACharacter* OwnerCharacter;
-
-	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite, Category="Character")
-	class APlayerCharacter* PlayerCharacter;
-
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Timer")
 	float DelayToNextDialog;
 
@@ -31,7 +25,7 @@ public:
 	bool AutomaticPlayNextDialog = false;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Animation")
-	class UAnimMontage* Animation;
+	class UAnimMontage* NPCAnimation;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Animation")
 	class UAnimMontage* PlayerAnimation;
@@ -48,26 +42,58 @@ class DINOJAM_API ADinoJAMGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 
 public:
+	virtual void BeginPlay() override;
+
+	//////////////////////////////////////////////
+	///
+	/// CHARACTER REFERENCES
+	///
+	//////////////////////////////////////////////
+	UPROPERTY()
+	class APlayerCharacter* CurrentPlayerCharacter;
+
+	UPROPERTY()
+	class ACharacter* CurrentNPC;
+	
+	//////////////////////////////////////////////
+	///
+	/// QUEST STUFF
+	///
+	//////////////////////////////////////////////
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Quest")
 	TSubclassOf<class UQuest> CurrentQuest;
 	
 	UPROPERTY()
 	class UQuest* qCurrentQuest;
 	
-	virtual void BeginPlay() override;
-	
+	void StartQuest(UQuest* Quest);
+
+	/////////////////////////////////////////////
+	///
+	/// DIALOG SYSTEM
+	///
+	/////////////////////////////////////////////
 	void PlayNextDialog();
 	
 	void StartDialogSystem(TArray<TSubclassOf<UDialogItem>> NewDialogs, FOnDialogFinish OnNewDialogFinish);
-
-	void StartQuest(UQuest* Quest);
+	void StartDialogSystem(TArray<TSubclassOf<UDialogItem>> NewDialogs, FOnDialogFinish OnNewDialogFinish, APlayerCharacter* PlayerCharacter, ACharacter* NPC);
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="HUD")
-	TSubclassOf<class UUserWidget> WidgetDialogTextReference;
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog System")
 	TArray<TSubclassOf<UDialogItem>> Dialogs;
 	
+	/////////////////////////////////////////////
+	///
+	/// HUD
+	///
+	/////////////////////////////////////////////
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="HUD")
+	TSubclassOf<class UUserWidget> WidgetDialogTextReference;
+
+	/////////////////////////////////////////////
+	///
+	/// LEVEL 1 STUFF
+	///
+	/////////////////////////////////////////////
 	UPROPERTY()
 	class UStaticMeshComponent* PianoBoxComponent;
 

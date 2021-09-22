@@ -27,8 +27,17 @@ void ADinoJAMGameModeBase::BeginPlay()
 
 void ADinoJAMGameModeBase::StartDialogSystem(TArray<TSubclassOf<UDialogItem>> NewDialogs, FOnDialogFinish OnNewDialogFinish)
 {
-	this->Dialogs = NewDialogs;
-	this->OnDialogFinish = OnNewDialogFinish;
+	StartDialogSystem(NewDialogs, OnNewDialogFinish, CurrentPlayerCharacter, CurrentNPC);
+}
+
+void ADinoJAMGameModeBase::StartDialogSystem(TArray<TSubclassOf<UDialogItem>> NewDialogs, FOnDialogFinish OnNewDialogFinish, APlayerCharacter* PlayerCharacter, ACharacter* NPC)
+{
+	Dialogs = NewDialogs;
+	OnDialogFinish = OnNewDialogFinish;
+	CurrentPlayerCharacter = PlayerCharacter;
+	CurrentNPC = NPC;
+
+	CurrentPlayerCharacter->StartDialog();
 
 	if(Dialogs.Num() > 0)
 	{
@@ -115,8 +124,8 @@ void ADinoJAMGameModeBase::PlayNextDialog()
 
 void ADinoJAMGameModeBase::OnDialogSystemFinish(UDialogItem* DialogItem)
 {
-	if(DialogItem->PlayerCharacter)
-		DialogItem->PlayerCharacter->OnDialogFinish();
+	if(CurrentPlayerCharacter)
+		CurrentPlayerCharacter->OnDialogFinish();
 	
 	if(OnDialogFinish.IsBound())
 		OnDialogFinish.Execute(CurrentDialogItem);
