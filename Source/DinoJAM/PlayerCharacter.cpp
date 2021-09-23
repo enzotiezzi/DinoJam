@@ -143,30 +143,37 @@ void APlayerCharacter::PlayStepSound_Implementation()
 	{
 	    if(OutHit.PhysMaterial != nullptr)
 	    {
+	    	USoundCue* SoundCueToBePlayed = ConcreteStepSound;
+	    	
 	    	switch (OutHit.PhysMaterial->SurfaceType)
 	    	{
 	    		case SurfaceType1:
 	    			{
 	    				if(ConcreteStepSound)
-	    					UGameplayStatics::PlaySound2D(GetWorld(), ConcreteStepSound);
+	    					SoundCueToBePlayed = ConcreteStepSound;
 	    			}
 	    		case SurfaceType2:
 	    			{
 	    				if(WoodenStepSound)
-	    					UGameplayStatics::PlaySound2D(GetWorld(), WoodenStepSound);
+	    					SoundCueToBePlayed = WoodenStepSound;
 	    			}
 	    		case SurfaceType3:
 	    			{
 	    				if(DirtStepSound)
-	    					UGameplayStatics::PlaySound2D(GetWorld(), DirtStepSound);
+	    					SoundCueToBePlayed = DirtStepSound;
 	    			}
 	    		case SurfaceType4:
 	    			{
 	    				if(TiledStepSound)
-	    					UGameplayStatics::PlaySound2D(GetWorld(), TiledStepSound);
+	    					SoundCueToBePlayed = TiledStepSound;
 	    			}
-	    		default: ;
+	    		default:
+	    			if(ConcreteStepSound)
+	    				SoundCueToBePlayed = ConcreteStepSound;
 	    	}
+
+	    	if(SoundCueToBePlayed)
+	    		UGameplayStatics::PlaySoundAtLocation(GetWorld(), SoundCueToBePlayed, GetActorLocation());
 	    }
 	}
 }

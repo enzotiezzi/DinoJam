@@ -45,6 +45,7 @@ void ABlendTriggerVolume::NotifyActorBeginOverlap(AActor* OtherActor)
 			PlayerCharacterController->SetViewTargetWithBlend(CameraToFind, CameraBlendTime, EViewTargetBlendFunction::VTBlend_Linear);
 			
 			PlayerCharacterController->SetControlRotation(ArrrowMovementDirectionComponent->GetComponentRotation());
+			PlayerCharacterController->SetAudioListenerOverride(OverlapVolume, CameraToFind->GetActorLocation(), CameraToFind->GetActorRotation());
 		}
 	}
 }
