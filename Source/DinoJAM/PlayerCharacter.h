@@ -20,6 +20,9 @@ protected:
 	//////////////////////////////////////////////////
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void PlayStepSound();
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Step Sounds")
+	class USoundAttenuation* StepSoundAttenuation;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Step Sounds")
 	class USoundCue* ConcreteStepSound;

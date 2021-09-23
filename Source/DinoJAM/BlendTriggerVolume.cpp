@@ -5,6 +5,7 @@
 #include "PlayerCharacter.h"
 #include "Components/BoxComponent.h"
 #include "Camera/CameraActor.h"
+#include "Camera/CameraComponent.h"
 #include "Components/ArrowComponent.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 
@@ -45,7 +46,7 @@ void ABlendTriggerVolume::NotifyActorBeginOverlap(AActor* OtherActor)
 			PlayerCharacterController->SetViewTargetWithBlend(CameraToFind, CameraBlendTime, EViewTargetBlendFunction::VTBlend_Linear);
 			
 			PlayerCharacterController->SetControlRotation(ArrrowMovementDirectionComponent->GetComponentRotation());
-			PlayerCharacterController->SetAudioListenerOverride(OverlapVolume, CameraToFind->GetActorLocation(), CameraToFind->GetActorRotation());
+			PlayerCharacterController->SetAudioListenerOverride(CameraToFind->GetCameraComponent(), FVector::ZeroVector, FRotator::ZeroRotator);
 		}
 	}
 }

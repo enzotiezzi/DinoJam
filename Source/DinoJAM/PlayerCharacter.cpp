@@ -173,7 +173,7 @@ void APlayerCharacter::PlayStepSound_Implementation()
 	    	}
 
 	    	if(SoundCueToBePlayed)
-	    		UGameplayStatics::PlaySoundAtLocation(GetWorld(), SoundCueToBePlayed, GetActorLocation());
+	    		UGameplayStatics::PlaySoundAtLocation(GetWorld(), SoundCueToBePlayed, GetActorLocation(), FRotator::ZeroRotator,1, 1, 0, StepSoundAttenuation);
 	    }
 	}
 }
