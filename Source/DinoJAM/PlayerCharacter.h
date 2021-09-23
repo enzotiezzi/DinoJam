@@ -109,6 +109,19 @@ public:
 	/// PIANO STUFF
 	///
 	/////////////////////////////////////////////////////////////////
+	void CarryPianoBox()
+	{
+		bIsCarryBoxAnimation = true;
+		
+		PlayAnimMontage(CarryPianoBoxMontage);
+	}
+
+	void DropPianoBox()
+	{
+		bIsCarryBoxAnimation = false;
+
+		PlayAnimMontage(nullptr);
+	}
 
 	//////////////////////////////////////////////////////////////////
 	///

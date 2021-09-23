@@ -56,7 +56,7 @@ void ATriggerPlacePianoBox::Interact(ACharacter* Interactor)
 					MyGameMode->PianoBoxComponent->SetRelativeLocationAndRotation(FVector::ZeroVector, FQuat::Identity);
 					MyGameMode->PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 					
-					PlayerCharacter->bIsCarryBoxAnimation = false;
+					PlayerCharacter->DropPianoBox();
 
 					UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameMode->DropItemSound, GetActorLocation(), GetActorRotation());
 				}

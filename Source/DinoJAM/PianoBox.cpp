@@ -57,7 +57,7 @@ void APianoBox::Interact(ACharacter* Interactor)
 
 				APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(Interactor);
 	
-				PlayerCharacter->bIsCarryBoxAnimation = true;
+				PlayerCharacter->CarryPianoBox();
 	
 				FAttachmentTransformRules AttachmentTransformRules = FAttachmentTransformRules::SnapToTargetIncludingScale;
 
