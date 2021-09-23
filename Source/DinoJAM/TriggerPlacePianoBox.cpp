@@ -4,6 +4,7 @@
 #include "TriggerPlacePianoBox.h"
 
 #include "DinoJAMGameModeBase.h"
+#include "Level1AskForHammerQuest.h"
 #include "Level1SetupPianoQuest.h"
 #include "PlayerCharacter.h"
 #include "Components/SphereComponent.h"
@@ -58,6 +59,18 @@ void ATriggerPlacePianoBox::Interact(ACharacter* Interactor)
 				}
 
 				Quest->CompleteQuest(GetWorld());
+			}
+		}
+		else
+		{
+			ULevel1AskForHammerQuest* AskForHammerQuest = Cast<ULevel1AskForHammerQuest>(MyGameMode->qCurrentQuest);
+
+			if(AskForHammerQuest)
+			{
+				if(!AskForHammerQuest->bCompleted && AskForHammerQuest->bHaveHammer)
+				{
+					AskForHammerQuest->CompleteQuest(GetWorld());
+				}
 			}
 		}
 	}
