@@ -8,6 +8,7 @@
 #include "PlayerCharacter.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 
 // Sets default values
 APianoBox::APianoBox()
@@ -62,6 +63,8 @@ void APianoBox::Interact(ACharacter* Interactor)
 
 				PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 				PianoBoxComponent->AttachToComponent(PlayerCharacter->GetMesh(), AttachmentTransformRules, FName("PianoBoxSocket"));
+
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameMode->PickUpItemSound, GetActorLocation(), GetActorRotation());
 			}
 		}
 	}

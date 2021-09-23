@@ -56,6 +56,7 @@ void ADinoJAMGameModeBase::PlayDialog(UDialogItem* DialogItem)
 			DialogAudioComponent->Stop();
 	
 		CurrentDialogItem = DialogItem;
+		CurrentDialogItem->World = GetWorld();
 
 		if(CurrentDialogSoundTimerHandle.IsValid())
 			GetWorld()->GetTimerManager().ClearTimer(CurrentDialogSoundTimerHandle);

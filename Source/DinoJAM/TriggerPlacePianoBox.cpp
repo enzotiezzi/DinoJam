@@ -9,6 +9,7 @@
 #include "PlayerCharacter.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 
 // Sets default values
 ATriggerPlacePianoBox::ATriggerPlacePianoBox()
@@ -56,6 +57,8 @@ void ATriggerPlacePianoBox::Interact(ACharacter* Interactor)
 					MyGameMode->PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 					
 					PlayerCharacter->bIsCarryBoxAnimation = false;
+
+					UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameMode->DropItemSound, GetActorLocation(), GetActorRotation());
 				}
 
 				Quest->CompleteQuest(GetWorld());

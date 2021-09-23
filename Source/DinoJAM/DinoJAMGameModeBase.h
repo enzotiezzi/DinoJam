@@ -11,7 +11,10 @@ class UDialogItem: public UObject
 {
 	GENERATED_BODY()
 
-public:	
+public:
+	UPROPERTY()
+	UWorld* World;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Sound")
 	class USoundBase* Sound;
 
@@ -76,6 +79,7 @@ public:
 	void PlayNextDialog();
 	
 	void StartDialogSystem(TArray<TSubclassOf<UDialogItem>> NewDialogs, FOnDialogFinish OnNewDialogFinish);
+
 	void StartDialogSystem(TArray<TSubclassOf<UDialogItem>> NewDialogs, FOnDialogFinish OnNewDialogFinish, APlayerCharacter* PlayerCharacter, ACharacter* NPC);
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog System")
@@ -97,6 +101,17 @@ public:
 	UPROPERTY()
 	class UStaticMeshComponent* PianoBoxComponent;
 
+	///////////////////////////////////////////////////
+	///
+	/// GENERAL SOUNDS
+	///
+	///////////////////////////////////////////////////
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Sounds")
+	class USoundCue* PickUpItemSound;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Sounds")
+	class USoundCue* DropItemSound;
+	
 protected:
 	
 	UPROPERTY()

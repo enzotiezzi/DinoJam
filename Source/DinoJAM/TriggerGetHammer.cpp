@@ -6,6 +6,7 @@
 #include "DinoJAMGameModeBase.h"
 #include "Level1AskForHammerQuest.h"
 #include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 
 void ATriggerGetHammer::Interact(ACharacter* Interactor)
 {
@@ -18,7 +19,11 @@ void ATriggerGetHammer::Interact(ACharacter* Interactor)
 		if(Quest)
 		{
 			if(!Quest->bCompleted)
+			{
 				Quest->bHaveHammer = true;
+
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameMode->PickUpItemSound, GetActorLocation(), GetActorRotation());
+			}
 		}
 	}
 }
