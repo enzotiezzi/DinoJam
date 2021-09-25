@@ -70,14 +70,6 @@ public:
 	/////////////////////////////////////////////
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="HUD")
 	TSubclassOf<class UUserWidget> WidgetDialogTextReference;
-
-	/////////////////////////////////////////////
-	///
-	/// LEVEL 1 STUFF
-	///
-	/////////////////////////////////////////////
-	UPROPERTY()
-	class UStaticMeshComponent* PianoBoxComponent;
 	
 protected:
 	

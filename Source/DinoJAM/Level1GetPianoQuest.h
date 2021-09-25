@@ -13,5 +13,5 @@ UCLASS()
 class DINOJAM_API ULevel1GetPianoQuest : public UQuest
 {
 	GENERATED_BODY()
-	
+
 };

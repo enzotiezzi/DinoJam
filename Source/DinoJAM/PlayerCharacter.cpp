@@ -8,6 +8,7 @@
 #include "Interactable.h"
 #include "LandscapeComponent.h"
 #include "LandscapeInfo.h"
+#include "Level1GetPianoQuest.h"
 #include "Components/ArrowComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -54,6 +55,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis("MoveSides", this, &APlayerCharacter::MoveSides);
 	
 	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &APlayerCharacter::Interact);
+	PlayerInputComponent->BindAction("Inventory", IE_Pressed, this, &APlayerCharacter::UseInventory);
 	
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
@@ -196,3 +198,26 @@ void APlayerCharacter::OnCapsuleComponentEndOverlap(UPrimitiveComponent* Overlap
 	}
 }
 
+void APlayerCharacter::UseInventory()
+{
+	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if(MyGameInstance)
+	{
+		ULevel1GetPianoQuest* Quest = Cast<ULevel1GetPianoQuest>(MyGameInstance->qCurrentQuest);
+		
+		if(Quest)
+		{
+			Quest->CompleteQuest(GetWorld());
+
+			CarryPianoBox();
+	
+			FAttachmentTransformRules AttachmentTransformRules = FAttachmentTransformRules::SnapToTargetIncludingScale;
+
+			MyGameInstance->PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			MyGameInstance->PianoBoxComponent->AttachToComponent(GetMesh(), AttachmentTransformRules, FName("PianoBoxSocket"));
+
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->PickUpItemSound, GetActorLocation(), GetActorRotation());
+		}
+	}
+}

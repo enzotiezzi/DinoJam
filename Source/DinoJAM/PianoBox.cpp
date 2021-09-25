@@ -30,7 +30,13 @@ APianoBox::APianoBox()
 void APianoBox::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if(MyGameInstance)
+	{
+		MyGameInstance->PianoBoxComponent = PianoBoxComponent;
+	}
 }
 
 // Called every frame
@@ -58,7 +64,7 @@ void APianoBox::Interact(ACharacter* Interactor)
 				{
 					Quest->CompleteQuest(GetWorld());
 
-					MyGameMode->PianoBoxComponent = PianoBoxComponent;
+					MyGameInstance->PianoBoxComponent = PianoBoxComponent;
 
 					APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(Interactor);
 	
