@@ -1,15 +1,15 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "TriggerGetHammer.h"
+#include "TriggerLevel1StarterQuest.h"
 
 #include "DinoJAMGameModeBase.h"
-#include "Level1AskForHammerQuest.h"
+#include "Level1InitialQuest.h"
 #include "MyGameInstance.h"
+#include "PlayerCharacter.h"
 #include "Kismet/GameplayStatics.h"
-#include "Sound/SoundCue.h"
 
-void ATriggerGetHammer::Interact(ACharacter* Interactor)
+void ATriggerLevel1StarterQuest::PreviewInteraction(ACharacter* Interactor)
 {
 	ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 
@@ -19,16 +19,13 @@ void ATriggerGetHammer::Interact(ACharacter* Interactor)
 
 		if(MyGameInstance)
 		{
-			ULevel1AskForHammerQuest* Quest = Cast<ULevel1AskForHammerQuest>(MyGameInstance->qCurrentQuest);
+			ULevel1InitialQuest* Quest = Cast<ULevel1InitialQuest>(MyGameInstance->qCurrentQuest);
 
 			if(Quest)
 			{
-				if(!Quest->bCompleted)
-				{
-					Quest->bHaveHammer = true;
+				MyGameMode->StartDialogSystem(Quest->Dialog, Quest->OnDialogFinish, Cast<APlayerCharacter>(Interactor), Karen);
 
-					UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->PickUpItemSound, GetActorLocation(), GetActorRotation());
-				}
+				this->SetActorEnableCollision(false);
 			}
 		}
 	}

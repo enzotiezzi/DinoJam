@@ -3,6 +3,7 @@
 
 #include "DinoJAMGameModeBase.h"
 
+#include "MyGameInstance.h"
 #include "PlayerCharacter.h"
 #include "UQuest.h"
 #include "Blueprint/UserWidget.h"
@@ -21,30 +22,38 @@ void ADinoJAMGameModeBase::BeginPlay()
 			WidgetDialogTextBlock = Cast<UTextBlock>(WidgetDialogText->GetWidgetFromName("TextBlock_Dialog"));
 		}
 	}
-
-	StartQuest(CurrentQuest.GetDefaultObject());
 }
 
 void ADinoJAMGameModeBase::StartDialogSystem(TArray<TSubclassOf<UDialogItem>> NewDialogs, FOnDialogFinish OnNewDialogFinish)
 {
-	StartDialogSystem(NewDialogs, OnNewDialogFinish, CurrentPlayerCharacter, CurrentNPC);
+	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if(MyGameInstance)
+	{
+		StartDialogSystem(NewDialogs, OnNewDialogFinish, MyGameInstance->CurrentPlayerCharacter, MyGameInstance->CurrentNPC);
+	}
 }
 
 void ADinoJAMGameModeBase::StartDialogSystem(TArray<TSubclassOf<UDialogItem>> NewDialogs, FOnDialogFinish OnNewDialogFinish, APlayerCharacter* PlayerCharacter, ACharacter* NPC)
 {
-	Dialogs = NewDialogs;
-	OnDialogFinish = OnNewDialogFinish;
-	CurrentPlayerCharacter = PlayerCharacter;
-	CurrentNPC = NPC;
+	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-	CurrentPlayerCharacter->StartDialog();
-
-	if(Dialogs.Num() > 0)
+	if(MyGameInstance)
 	{
-		UDialogItem* DialogItem = Dialogs[0].GetDefaultObject();
-		Dialogs.RemoveAt(0);
+		Dialogs = NewDialogs;
+		OnDialogFinish = OnNewDialogFinish;
+		MyGameInstance->CurrentPlayerCharacter = PlayerCharacter;
+		MyGameInstance->CurrentNPC = NPC;
 
-		PlayDialog(DialogItem);
+		MyGameInstance->CurrentPlayerCharacter->StartDialog();
+
+		if(Dialogs.Num() > 0)
+		{
+			UDialogItem* DialogItem = Dialogs[0].GetDefaultObject();
+			Dialogs.RemoveAt(0);
+
+			PlayDialog(DialogItem);
+		}
 	}
 }
 
@@ -125,19 +134,14 @@ void ADinoJAMGameModeBase::PlayNextDialog()
 
 void ADinoJAMGameModeBase::OnDialogSystemFinish(UDialogItem* DialogItem)
 {
-	if(CurrentPlayerCharacter)
-		CurrentPlayerCharacter->OnDialogFinish();
+	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if(MyGameInstance)
+	{
+		if(MyGameInstance->CurrentPlayerCharacter)
+			MyGameInstance->CurrentPlayerCharacter->OnDialogFinish();
 	
-	if(OnDialogFinish.IsBound())
-		OnDialogFinish.Execute(CurrentDialogItem);
-}
-
-void ADinoJAMGameModeBase::StartQuest(UQuest* Quest)
-{
-	if (qCurrentQuest)
-		qCurrentQuest->OnQuestFinish(GetWorld());
-
-	qCurrentQuest = Quest;
-
-	qCurrentQuest->OnQuestStart(GetWorld());
+		if(OnDialogFinish.IsBound())
+			OnDialogFinish.Execute(CurrentDialogItem);
+	}
 }

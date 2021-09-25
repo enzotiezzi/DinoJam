@@ -33,9 +33,14 @@ void UQuest::CompleteQuest(UWorld* World)
 
 		if(MyGameMode)
 		{
-			UQuest* Quest = Cast<UQuest>(NextQuest->GetDefaultObject());
+			UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(World));
+
+			if(MyGameInstance)
+			{
+				UQuest* Quest = Cast<UQuest>(NextQuest->GetDefaultObject());
 			
-			MyGameMode->StartQuest(Quest);
+				MyGameInstance->StartQuest(Quest);
+			}
 		}
 	}
 }

@@ -5,6 +5,7 @@
 
 #include "DinoJAMGameModeBase.h"
 #include "Level1InitialQuest.h"
+#include "MyGameInstance.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -39,13 +40,20 @@ void ATriggerFinishFirstQuest::Interact(ACharacter* Interactor)
 
 	if(MyGameMode)
 	{
-		ULevel1InitialQuest* InitialQuest = Cast<ULevel1InitialQuest>(MyGameMode->qCurrentQuest);
+		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-		if(InitialQuest)
+		if(MyGameInstance)
 		{
-			if(!InitialQuest->bCompleted)
+			ULevel1InitialQuest* InitialQuest = Cast<ULevel1InitialQuest>(MyGameInstance->qCurrentQuest);
+
+			if(InitialQuest)
 			{
-				InitialQuest->CompleteQuest(GetWorld());
+				if(!InitialQuest->bCompleted)
+				{
+					InitialQuest->CompleteQuest(GetWorld());
+
+					UGameplayStatics::OpenLevel(GetWorld(), "L_KarenIndoor");
+				}
 			}
 		}
 	}

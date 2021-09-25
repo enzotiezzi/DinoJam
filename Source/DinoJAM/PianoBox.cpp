@@ -5,6 +5,7 @@
 
 #include "DinoJAMGameModeBase.h"
 #include "Level1GetPianoQuest.h"
+#include "MyGameInstance.h"
 #include "PlayerCharacter.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -45,26 +46,31 @@ void APianoBox::Interact(ACharacter* Interactor)
 
 	if(MyGameMode)
 	{
-		ULevel1GetPianoQuest* Quest = Cast<ULevel1GetPianoQuest>(MyGameMode->qCurrentQuest);
+		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-		if(Quest)
+		if(MyGameInstance)
 		{
-			if(!Quest->bCompleted)
+			ULevel1GetPianoQuest* Quest = Cast<ULevel1GetPianoQuest>(MyGameInstance->qCurrentQuest);
+
+			if(Quest)
 			{
-				Quest->CompleteQuest(GetWorld());
+				if(!Quest->bCompleted)
+				{
+					Quest->CompleteQuest(GetWorld());
 
-				MyGameMode->PianoBoxComponent = PianoBoxComponent;
+					MyGameMode->PianoBoxComponent = PianoBoxComponent;
 
-				APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(Interactor);
+					APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(Interactor);
 	
-				PlayerCharacter->CarryPianoBox();
+					PlayerCharacter->CarryPianoBox();
 	
-				FAttachmentTransformRules AttachmentTransformRules = FAttachmentTransformRules::SnapToTargetIncludingScale;
+					FAttachmentTransformRules AttachmentTransformRules = FAttachmentTransformRules::SnapToTargetIncludingScale;
 
-				PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-				PianoBoxComponent->AttachToComponent(PlayerCharacter->GetMesh(), AttachmentTransformRules, FName("PianoBoxSocket"));
+					PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+					PianoBoxComponent->AttachToComponent(PlayerCharacter->GetMesh(), AttachmentTransformRules, FName("PianoBoxSocket"));
 
-				UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameMode->PickUpItemSound, GetActorLocation(), GetActorRotation());
+					UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->PickUpItemSound, GetActorLocation(), GetActorRotation());
+				}
 			}
 		}
 	}

@@ -30,7 +30,7 @@ public:
 	bool bCompleted = false;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="DialogSystem")
-	TArray<TSubclassOf<UDialogItem>> Dialog;
+	TArray<TSubclassOf<class UDialogItem>> Dialog;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Quest")
 	TSubclassOf<UQuest> NextQuest;

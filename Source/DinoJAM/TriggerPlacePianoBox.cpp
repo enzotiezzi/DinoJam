@@ -6,6 +6,7 @@
 #include "DinoJAMGameModeBase.h"
 #include "Level1AskForHammerQuest.h"
 #include "Level1SetupPianoQuest.h"
+#include "MyGameInstance.h"
 #include "PlayerCharacter.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -41,38 +42,43 @@ void ATriggerPlacePianoBox::Interact(ACharacter* Interactor)
 
 	if(MyGameMode)
 	{
-		ULevel1SetupPianoQuest* Quest = Cast<ULevel1SetupPianoQuest>(MyGameMode->qCurrentQuest);
+		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-		if(Quest)
+		if(MyGameInstance)
 		{
-			if(!Quest->bCompleted)
+			ULevel1SetupPianoQuest* Quest = Cast<ULevel1SetupPianoQuest>(MyGameInstance->qCurrentQuest);
+
+			if(Quest)
 			{
-				APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(Interactor);
+				if(!Quest->bCompleted)
+				{
+					APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(Interactor);
 			
-				if(PlayerCharacter)
-				{
-					MyGameMode->PianoBoxComponent->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-					MyGameMode->PianoBoxComponent->AttachToComponent(SphereComponent, FAttachmentTransformRules::KeepWorldTransform);
-					MyGameMode->PianoBoxComponent->SetRelativeLocationAndRotation(FVector::ZeroVector, FQuat::Identity);
-					MyGameMode->PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+					if(PlayerCharacter)
+					{
+						MyGameMode->PianoBoxComponent->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+						MyGameMode->PianoBoxComponent->AttachToComponent(SphereComponent, FAttachmentTransformRules::KeepWorldTransform);
+						MyGameMode->PianoBoxComponent->SetRelativeLocationAndRotation(FVector::ZeroVector, FQuat::Identity);
+						MyGameMode->PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 					
-					PlayerCharacter->DropPianoBox();
+						PlayerCharacter->DropPianoBox();
 
-					UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameMode->DropItemSound, GetActorLocation(), GetActorRotation());
+						UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->DropItemSound, GetActorLocation(), GetActorRotation());
+					}
+
+					Quest->CompleteQuest(GetWorld());
 				}
-
-				Quest->CompleteQuest(GetWorld());
 			}
-		}
-		else
-		{
-			ULevel1AskForHammerQuest* AskForHammerQuest = Cast<ULevel1AskForHammerQuest>(MyGameMode->qCurrentQuest);
-
-			if(AskForHammerQuest)
+			else
 			{
-				if(!AskForHammerQuest->bCompleted && AskForHammerQuest->bHaveHammer)
+				ULevel1AskForHammerQuest* AskForHammerQuest = Cast<ULevel1AskForHammerQuest>(MyGameInstance->qCurrentQuest);
+
+				if(AskForHammerQuest)
 				{
-					AskForHammerQuest->CompleteQuest(GetWorld());
+					if(!AskForHammerQuest->bCompleted && AskForHammerQuest->bHaveHammer)
+					{
+						AskForHammerQuest->CompleteQuest(GetWorld());
+					}
 				}
 			}
 		}

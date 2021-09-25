@@ -4,6 +4,7 @@
 #include "Karen.h"
 
 #include "Level1InitialQuest.h"
+#include "MyGameInstance.h"
 #include "PlayerCharacter.h"
 #include "UQuest.h"
 #include "Components/SphereComponent.h"
@@ -53,20 +54,25 @@ void AKaren::Interact(ACharacter* Interactor)
 
 	if(MyGameMode)
 	{
-		TArray<TSubclassOf<class UDialogItem>> DialogToBeUsed;
-		FOnDialogFinish OnDialogFinishToBeUsed;
-		
-		if(MyGameMode->qCurrentQuest->bComplexCondition)
-		{
-			DialogToBeUsed = MyGameMode->qCurrentQuest->GetDialogBasedOnComplexCondition();
-			OnDialogFinishToBeUsed = MyGameMode->qCurrentQuest->GetOnDialogFinishBasedOnComplexCondition();
-		}
-		else
-		{
-			DialogToBeUsed = MyGameMode->qCurrentQuest->Dialog;
-			OnDialogFinishToBeUsed = MyGameMode->qCurrentQuest->OnDialogFinish;
-		}
+		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-		MyGameMode->StartDialogSystem(DialogToBeUsed, OnDialogFinishToBeUsed, CurrentInteractor, this);
+		if(MyGameInstance)
+		{
+			TArray<TSubclassOf<class UDialogItem>> DialogToBeUsed;
+			FOnDialogFinish OnDialogFinishToBeUsed;
+		
+			if(MyGameInstance->qCurrentQuest->bComplexCondition)
+			{
+				DialogToBeUsed = MyGameInstance->qCurrentQuest->GetDialogBasedOnComplexCondition();
+				OnDialogFinishToBeUsed = MyGameInstance->qCurrentQuest->GetOnDialogFinishBasedOnComplexCondition();
+			}
+			else
+			{
+				DialogToBeUsed = MyGameInstance->qCurrentQuest->Dialog;
+				OnDialogFinishToBeUsed = MyGameInstance->qCurrentQuest->OnDialogFinish;
+			}
+
+			MyGameMode->StartDialogSystem(DialogToBeUsed, OnDialogFinishToBeUsed, CurrentInteractor, this);
+		}
 	}
 }

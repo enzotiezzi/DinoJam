@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "MyGameInstance.h"
+#include "PlayerCharacter.h"
 #include "GameFramework/GameModeBase.h"
 #include "DinoJAMGameModeBase.generated.h"
 
@@ -47,30 +49,6 @@ class DINOJAM_API ADinoJAMGameModeBase : public AGameModeBase
 public:
 	virtual void BeginPlay() override;
 
-	//////////////////////////////////////////////
-	///
-	/// CHARACTER REFERENCES
-	///
-	//////////////////////////////////////////////
-	UPROPERTY()
-	class APlayerCharacter* CurrentPlayerCharacter;
-
-	UPROPERTY()
-	class ACharacter* CurrentNPC;
-	
-	//////////////////////////////////////////////
-	///
-	/// QUEST STUFF
-	///
-	//////////////////////////////////////////////
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Quest")
-	TSubclassOf<class UQuest> CurrentQuest;
-	
-	UPROPERTY()
-	class UQuest* qCurrentQuest;
-	
-	void StartQuest(UQuest* Quest);
-
 	/////////////////////////////////////////////
 	///
 	/// DIALOG SYSTEM
@@ -100,17 +78,6 @@ public:
 	/////////////////////////////////////////////
 	UPROPERTY()
 	class UStaticMeshComponent* PianoBoxComponent;
-
-	///////////////////////////////////////////////////
-	///
-	/// GENERAL SOUNDS
-	///
-	///////////////////////////////////////////////////
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Sounds")
-	class USoundCue* PickUpItemSound;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Sounds")
-	class USoundCue* DropItemSound;
 	
 protected:
 	

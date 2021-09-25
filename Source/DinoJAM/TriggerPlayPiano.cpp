@@ -5,6 +5,7 @@
 
 #include "DinoJAMGameModeBase.h"
 #include "Level1PlayPianoQuest.h"
+#include "MyGameInstance.h"
 #include "PlayerCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundCue.h"
@@ -22,19 +23,24 @@ void ATriggerPlayPiano::Interact(ACharacter* Interactor)
 
 	if(MyGameMode)
 	{
-		ULevel1PlayPianoQuest* Quest = Cast<ULevel1PlayPianoQuest>(MyGameMode->qCurrentQuest);
+		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-		if(Quest)
+		if(MyGameInstance)
 		{
-			if(!Quest->bCompleted)
-			{
-				if(Music)
-				{
-					MyGameMode->CurrentPlayerCharacter->StartDialog();
-					
-					UGameplayStatics::PlaySoundAtLocation(GetWorld(), Music, GetActorLocation(), FRotator::ZeroRotator, 1, 1, 0, SoundAttenuation);
+			ULevel1PlayPianoQuest* Quest = Cast<ULevel1PlayPianoQuest>(MyGameInstance->qCurrentQuest);
 
-					GetWorld()->GetTimerManager().SetTimer(MusicTimerHandle, this, &ATriggerPlayPiano::OnMusicFinish, Music->Duration);
+			if(Quest)
+			{
+				if(!Quest->bCompleted)
+				{
+					if(Music)
+					{
+						MyGameInstance->CurrentPlayerCharacter->StartDialog();
+					
+						UGameplayStatics::PlaySoundAtLocation(GetWorld(), Music, GetActorLocation(), FRotator::ZeroRotator, 1, 1, 0, SoundAttenuation);
+
+						GetWorld()->GetTimerManager().SetTimer(MusicTimerHandle, this, &ATriggerPlayPiano::OnMusicFinish, Music->Duration);
+					}
 				}
 			}
 		}
@@ -47,11 +53,16 @@ void ATriggerPlayPiano::OnMusicFinish()
 
 	if(MyGameMode)
 	{
-		ULevel1PlayPianoQuest* Quest = Cast<ULevel1PlayPianoQuest>(MyGameMode->qCurrentQuest);
+		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-		if(Quest)
+		if(MyGameInstance)
 		{
-			MyGameMode->StartDialogSystem(Quest->AfterPlayPianoDialog, Quest->OnDialogAfterPlayPianoFinish);
+			ULevel1PlayPianoQuest* Quest = Cast<ULevel1PlayPianoQuest>(MyGameInstance->qCurrentQuest);
+
+			if(Quest)
+			{
+				MyGameMode->StartDialogSystem(Quest->AfterPlayPianoDialog, Quest->OnDialogAfterPlayPianoFinish);
+			}
 		}
 	}
 }
