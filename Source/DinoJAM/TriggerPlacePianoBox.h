@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Interactable.h"
+#include "TriggerPlayPiano.h"
 #include "GameFramework/Actor.h"
 #include "TriggerPlacePianoBox.generated.h"
 
@@ -19,6 +20,9 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Piano")
+	TSubclassOf<class ATriggerPlayPiano> TriggerPlayPiano;
 
 	///////////////////////////////////////////////
 	///

@@ -23,4 +23,5 @@ public:
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	class UStaticMeshComponent* StaticMeshComponent;
+	
 };

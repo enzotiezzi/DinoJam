@@ -50,10 +50,10 @@ void ATriggerPlacePianoBox::Interact(ACharacter* Interactor)
 {
 	ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 
+	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
 	if(MyGameMode)
 	{
-		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-
 		if(MyGameInstance)
 		{
 			ULevel1SetupPianoQuest* Quest = Cast<ULevel1SetupPianoQuest>(MyGameInstance->qCurrentQuest);
@@ -90,6 +90,14 @@ void ATriggerPlacePianoBox::Interact(ACharacter* Interactor)
 					if(!AskForHammerQuest->bCompleted && AskForHammerQuest->bHaveHammer)
 					{
 						AskForHammerQuest->CompleteQuest(GetWorld());
+
+						if(TriggerPlayPiano)
+						{
+							GetWorld()->SpawnActor<ATriggerPlayPiano>(TriggerPlayPiano, GetActorLocation() + FVector(0, 0, 35), GetActorRotation(), FActorSpawnParameters());
+
+							Destroy();
+							MyGameInstance->PianoBoxComponent->DestroyComponent();
+						}
 					}
 				}
 			}
