@@ -19,15 +19,25 @@ ATriggerPlacePianoBox::ATriggerPlacePianoBox()
 	PrimaryActorTick.bCanEverTick = true;
 
 	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
+	PianoBoxComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PianoBoxComponent"));
 
 	SetRootComponent(SphereComponent);
+	PianoBoxComponent->SetupAttachment(SphereComponent);
 }
 
 // Called when the game starts or when spawned
 void ATriggerPlacePianoBox::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if(MyGameInstance)
+	{
+		this->SetActorHiddenInGame(true);
+		this->SetActorEnableCollision(false);
+		MyGameInstance->TriggerPlacePianoBox = this;
+	}
 }
 
 // Called every frame
@@ -56,11 +66,13 @@ void ATriggerPlacePianoBox::Interact(ACharacter* Interactor)
 			
 					if(PlayerCharacter)
 					{
-						MyGameMode->PianoBoxComponent->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-						MyGameMode->PianoBoxComponent->AttachToComponent(SphereComponent, FAttachmentTransformRules::KeepWorldTransform);
-						MyGameMode->PianoBoxComponent->SetRelativeLocationAndRotation(FVector::ZeroVector, FQuat::Identity);
-						MyGameMode->PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-					
+						PianoBoxComponent->DestroyComponent();
+						
+						MyGameInstance->PianoBoxComponent->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+						MyGameInstance->PianoBoxComponent->AttachToComponent(SphereComponent, FAttachmentTransformRules::KeepWorldTransform);
+						MyGameInstance->PianoBoxComponent->SetRelativeLocationAndRotation(FVector::ZeroVector, FQuat::Identity);
+						MyGameInstance->PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+						
 						PlayerCharacter->DropPianoBox();
 
 						UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->DropItemSound, GetActorLocation(), GetActorRotation());

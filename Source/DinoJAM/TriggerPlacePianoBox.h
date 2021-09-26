@@ -28,6 +28,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Overlap")
 	class USphereComponent* SphereComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Component")
+	class UStaticMeshComponent* PianoBoxComponent;
 
 public:	
 	// Called every frame

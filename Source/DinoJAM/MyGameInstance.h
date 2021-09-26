@@ -51,4 +51,18 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Sounds")
 	class USoundCue* DropItemSound;
+
+	/////////////////////////////////////////////
+	///
+	/// LEVEL 1 STUFF
+	///
+	/////////////////////////////////////////////
+	UPROPERTY(BlueprintReadWrite, Category="Level 1")
+	class UStaticMeshComponent* PianoBoxComponent;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Level 1")
+	class UStaticMesh* PianoStaticMesh;
+
+	UPROPERTY()
+	class ATriggerPlacePianoBox* TriggerPlacePianoBox;
 };

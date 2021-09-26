@@ -7,6 +7,7 @@
 #include "Level1PlayPianoQuest.h"
 #include "MyGameInstance.h"
 #include "PlayerCharacter.h"
+#include "Components/BillboardComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundCue.h"
 
@@ -15,6 +16,8 @@ ATriggerPlayPiano::ATriggerPlayPiano()
 	PianoStaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PianoStaticMeshComponent"));
 
 	PianoStaticMeshComponent->SetupAttachment(GetRootComponent());
+
+	GetSpriteComponent()->DestroyComponent();
 }
 
 void ATriggerPlayPiano::Interact(ACharacter* Interactor)
