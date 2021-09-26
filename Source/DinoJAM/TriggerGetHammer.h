@@ -16,5 +16,11 @@ class DINOJAM_API ATriggerGetHammer : public ATriggerSphere, public IInteractabl
 	GENERATED_BODY()
 
 public:
+	ATriggerGetHammer();
+	
 	virtual void Interact(ACharacter* Interactor) override;
+
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	class UStaticMeshComponent* StaticMeshComponent;
 };

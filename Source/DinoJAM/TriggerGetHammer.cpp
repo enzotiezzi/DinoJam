@@ -6,8 +6,19 @@
 #include "DinoJAMGameModeBase.h"
 #include "Level1AskForHammerQuest.h"
 #include "MyGameInstance.h"
+#include "Components/BillboardComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundCue.h"
+
+ATriggerGetHammer::ATriggerGetHammer()
+{
+	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshComponent"));
+
+	StaticMeshComponent->SetupAttachment(GetRootComponent());
+
+	GetSpriteComponent()->DestroyComponent();
+}
+
 
 void ATriggerGetHammer::Interact(ACharacter* Interactor)
 {
@@ -28,6 +39,8 @@ void ATriggerGetHammer::Interact(ACharacter* Interactor)
 					Quest->bHaveHammer = true;
 
 					UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->PickUpItemSound, GetActorLocation(), GetActorRotation());
+
+					Destroy();
 				}
 			}
 		}
