@@ -18,5 +18,5 @@ public:
 	virtual void OnQuestStart(UWorld* World) override;
 
 protected:
-	void OnDialogFinish();
+	void OnDialogFinish(UDialogItem* DialogItem);
 };

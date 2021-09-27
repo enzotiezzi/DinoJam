@@ -9,7 +9,7 @@ void ULevel1SignQuest::OnQuestStart(UWorld* World)
 
 }
 
-void ULevel1SignQuest::OnDialogFinish()
+void ULevel1SignQuest::OnDialogFinish(UDialogItem* DialogItem)
 {
-	CompleteQuest();
+	CompleteQuest(DialogItem->World);
 }
