@@ -13,5 +13,10 @@ UCLASS()
 class DINOJAM_API ULevel1SignQuest : public UQuest
 {
 	GENERATED_BODY()
-	
+
+public:
+	virtual void OnQuestStart(UWorld* World) override;
+
+protected:
+	void OnDialogFinish();
 };
