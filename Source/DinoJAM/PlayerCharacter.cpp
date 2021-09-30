@@ -37,14 +37,14 @@ APlayerCharacter::APlayerCharacter()
 // Called when the game starts or when spawned
 void APlayerCharacter::BeginPlay()
 {
-	Super::BeginPlay();
-
 	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
 	if(MyGameInstance)
 	{
 		MyGameInstance->CurrentPlayerCharacter = this;
 	}
+	
+	Super::BeginPlay();
 }
 
 // Called every frame
@@ -226,4 +226,10 @@ void APlayerCharacter::UseInventory()
 			UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->PickUpItemSound, GetActorLocation(), GetActorRotation());
 		}
 	}
+}
+
+void APlayerCharacter::StartWavingAnimationMontage()
+{
+	if(WavingMontage)
+		PlayAnimMontage(WavingMontage);
 }

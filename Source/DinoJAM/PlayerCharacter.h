@@ -44,6 +44,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Animations")
 	class UAnimMontage* CarryPianoBoxMontage;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Animations")
+	class UAnimMontage* WavingMontage;
+
 public:
 	// Sets default values for this character's properties
 	APlayerCharacter();
@@ -149,4 +152,11 @@ public:
 	bool bIsCarryBoxAnimation = false;
 
 	bool bIsRootMotionAnimation = false;
+
+	////////////////////////////////////////////////////////
+	///
+	/// START ANIMATIONS
+	///
+	////////////////////////////////////////////////////////
+	void StartWavingAnimationMontage();
 };

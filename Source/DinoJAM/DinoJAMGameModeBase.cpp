@@ -5,13 +5,21 @@
 
 #include "MyGameInstance.h"
 #include "PlayerCharacter.h"
-#include "UQuest.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/AudioComponent.h"
+#include "Components/Button.h"
 #include "Components/TextBlock.h"
 #include "Kismet/GameplayStatics.h"
 
 void ADinoJAMGameModeBase::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	SetupDialogSystemWidget();
+	SetupTitleScreenWidget();
+}
+
+void ADinoJAMGameModeBase::SetupDialogSystemWidget()
 {
 	if(WidgetDialogTextReference)
 	{
@@ -143,5 +151,44 @@ void ADinoJAMGameModeBase::OnDialogSystemFinish(UDialogItem* DialogItem)
 	
 		if(OnDialogFinish.IsBound())
 			OnDialogFinish.Execute(CurrentDialogItem);
+	}
+}
+
+void ADinoJAMGameModeBase::SetupTitleScreenWidget()
+{
+	if(TitleScreenReference)
+	{
+		TitleScreen = CreateWidget<UUserWidget>(GetWorld(), TitleScreenReference);
+
+		if(TitleScreen)
+		{
+			StartButton = Cast<UButton>(TitleScreen->GetWidgetFromName("Button_Start"));
+			ContinueButton = Cast<UButton>(TitleScreen->GetWidgetFromName("Button_Continue"));
+			QuitButton = Cast<UButton>(TitleScreen->GetWidgetFromName("Button_Quit"));
+		}
+	}
+}
+
+void ADinoJAMGameModeBase::StartTitleScreen()
+{
+	SetupTitleScreenWidget();
+	
+	if(TitleScreen)
+	{
+		TitleScreen->AddToViewport();
+
+		APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+		
+		if(PlayerCharacter)
+		{
+			StartDialogSystem(TArray<TSubclassOf<UDialogItem>>(), FOnDialogFinish(), PlayerCharacter, nullptr);
+
+			PlayerCharacter->StartWavingAnimationMontage();
+
+			if(APlayerController* PlayerController = Cast<APlayerController>(PlayerCharacter->GetController()))
+			{
+				PlayerController->SetShowMouseCursor(true);
+			}
+		}
 	}
 }
