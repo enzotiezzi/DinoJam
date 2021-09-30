@@ -165,6 +165,9 @@ void ADinoJAMGameModeBase::SetupTitleScreenWidget()
 			StartButton = Cast<UButton>(TitleScreen->GetWidgetFromName("Button_Start"));
 			ContinueButton = Cast<UButton>(TitleScreen->GetWidgetFromName("Button_Continue"));
 			QuitButton = Cast<UButton>(TitleScreen->GetWidgetFromName("Button_Quit"));
+
+			StartButton->OnClicked.AddDynamic(this, &ADinoJAMGameModeBase::StartGame);
+			QuitButton->OnClicked.AddDynamic(this, &ADinoJAMGameModeBase::QuitGame);
 		}
 	}
 }
@@ -191,4 +194,17 @@ void ADinoJAMGameModeBase::StartTitleScreen()
 			}
 		}
 	}
+}
+
+void ADinoJAMGameModeBase::StartGame()
+{
+	UGameplayStatics::OpenLevel(GetWorld(), "L_KarenOutdoor");
+}
+
+void ADinoJAMGameModeBase::QuitGame()
+{
+	ACharacter* Character = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+
+	if(Character)
+		UKismetSystemLibrary::QuitGame(GetWorld(), Cast<APlayerController>(Character->GetController()), EQuitPreference::Quit, true);
 }

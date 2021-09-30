@@ -132,4 +132,10 @@ protected:
 	class UButton* QuitButton;
 	
 	void SetupTitleScreenWidget();
+
+	UFUNCTION()
+	void StartGame();
+
+	UFUNCTION()
+	void QuitGame();
 };
