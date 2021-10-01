@@ -62,20 +62,35 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog System")
 	TArray<TSubclassOf<UDialogItem>> Dialogs;
-	
-	/////////////////////////////////////////////
+
+	//////////////////////////////////////////////
 	///
-	/// HUD
+	/// TITLE SCREEN
 	///
-	/////////////////////////////////////////////
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="HUD")
-	TSubclassOf<class UUserWidget> WidgetDialogTextReference;
+	//////////////////////////////////////////////
+	void StartTitleScreen();
 	
 protected:
-	
+	/////////////////////////////////////////////
+	///
+	/// SOUND STUFF
+	///
+	//////////////////////////////////////////////
 	UPROPERTY()
 	class UAudioComponent* DialogAudioComponent;
-	
+
+	UPROPERTY()
+	struct FTimerHandle CurrentDialogSoundTimerHandle;
+	void OnDialogSoundFinish();
+
+	//////////////////////////////////////////////
+	///
+	/// DIALOG SYSTEM
+	///
+	//////////////////////////////////////////////
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="HUD")
+	TSubclassOf<class UUserWidget> WidgetDialogTextReference;
+
 	UPROPERTY()
 	class UDialogItem* CurrentDialogItem;
 	
@@ -84,11 +99,7 @@ protected:
 
 	UPROPERTY()
 	class UTextBlock* WidgetDialogTextBlock;
-
-	UPROPERTY()
-	struct FTimerHandle CurrentDialogSoundTimerHandle;
-	void OnDialogSoundFinish();
-
+	
 	UPROPERTY()
 	struct FTimerHandle DelayToNextDialogTimerHandle;
 
@@ -97,4 +108,34 @@ protected:
 	FOnDialogFinish OnDialogFinish;
 	
 	void OnDialogSystemFinish(UDialogItem* DialogItem);
+
+	void SetupDialogSystemWidget();
+
+	///////////////////////////////////////////////////
+	///
+	/// TITLE SCREEN
+	///
+	///////////////////////////////////////////////////
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Title Screen")
+	TSubclassOf<class UUserWidget> TitleScreenReference;
+
+	UPROPERTY(BlueprintReadWrite, Category="Title Screen")
+	class UUserWidget* TitleScreen;
+	
+	UPROPERTY()
+	class UButton* StartButton;
+
+	UPROPERTY()
+	class UButton* ContinueButton;
+
+	UPROPERTY()
+	class UButton* QuitButton;
+	
+	void SetupTitleScreenWidget();
+
+	UFUNCTION()
+	void StartGame();
+
+	UFUNCTION()
+	void QuitGame();
 };
