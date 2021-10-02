@@ -34,6 +34,15 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Animation")
 	class UAnimMontage* PlayerAnimation;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Facial Expression")
+	class UMaterialInterface* NPCFaceExpressionMaterial;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Facial Expression")
+    int NPCFaceMaterialIndex;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Facial Expression")
+	class UMaterialInterface* PlayerFaceExpressionMaterial;
 };
 
 DECLARE_DELEGATE_OneParam(FOnDialogFinish, UDialogItem*);
@@ -58,7 +67,7 @@ public:
 	
 	void StartDialogSystem(TArray<TSubclassOf<UDialogItem>> NewDialogs, FOnDialogFinish OnNewDialogFinish);
 
-	void StartDialogSystem(TArray<TSubclassOf<UDialogItem>> NewDialogs, FOnDialogFinish OnNewDialogFinish, APlayerCharacter* PlayerCharacter, ACharacter* NPC);
+	void StartDialogSystem(TArray<TSubclassOf<UDialogItem>> NewDialogs, FOnDialogFinish OnNewDialogFinish, APlayerCharacter* PlayerCharacter, APS1Character* NPC);
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog System")
 	TArray<TSubclassOf<UDialogItem>> Dialogs;

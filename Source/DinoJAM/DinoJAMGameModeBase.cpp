@@ -5,6 +5,7 @@
 
 #include "MyGameInstance.h"
 #include "PlayerCharacter.h"
+#include "PS1Character.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/AudioComponent.h"
 #include "Components/Button.h"
@@ -42,7 +43,7 @@ void ADinoJAMGameModeBase::StartDialogSystem(TArray<TSubclassOf<UDialogItem>> Ne
 	}
 }
 
-void ADinoJAMGameModeBase::StartDialogSystem(TArray<TSubclassOf<UDialogItem>> NewDialogs, FOnDialogFinish OnNewDialogFinish, APlayerCharacter* PlayerCharacter, ACharacter* NPC)
+void ADinoJAMGameModeBase::StartDialogSystem(TArray<TSubclassOf<UDialogItem>> NewDialogs, FOnDialogFinish OnNewDialogFinish, APlayerCharacter* PlayerCharacter, APS1Character* NPC)
 {
 	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
@@ -69,6 +70,35 @@ void ADinoJAMGameModeBase::PlayDialog(UDialogItem* DialogItem)
 {
 	if(DialogItem)
 	{
+		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+		if(MyGameInstance)
+		{
+			if(MyGameInstance->CurrentPlayerCharacter)
+			{
+				if(DialogItem->PlayerAnimation)
+					MyGameInstance->CurrentPlayerCharacter->PlayAnimMontage(DialogItem->PlayerAnimation);
+				else
+					MyGameInstance->CurrentPlayerCharacter->StopAnimMontage();
+
+				if(DialogItem->PlayerFaceExpressionMaterial)
+					MyGameInstance->CurrentPlayerCharacter->GetMesh()->SetMaterial(3, DialogItem->PlayerFaceExpressionMaterial);
+			}
+
+			if(MyGameInstance->CurrentNPC)
+			{
+				if(DialogItem->NPCAnimation)
+					MyGameInstance->CurrentNPC->PlayAnimMontage(DialogItem->NPCAnimation);
+				else
+					MyGameInstance->CurrentNPC->StopAnimMontage();
+				
+				if(DialogItem->NPCFaceExpressionMaterial)
+					MyGameInstance->CurrentNPC->GetMesh()->SetMaterial(DialogItem->NPCFaceMaterialIndex, DialogItem->NPCFaceExpressionMaterial);
+				else
+					MyGameInstance->CurrentNPC->GetMesh()->SetMaterial(DialogItem->NPCFaceMaterialIndex, MyGameInstance->CurrentNPC->DefaultFaceExpression);
+			}
+		}
+		
 		if(DialogAudioComponent != nullptr)
 			DialogAudioComponent->Stop();
 	

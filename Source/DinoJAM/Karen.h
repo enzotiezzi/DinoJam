@@ -5,11 +5,12 @@
 #include "CoreMinimal.h"
 #include "DinoJAMGameModeBase.h"
 #include "Interactable.h"
+#include "PS1Character.h"
 #include "GameFramework/Character.h"
 #include "Karen.generated.h"
 
 UCLASS()
-class DINOJAM_API AKaren : public ACharacter, public IInteractable
+class DINOJAM_API AKaren : public APS1Character, public IInteractable
 {
 	GENERATED_BODY()
 

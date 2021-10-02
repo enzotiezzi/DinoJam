@@ -26,7 +26,7 @@ public:
 	class APlayerCharacter* CurrentPlayerCharacter;
 
 	UPROPERTY()
-	class ACharacter* CurrentNPC;
+	class APS1Character* CurrentNPC;
 
 	//////////////////////////////////////////////
 	///

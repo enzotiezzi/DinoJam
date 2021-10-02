@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Interactable.h"
+#include "PS1Character.h"
 #include "Engine/TriggerSphere.h"
 #include "TriggerLevel1StarterQuest.generated.h"
 
@@ -20,5 +21,5 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Character")
-	class ACharacter* Karen;
+	class APS1Character* Karen;
 };
