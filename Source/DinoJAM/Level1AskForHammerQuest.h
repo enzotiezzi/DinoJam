@@ -34,4 +34,8 @@ protected:
 	TArray<TSubclassOf<class UDialogItem>> HaveHammerDialog;
 
 	FOnDialogFinish OnHaveHammerDialogFinish;
+	FOnDialogFinish OnPreDialogFinish;
+	FOnDialogFinish OnDontHaveHammerDialogFinish;
+
+	void ExecuteOnDialogFinish(UDialogItem* DialogItem);
 };

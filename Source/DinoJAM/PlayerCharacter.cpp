@@ -233,3 +233,9 @@ void APlayerCharacter::StartWavingAnimationMontage()
 	if(WavingMontage)
 		PlayAnimMontage(WavingMontage);
 }
+
+void APlayerCharacter::StartBuildAnimation()
+{
+	if(BuildAnimation)
+		PlayAnimMontage(BuildAnimation);
+}

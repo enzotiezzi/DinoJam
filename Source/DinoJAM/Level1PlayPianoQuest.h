@@ -24,5 +24,10 @@ public:
 	TArray<TSubclassOf<class UDialogItem>> AfterPlayPianoDialog;
 
 	FOnDialogFinish OnDialogAfterPlayPianoFinish;
+	
 	void ExecuteDialogAfterPlayPianoFinish(UDialogItem* DialogItem);
+
+	FOnDialogFinish OnStarterDialogFinish;
+
+	void ExecuteOnStarterDialogFinish(UDialogItem* DialogItem);
 };

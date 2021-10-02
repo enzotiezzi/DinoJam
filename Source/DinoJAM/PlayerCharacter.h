@@ -4,11 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Interactable.h"
+#include "PS1Character.h"
 #include "GameFramework/Character.h"
 #include "PlayerCharacter.generated.h"
 
 UCLASS()
-class DINOJAM_API APlayerCharacter : public ACharacter
+class DINOJAM_API APlayerCharacter : public APS1Character
 {
 	GENERATED_BODY()
 
@@ -46,6 +47,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Animations")
 	class UAnimMontage* WavingMontage;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Animations")
+	class UAnimMontage* BuildAnimation;
 
 public:
 	// Sets default values for this character's properties
@@ -159,4 +163,6 @@ public:
 	///
 	////////////////////////////////////////////////////////
 	void StartWavingAnimationMontage();
+
+	void StartBuildAnimation();
 };

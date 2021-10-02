@@ -19,5 +19,9 @@ public:
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TArray<TSubclassOf<UDialogItem>> DialogStartQuest;
+	TArray<TSubclassOf<class UDialogItem>> DialogStartQuest;
+
+	FOnDialogFinish StarterDialogFinish;
+
+	void OnStarterDialogFinish(UDialogItem* DialogItem);
 };

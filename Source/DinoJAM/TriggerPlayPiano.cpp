@@ -39,6 +39,7 @@ void ATriggerPlayPiano::Interact(ACharacter* Interactor)
 					if(Music)
 					{
 						MyGameInstance->CurrentPlayerCharacter->StartDialog();
+						MyGameInstance->CurrentPlayerCharacter->StartBuildAnimation();
 					
 						UGameplayStatics::PlaySoundAtLocation(GetWorld(), Music, GetActorLocation(), FRotator::ZeroRotator, 1, 1, 0, SoundAttenuation);
 
@@ -64,6 +65,8 @@ void ATriggerPlayPiano::OnMusicFinish()
 
 			if(Quest)
 			{
+				MyGameInstance->CurrentPlayerCharacter->StopAnimMontage();
+				
 				MyGameMode->StartDialogSystem(Quest->AfterPlayPianoDialog, Quest->OnDialogAfterPlayPianoFinish);
 			}
 		}
