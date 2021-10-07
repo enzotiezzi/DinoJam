@@ -285,7 +285,10 @@ void ADinoJAMGameModeBase::ResumeGame()
 	{
 		MyGameInstance->InventorySystem->HideInventory();
 
-		MyGameInstance->CurrentPlayerCharacter->OnDialogFinish();
+		APlayerController* PlayerController = Cast<APlayerController>(MyGameInstance->CurrentPlayerCharacter->GetController());
+
+		if(PlayerController)
+			PlayerController->SetShowMouseCursor(false);
 	}
 }
 
@@ -295,7 +298,7 @@ void ADinoJAMGameModeBase::PauseGame()
 	{
 		if(!PauseMenuWidget->IsInViewport())
 		{
-			PauseMenuWidget->AddToViewport();
+			PauseMenuWidget->AddToViewport(2);
 		}
 	}
 
@@ -305,8 +308,6 @@ void ADinoJAMGameModeBase::PauseGame()
 	{
 		if(MyGameInstance->CurrentPlayerCharacter)
 		{
-			MyGameInstance->CurrentPlayerCharacter->StartDialog();
-
 			APlayerController* PlayerController = Cast<APlayerController>(MyGameInstance->CurrentPlayerCharacter->GetController());
 
 			if(PlayerController)

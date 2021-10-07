@@ -21,14 +21,15 @@ void UInventorySystem::SetupInventoryWidget(UWorld* World)
 		{
 			for(int i = 0; i < SLOTS_SIZE; i++)
 			{
-				FString WidgetName = "Inventory_Button_" + FString::FromInt(i);
+				FString WidgetName = "I_Button_" + FString::FromInt(i);
 
 				UItemSlot* ItemSlot = NewObject<UItemSlot>();
 
+				ItemSlot->ButtonSlot = Cast<UItemButton>(InventoryWidget->GetWidgetFromName(FName(WidgetName)));
+				ItemSlot->ButtonSlot->Index = i;
+				ItemSlot->ButtonSlot->OnItemButtonClicked.BindUObject(this, &UInventorySystem::OnItemSelect);
+				
 				ItemSlots[i] = ItemSlot;
-				ItemSlots[i]->ButtonSlot = Cast<UItemButton>(InventoryWidget->GetWidgetFromName(FName(WidgetName)));
-				ItemSlots[i]->ButtonSlot->Index = i;
-				ItemSlots[i]->ButtonSlot->OnItemButtonClicked.BindUObject(this, &UInventorySystem::OnItemSelect);
 			}
 		}
 	}
@@ -39,7 +40,7 @@ void UInventorySystem::ShowInventory() const
 	if(InventoryWidget)
 	{
 		if(!InventoryWidget->IsInViewport())
-			InventoryWidget->AddToViewport();
+			InventoryWidget->AddToViewport(2);
 	}
 }
 
@@ -64,12 +65,15 @@ void UInventorySystem::AddItem(AItem* NewItem)
 	{
 		if(!Slot->Item)
 		{
-			Slot->Item = NewItem;
-			Slot->ButtonSlot->WidgetStyle.Normal.SetResourceObject(NewItem->ItemThumbnail);
-			Slot->ButtonSlot->WidgetStyle.Hovered.SetResourceObject(NewItem->ItemThumbnail);
-			Slot->ButtonSlot->WidgetStyle.Pressed.SetResourceObject(NewItem->ItemThumbnail);
+			if(Slot->ButtonSlot)
+			{
+				Slot->Item = NewItem;
+				Slot->ButtonSlot->WidgetStyle.Normal.SetResourceObject(NewItem->ItemThumbnail);
+				Slot->ButtonSlot->WidgetStyle.Hovered.SetResourceObject(NewItem->ItemThumbnail);
+				Slot->ButtonSlot->WidgetStyle.Pressed.SetResourceObject(NewItem->ItemThumbnail);
 
-			break;
+				break;
+			}
 		}
 	}
 }

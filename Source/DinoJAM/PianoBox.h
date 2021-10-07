@@ -28,6 +28,10 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Overlap")
 	class UStaticMeshComponent* PianoBoxComponent;
 
+	struct FTimerHandle DelayUntilAddItem;
+
+	void AddItemToInventory();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

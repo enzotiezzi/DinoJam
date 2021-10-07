@@ -32,14 +32,7 @@ void APianoBox::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-
-	if(MyGameInstance)
-	{
-		MyGameInstance->PianoBoxComponent = PianoBoxComponent;
-
-		MyGameInstance->InventorySystem->AddItem(this);
-	}
+	GetWorld()->GetTimerManager().SetTimer(DelayUntilAddItem, this, &APianoBox::AddItemToInventory, 1);
 }
 
 // Called every frame
@@ -111,12 +104,21 @@ void APianoBox::UseItem()
 				UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->PickUpItemSound, GetActorLocation(), GetActorRotation());
 				
 				MyGameInstance->InventorySystem->HideInventory();
-
-				if(APlayerController* PlayerController = Cast<APlayerController>(MyGameInstance->CurrentPlayerCharacter->GetController()))
-				{
-					PlayerController->SetShowMouseCursor(false);
-				}
 			}
 		}
+	}
+}
+
+void APianoBox::AddItemToInventory()
+{
+	GetWorld()->GetTimerManager().ClearTimer(DelayUntilAddItem);
+	
+	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if(MyGameInstance)
+	{
+		MyGameInstance->PianoBoxComponent = PianoBoxComponent;
+		
+		MyGameInstance->InventorySystem->AddItem(this);
 	}
 }
