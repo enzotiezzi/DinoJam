@@ -6,6 +6,7 @@
 #include "DinoJAMGameModeBase.h"
 #include "DrawDebugHelpers.h"
 #include "Interactable.h"
+#include "InventorySystem.h"
 #include "LandscapeComponent.h"
 #include "LandscapeInfo.h"
 #include "Level1GetPianoQuest.h"
@@ -210,20 +211,13 @@ void APlayerCharacter::UseInventory()
 
 	if(MyGameInstance)
 	{
-		ULevel1GetPianoQuest* Quest = Cast<ULevel1GetPianoQuest>(MyGameInstance->qCurrentQuest);
-		
-		if(Quest)
+		MyGameInstance->InventorySystem->ShowInventory();
+
+		APlayerController* PlayerController = Cast<APlayerController>(GetController());
+
+		if(PlayerController)
 		{
-			Quest->CompleteQuest(GetWorld());
-
-			CarryPianoBox();
-	
-			FAttachmentTransformRules AttachmentTransformRules = FAttachmentTransformRules::SnapToTargetIncludingScale;
-
-			MyGameInstance->PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-			MyGameInstance->PianoBoxComponent->AttachToComponent(GetMesh(), AttachmentTransformRules, FName("PianoBoxSocket"));
-
-			UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->PickUpItemSound, GetActorLocation(), GetActorRotation());
+			PlayerController->SetShowMouseCursor(true);
 		}
 	}
 }

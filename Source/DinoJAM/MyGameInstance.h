@@ -65,4 +65,23 @@ public:
 
 	UPROPERTY()
 	class ATriggerPlacePianoBox* TriggerPlacePianoBox;
+
+	////////////////////////////////////////////
+	///
+	/// INVENTORY
+	///
+	////////////////////////////////////////////
+	UPROPERTY(BlueprintReadWrite)
+	class UInventorySystem* InventorySystem;
+	
+protected:
+	///////////////////////////////////////////////
+	///
+	/// INVENTORY
+	///
+	///////////////////////////////////////////////
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Inventory")
+	TSubclassOf<class UInventorySystem> InventorySystemReference;
+
+	
 };

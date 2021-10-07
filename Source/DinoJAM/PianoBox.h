@@ -4,11 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Interactable.h"
+#include "Item.h"
+#include "ItemSlot.h"
 #include "GameFramework/Actor.h"
 #include "PianoBox.generated.h"
 
 UCLASS()
-class DINOJAM_API APianoBox : public AActor, public IInteractable
+class DINOJAM_API APianoBox : public AItem, public IInteractable
 {
 	GENERATED_BODY()
 	
@@ -31,4 +33,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void Interact(ACharacter* Interactor) override;
+
+	virtual void UseItem() override;
 };

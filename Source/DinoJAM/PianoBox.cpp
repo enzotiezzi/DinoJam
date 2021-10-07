@@ -4,6 +4,7 @@
 #include "PianoBox.h"
 
 #include "DinoJAMGameModeBase.h"
+#include "InventorySystem.h"
 #include "Level1GetPianoQuest.h"
 #include "MyGameInstance.h"
 #include "PlayerCharacter.h"
@@ -36,6 +37,8 @@ void APianoBox::BeginPlay()
 	if(MyGameInstance)
 	{
 		MyGameInstance->PianoBoxComponent = PianoBoxComponent;
+
+		MyGameInstance->InventorySystem->AddItem(this);
 	}
 }
 
@@ -76,6 +79,42 @@ void APianoBox::Interact(ACharacter* Interactor)
 					PianoBoxComponent->AttachToComponent(PlayerCharacter->GetMesh(), AttachmentTransformRules, FName("PianoBoxSocket"));
 
 					UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->PickUpItemSound, GetActorLocation(), GetActorRotation());
+				}
+			}
+		}
+	}
+}
+
+void APianoBox::UseItem()
+{
+	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if(MyGameInstance)
+	{
+		ULevel1GetPianoQuest* Quest = Cast<ULevel1GetPianoQuest>(MyGameInstance->qCurrentQuest);
+
+		if(Quest)
+		{
+			if(!Quest->bCompleted)
+			{
+				Quest->CompleteQuest(GetWorld());
+
+				MyGameInstance->PianoBoxComponent = PianoBoxComponent;
+	
+				MyGameInstance->CurrentPlayerCharacter->CarryPianoBox();
+	
+				FAttachmentTransformRules AttachmentTransformRules = FAttachmentTransformRules::SnapToTargetIncludingScale;
+
+				PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+				PianoBoxComponent->AttachToComponent(MyGameInstance->CurrentPlayerCharacter->GetMesh(), AttachmentTransformRules, FName("PianoBoxSocket"));
+
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->PickUpItemSound, GetActorLocation(), GetActorRotation());
+				
+				MyGameInstance->InventorySystem->HideInventory();
+
+				if(APlayerController* PlayerController = Cast<APlayerController>(MyGameInstance->CurrentPlayerCharacter->GetController()))
+				{
+					PlayerController->SetShowMouseCursor(false);
 				}
 			}
 		}

@@ -3,12 +3,18 @@
 
 #include "MyGameInstance.h"
 
+#include "InventorySystem.h"
 #include "UQuest.h"
 #include "Kismet/GameplayStatics.h"
 
 void UMyGameInstance::OnStart()
 {
 	StartQuest(CurrentQuest.GetDefaultObject());
+
+	InventorySystem = Cast<UInventorySystem>(InventorySystemReference.GetDefaultObject());
+
+	if(InventorySystem)
+		InventorySystem->SetupInventoryWidget(GetWorld());
 }
 
 void UMyGameInstance::StartQuest(UQuest* Quest)
