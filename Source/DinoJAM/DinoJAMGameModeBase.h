@@ -78,6 +78,18 @@ public:
 	///
 	//////////////////////////////////////////////
 	void StartTitleScreen();
+
+	//////////////////////////////////////////////
+	///
+	/// PAUSE MENU
+	///
+	//////////////////////////////////////////////
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Pause Menu")
+	TSubclassOf<class UUserWidget> PauseMenuWidgetReference;
+	
+	void SetupPauseMenuWidget();
+
+	void PauseGame();
 	
 protected:
 	/////////////////////////////////////////////
@@ -132,13 +144,13 @@ protected:
 	class UUserWidget* TitleScreen;
 	
 	UPROPERTY()
-	class UButton* StartButton;
+	class UButton* TitleScreenStartButton;
 
 	UPROPERTY()
-	class UButton* ContinueButton;
+	class UButton* TitleScreenContinueButton;
 
 	UPROPERTY()
-	class UButton* QuitButton;
+	class UButton* TitleScreenQuitButton;
 	
 	void SetupTitleScreenWidget();
 
@@ -147,4 +159,30 @@ protected:
 
 	UFUNCTION()
 	void QuitGame();
+
+	////////////////////////////////////////////////
+	///
+	/// PAUSE MENU
+	///
+	////////////////////////////////////////////////
+	UPROPERTY(BlueprintReadWrite)
+	class UUserWidget* PauseMenuWidget;
+
+	UPROPERTY(BlueprintReadWrite)
+	class UButton* PauseMenuInventoryButton;
+
+	UPROPERTY(BlueprintReadWrite)
+	class UButton* PauseMenuResumeButton;
+
+	UPROPERTY(BlueprintReadWrite)
+	class UButton* PauseMenuSaveButton;
+
+	UPROPERTY(BlueprintReadWrite)
+	class UButton* PauseMenuQuitButton;
+
+	UFUNCTION()
+	void OpenInventory();
+
+	UFUNCTION()
+	void ResumeGame();
 };

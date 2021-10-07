@@ -3,6 +3,7 @@
 
 #include "DinoJAMGameModeBase.h"
 
+#include "InventorySystem.h"
 #include "MyGameInstance.h"
 #include "PlayerCharacter.h"
 #include "PS1Character.h"
@@ -18,6 +19,7 @@ void ADinoJAMGameModeBase::BeginPlay()
 	
 	SetupDialogSystemWidget();
 	SetupTitleScreenWidget();
+	SetupPauseMenuWidget();
 }
 
 void ADinoJAMGameModeBase::SetupDialogSystemWidget()
@@ -192,12 +194,12 @@ void ADinoJAMGameModeBase::SetupTitleScreenWidget()
 
 		if(TitleScreen)
 		{
-			StartButton = Cast<UButton>(TitleScreen->GetWidgetFromName("Button_Start"));
-			ContinueButton = Cast<UButton>(TitleScreen->GetWidgetFromName("Button_Continue"));
-			QuitButton = Cast<UButton>(TitleScreen->GetWidgetFromName("Button_Quit"));
+			TitleScreenStartButton = Cast<UButton>(TitleScreen->GetWidgetFromName("Button_Start"));
+			TitleScreenContinueButton = Cast<UButton>(TitleScreen->GetWidgetFromName("Button_Continue"));
+			TitleScreenQuitButton = Cast<UButton>(TitleScreen->GetWidgetFromName("Button_Quit"));
 
-			StartButton->OnClicked.AddDynamic(this, &ADinoJAMGameModeBase::StartGame);
-			QuitButton->OnClicked.AddDynamic(this, &ADinoJAMGameModeBase::QuitGame);
+			TitleScreenStartButton->OnClicked.AddDynamic(this, &ADinoJAMGameModeBase::StartGame);
+			TitleScreenQuitButton->OnClicked.AddDynamic(this, &ADinoJAMGameModeBase::QuitGame);
 		}
 	}
 }
@@ -237,4 +239,78 @@ void ADinoJAMGameModeBase::QuitGame()
 
 	if(Character)
 		UKismetSystemLibrary::QuitGame(GetWorld(), Cast<APlayerController>(Character->GetController()), EQuitPreference::Quit, true);
+}
+
+void ADinoJAMGameModeBase::SetupPauseMenuWidget()
+{
+	if(PauseMenuWidgetReference)
+	{
+		PauseMenuWidget = CreateWidget(GetWorld(), PauseMenuWidgetReference);
+
+		if(PauseMenuWidget)
+		{
+			PauseMenuInventoryButton = Cast<UButton>(PauseMenuWidget->GetWidgetFromName("Pause_Menu_Button_Inventory"));
+			PauseMenuResumeButton = Cast<UButton>(PauseMenuWidget->GetWidgetFromName("Pause_Menu_Button_Resume"));
+			PauseMenuSaveButton = Cast<UButton>(PauseMenuWidget->GetWidgetFromName("Pause_Menu_Button_Save"));
+			PauseMenuQuitButton = Cast<UButton>(PauseMenuWidget->GetWidgetFromName("Pause_Menu_Button_Quit"));
+
+			PauseMenuInventoryButton->OnClicked.AddDynamic(this, &ADinoJAMGameModeBase::OpenInventory);
+			PauseMenuResumeButton->OnClicked.AddDynamic(this, &ADinoJAMGameModeBase::ResumeGame);
+			PauseMenuQuitButton->OnClicked.AddDynamic(this, &ADinoJAMGameModeBase::QuitGame);
+		}
+	}
+}
+
+void ADinoJAMGameModeBase::OpenInventory()
+{
+	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if(MyGameInstance)
+	{
+		MyGameInstance->InventorySystem->ShowInventory();
+	}
+}
+
+void ADinoJAMGameModeBase::ResumeGame()
+{
+	if(PauseMenuWidget)
+	{
+		if(PauseMenuWidget->IsInViewport())
+			PauseMenuWidget->RemoveFromViewport();
+	}
+
+	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if(MyGameInstance)
+	{
+		MyGameInstance->InventorySystem->HideInventory();
+
+		MyGameInstance->CurrentPlayerCharacter->OnDialogFinish();
+	}
+}
+
+void ADinoJAMGameModeBase::PauseGame()
+{
+	if(PauseMenuWidget)
+	{
+		if(!PauseMenuWidget->IsInViewport())
+		{
+			PauseMenuWidget->AddToViewport();
+		}
+	}
+
+	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if(MyGameInstance)
+	{
+		if(MyGameInstance->CurrentPlayerCharacter)
+		{
+			MyGameInstance->CurrentPlayerCharacter->StartDialog();
+
+			APlayerController* PlayerController = Cast<APlayerController>(MyGameInstance->CurrentPlayerCharacter->GetController());
+
+			if(PlayerController)
+				PlayerController->SetShowMouseCursor(true);
+		}
+	}
 }

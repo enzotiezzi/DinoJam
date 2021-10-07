@@ -37,13 +37,19 @@ void UInventorySystem::SetupInventoryWidget(UWorld* World)
 void UInventorySystem::ShowInventory() const
 {
 	if(InventoryWidget)
-		InventoryWidget->AddToViewport();
+	{
+		if(!InventoryWidget->IsInViewport())
+			InventoryWidget->AddToViewport();
+	}
 }
 
 void UInventorySystem::HideInventory() const
 {
 	if(InventoryWidget)
-		InventoryWidget->RemoveFromViewport();
+	{
+		if(InventoryWidget->IsInViewport())
+			InventoryWidget->RemoveFromViewport();
+	}
 }
 
 void UInventorySystem::OnItemSelect(int Index) const
@@ -60,6 +66,10 @@ void UInventorySystem::AddItem(AItem* NewItem)
 		{
 			Slot->Item = NewItem;
 			Slot->ButtonSlot->WidgetStyle.Normal.SetResourceObject(NewItem->ItemThumbnail);
+			Slot->ButtonSlot->WidgetStyle.Hovered.SetResourceObject(NewItem->ItemThumbnail);
+			Slot->ButtonSlot->WidgetStyle.Pressed.SetResourceObject(NewItem->ItemThumbnail);
+
+			break;
 		}
 	}
 }

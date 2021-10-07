@@ -62,7 +62,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis("MoveSides", this, &APlayerCharacter::MoveSides);
 	
 	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &APlayerCharacter::Interact);
-	PlayerInputComponent->BindAction("Inventory", IE_Pressed, this, &APlayerCharacter::UseInventory);
+	PlayerInputComponent->BindAction("Pause", IE_Pressed, this, &APlayerCharacter::PauseGame);
 	
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
@@ -205,20 +205,13 @@ void APlayerCharacter::OnCapsuleComponentEndOverlap(UPrimitiveComponent* Overlap
 	}
 }
 
-void APlayerCharacter::UseInventory()
+void APlayerCharacter::PauseGame()
 {
-	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 
-	if(MyGameInstance)
+	if(MyGameMode)
 	{
-		MyGameInstance->InventorySystem->ShowInventory();
-
-		APlayerController* PlayerController = Cast<APlayerController>(GetController());
-
-		if(PlayerController)
-		{
-			PlayerController->SetShowMouseCursor(true);
-		}
+		MyGameMode->PauseGame();
 	}
 }
 

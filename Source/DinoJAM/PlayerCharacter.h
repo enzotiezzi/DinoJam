@@ -91,7 +91,7 @@ protected:
 	/// INVENTORY 
 	///
 	////////////////////////////////////////////////////
-	void UseInventory();
+	void PauseGame();
 
 public:
 	// Called every frame
