@@ -90,6 +90,12 @@ public:
 	void SetupPauseMenuWidget();
 
 	void PauseGame();
+
+	UFUNCTION()
+	void OpenInventory();
+
+	UFUNCTION()
+	void ResumeGame();
 	
 protected:
 	/////////////////////////////////////////////
@@ -179,10 +185,4 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite)
 	class UButton* PauseMenuQuitButton;
-
-	UFUNCTION()
-	void OpenInventory();
-
-	UFUNCTION()
-	void ResumeGame();
 };

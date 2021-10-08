@@ -3,9 +3,11 @@
 
 #include "InventorySystem.h"
 
+#include "DinoJAMGameModeBase.h"
 #include "ItemButton.h"
 #include "ItemSlot.h"
 #include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
 
 UInventorySystem::UInventorySystem()
 {
@@ -63,6 +65,11 @@ void UInventorySystem::OnItemSelect(int Index) const
 	{
 		if(ItemSlots[Index]->Item->bCanUse)
 		{
+			if(ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(ItemSlots[Index]->Item->GetWorld())))
+			{
+				MyGameMode->ResumeGame();
+			}
+			
 			ItemSlots[Index]->Item->UseItem();
 
 			ItemSlots[Index]->Item = nullptr;
