@@ -46,6 +46,10 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite)
 	class UUserWidget* InventoryWidget;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Thumbnail")
+	class UTexture2D* DefaultItemSlotThumbNail;
+	
 	//////////////////////////////////////////////
 	///
 	/// ITEM

@@ -26,5 +26,5 @@ public:
 	virtual void UseItem();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Thumbnail")
-	class UObject* ItemThumbnail;
+	class UTexture2D* ItemThumbnail;
 };
