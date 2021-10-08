@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Item.h"
+#include "ItemSlot.h"
 #include "UObject/NoExportTypes.h"
 #include "InventorySystem.generated.h"
 
@@ -51,8 +52,9 @@ protected:
 	///
 	//////////////////////////////////////////////
 	static const int SLOTS_SIZE = 6;
-	
-	class UItemSlot* ItemSlots[SLOTS_SIZE];
+
+	UPROPERTY()
+	TArray<class UItemSlot*> ItemSlots;
 	
 	void OnItemSelect(int Index) const;
 };

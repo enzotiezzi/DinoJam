@@ -19,6 +19,8 @@ void UInventorySystem::SetupInventoryWidget(UWorld* World)
 
 		if(InventoryWidget)
 		{
+			TArray<UItemSlot*, TFixedAllocator<SLOTS_SIZE>> Slots;
+			
 			for(int i = 0; i < SLOTS_SIZE; i++)
 			{
 				FString WidgetName = "I_Button_" + FString::FromInt(i);
@@ -29,8 +31,10 @@ void UInventorySystem::SetupInventoryWidget(UWorld* World)
 				ItemSlot->ButtonSlot->Index = i;
 				ItemSlot->ButtonSlot->OnItemButtonClicked.BindUObject(this, &UInventorySystem::OnItemSelect);
 				
-				ItemSlots[i] = ItemSlot;
+				Slots.Add(ItemSlot);
 			}
+
+			ItemSlots = Slots;
 		}
 	}
 }
@@ -65,15 +69,12 @@ void UInventorySystem::AddItem(AItem* NewItem)
 	{
 		if(!Slot->Item)
 		{
-			if(Slot->ButtonSlot)
-			{
-				Slot->Item = NewItem;
-				Slot->ButtonSlot->WidgetStyle.Normal.SetResourceObject(NewItem->ItemThumbnail);
-				Slot->ButtonSlot->WidgetStyle.Hovered.SetResourceObject(NewItem->ItemThumbnail);
-				Slot->ButtonSlot->WidgetStyle.Pressed.SetResourceObject(NewItem->ItemThumbnail);
+			Slot->Item = NewItem;
+			Slot->ButtonSlot->WidgetStyle.Normal.SetResourceObject(NewItem->ItemThumbnail);
+			Slot->ButtonSlot->WidgetStyle.Hovered.SetResourceObject(NewItem->ItemThumbnail);
+			Slot->ButtonSlot->WidgetStyle.Pressed.SetResourceObject(NewItem->ItemThumbnail);
 
-				break;
-			}
+			break;
 		}
 	}
 }
