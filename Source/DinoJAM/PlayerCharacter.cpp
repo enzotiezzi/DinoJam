@@ -207,11 +207,14 @@ void APlayerCharacter::OnCapsuleComponentEndOverlap(UPrimitiveComponent* Overlap
 
 void APlayerCharacter::PauseGame()
 {
-	ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-
-	if(MyGameMode)
+	if(bCanMove)
 	{
-		MyGameMode->PauseGame();
+		ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+
+		if(MyGameMode)
+		{
+			MyGameMode->PauseGame();
+		}
 	}
 }
 

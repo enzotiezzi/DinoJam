@@ -20,6 +20,8 @@ public:
 	UInventorySystem();
 	
 	void AddItem(AItem* NewItem);
+
+	AItem* GetItem(int Index);
 	
 	///////////////////////////////////////////
 	///

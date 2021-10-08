@@ -60,7 +60,17 @@ void UInventorySystem::HideInventory() const
 void UInventorySystem::OnItemSelect(int Index) const
 {
 	if(ItemSlots[Index]->Item)
-		ItemSlots[Index]->Item->UseItem();
+	{
+		if(ItemSlots[Index]->Item->bCanUse)
+		{
+			ItemSlots[Index]->Item->UseItem();
+
+			ItemSlots[Index]->Item = nullptr;
+			ItemSlots[Index]->ButtonSlot->WidgetStyle.Normal.SetResourceObject(DefaultItemSlotThumbNail);
+			ItemSlots[Index]->ButtonSlot->WidgetStyle.Hovered.SetResourceObject(DefaultItemSlotThumbNail);
+			ItemSlots[Index]->ButtonSlot->WidgetStyle.Pressed.SetResourceObject(DefaultItemSlotThumbNail);
+		}
+	}
 }
 
 void UInventorySystem::AddItem(AItem* NewItem)
@@ -77,4 +87,9 @@ void UInventorySystem::AddItem(AItem* NewItem)
 			break;
 		}
 	}
+}
+
+AItem* UInventorySystem::GetItem(int Index)
+{
+	return ItemSlots[Index]->Item;
 }

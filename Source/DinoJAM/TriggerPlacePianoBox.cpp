@@ -4,10 +4,12 @@
 #include "TriggerPlacePianoBox.h"
 
 #include "DinoJAMGameModeBase.h"
+#include "InventorySystem.h"
 #include "Level1AskForHammerQuest.h"
 #include "Level1SetupPianoQuest.h"
 #include "MyGameInstance.h"
 #include "PlayerCharacter.h"
+#include "TriggerGetHammer.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundCue.h"
@@ -81,26 +83,34 @@ void ATriggerPlacePianoBox::Interact(ACharacter* Interactor)
 					Quest->CompleteQuest(GetWorld());
 				}
 			}
-			else
-			{
-				ULevel1AskForHammerQuest* AskForHammerQuest = Cast<ULevel1AskForHammerQuest>(MyGameInstance->qCurrentQuest);
-
-				if(AskForHammerQuest)
-				{
-					if(!AskForHammerQuest->bCompleted && AskForHammerQuest->bHaveHammer)
-					{
-						AskForHammerQuest->CompleteQuest(GetWorld());
-
-						if(TriggerPlayPiano)
-						{
-							GetWorld()->SpawnActor<ATriggerPlayPiano>(TriggerPlayPiano, GetActorLocation() + FVector(0, 0, 35), GetActorRotation(), FActorSpawnParameters());
-
-							Destroy();
-							MyGameInstance->PianoBoxComponent->DestroyComponent();
-						}
-					}
-				}
-			}
 		}
+	}
+}
+
+void ATriggerPlacePianoBox::NotifyActorBeginOverlap(AActor* OtherActor)
+{
+	if(APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(OtherActor))
+	{
+		// CAN USE HAMMER
+		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+		ATriggerGetHammer* Hammer = Cast<ATriggerGetHammer>(MyGameInstance->InventorySystem->GetItem(0));
+		
+		if(Hammer)
+			Hammer->bCanUse = true;
+	}
+}
+
+void ATriggerPlacePianoBox::NotifyActorEndOverlap(AActor* OtherActor)
+{
+	if(APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(OtherActor))
+	{
+		// CAN USE HAMMER
+		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+		ATriggerGetHammer* Hammer = Cast<ATriggerGetHammer>(MyGameInstance->InventorySystem->GetItem(0));
+		
+		if(Hammer)
+			Hammer->bCanUse = false;
 	}
 }

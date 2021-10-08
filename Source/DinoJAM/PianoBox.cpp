@@ -18,13 +18,9 @@ APianoBox::APianoBox()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
 	PianoBoxComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PianoBoxComponent"));
 
-	SetRootComponent(SphereComponent);
-	PianoBoxComponent->SetupAttachment(SphereComponent);
-
-	SphereComponent->SetSphereRadius(64.0);
+	PianoBoxComponent->SetupAttachment(GetRootComponent());
 }
 
 // Called when the game starts or when spawned

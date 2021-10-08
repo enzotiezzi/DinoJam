@@ -10,7 +10,7 @@
 #include "PianoBox.generated.h"
 
 UCLASS()
-class DINOJAM_API APianoBox : public AItem, public IInteractable
+class DINOJAM_API APianoBox : public AItem
 {
 	GENERATED_BODY()
 	
@@ -21,9 +21,6 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Overlap")
-	class USphereComponent* SphereComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Overlap")
 	class UStaticMeshComponent* PianoBoxComponent;

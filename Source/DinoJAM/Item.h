@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Interactable.h"
 #include "GameFramework/Actor.h"
 #include "Item.generated.h"
 
 UCLASS()
-class DINOJAM_API AItem : public AActor
+class DINOJAM_API AItem : public AActor, public IInteractable
 {
 	GENERATED_BODY()
 	
@@ -19,6 +20,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Overlap")
+	class USphereComponent* SphereComponent;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -27,4 +31,6 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Thumbnail")
 	class UTexture2D* ItemThumbnail;
+
+	bool bCanUse = true;
 };

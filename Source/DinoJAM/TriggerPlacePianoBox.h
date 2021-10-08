@@ -20,9 +20,10 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
+	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Piano")
-	TSubclassOf<class ATriggerPlayPiano> TriggerPlayPiano;
+	virtual void NotifyActorEndOverlap(AActor* OtherActor) override;
 
 	///////////////////////////////////////////////
 	///

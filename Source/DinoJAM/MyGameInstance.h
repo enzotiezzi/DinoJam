@@ -66,6 +66,9 @@ public:
 	UPROPERTY()
 	class ATriggerPlacePianoBox* TriggerPlacePianoBox;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Piano")
+	TSubclassOf<class ATriggerPlayPiano> TriggerPlayPiano;
+
 	////////////////////////////////////////////
 	///
 	/// INVENTORY
