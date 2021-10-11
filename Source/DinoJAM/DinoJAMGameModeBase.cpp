@@ -31,6 +31,7 @@ void ADinoJAMGameModeBase::SetupDialogSystemWidget()
 		if(WidgetDialogText)
 		{
 			WidgetDialogTextBlock = Cast<UTextBlock>(WidgetDialogText->GetWidgetFromName("TextBlock_Dialog"));
+			WidgetCharacterNameTextBlock = Cast<UTextBlock>(WidgetDialogText->GetWidgetFromName("TextBlock_CharacterName"));
 		}
 	}
 }
@@ -123,6 +124,14 @@ void ADinoJAMGameModeBase::PlayDialog(UDialogItem* DialogItem)
 		if(!WidgetDialogText->IsInViewport())
 			WidgetDialogText->AddToViewport();
 
+		FText DialogOwnerText;
+
+		if(DialogItem->DialogOwner == EDialogOwner::PLAYER)
+			DialogOwnerText = FText::FromString(MyGameInstance->CurrentPlayerCharacter->CharacterName);
+		else
+			DialogOwnerText = FText::FromString(MyGameInstance->CurrentNPC->CharacterName);
+
+		WidgetCharacterNameTextBlock->SetText(DialogOwnerText);
 		WidgetDialogTextBlock->SetText(FText::FromString(DialogItem->TextLine));
 	}
 }

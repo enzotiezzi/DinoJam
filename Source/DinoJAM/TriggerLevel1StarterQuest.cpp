@@ -41,7 +41,7 @@ void ATriggerLevel1StarterQuest::PreviewInteraction(ACharacter* Interactor)
 
 void ATriggerLevel1StarterQuest::OnRotateToKaren()
 {
-	FRotator RotationToLookAt = UKismetMathLibrary::FindLookAtRotation(CurrentInteractor->GetActorLocation(), Karen->GetActorLocation());
+	const FRotator RotationToLookAt = UKismetMathLibrary::FindLookAtRotation(CurrentInteractor->GetActorLocation(), Karen->GetActorLocation());
 
 	FRotator NewRotation = UKismetMathLibrary::RInterpTo(CurrentInteractor->GetActorRotation(), RotationToLookAt, GetWorld()->GetDeltaSeconds(), 5.0);
 	NewRotation.Pitch = 0;

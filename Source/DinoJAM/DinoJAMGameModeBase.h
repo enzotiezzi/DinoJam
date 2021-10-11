@@ -8,6 +8,13 @@
 #include "GameFramework/GameModeBase.h"
 #include "DinoJAMGameModeBase.generated.h"
 
+UENUM()
+enum EDialogOwner
+{
+	PLAYER,
+	NPC
+};
+
 UCLASS(Blueprintable, EditInlineNew)
 class UDialogItem: public UObject
 {
@@ -43,6 +50,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Facial Expression")
 	class UMaterialInterface* PlayerFaceExpressionMaterial;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
+	TEnumAsByte<EDialogOwner> DialogOwner;
 };
 
 DECLARE_DELEGATE_OneParam(FOnDialogFinish, UDialogItem*);
@@ -126,6 +136,9 @@ protected:
 
 	UPROPERTY()
 	class UTextBlock* WidgetDialogTextBlock;
+
+	UPROPERTY()
+	class UTextBlock* WidgetCharacterNameTextBlock;
 	
 	UPROPERTY()
 	struct FTimerHandle DelayToNextDialogTimerHandle;
