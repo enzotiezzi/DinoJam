@@ -20,6 +20,12 @@ public:
 	virtual void PreviewInteraction(ACharacter* Interactor) override;
 
 protected:
+	ACharacter* CurrentInteractor;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Character")
 	class APS1Character* Karen;
+
+	FTimerHandle RotateToKarenTimerHandle;
+
+	void OnRotateToKaren();
 };
