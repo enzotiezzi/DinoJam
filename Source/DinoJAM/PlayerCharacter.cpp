@@ -14,6 +14,7 @@
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "LevelSequence/Public/LevelSequencePlayer.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
 #include "Sound/SoundCue.h"
 
@@ -180,7 +181,7 @@ void APlayerCharacter::PlayStepSound_Implementation()
 	    			if(ConcreteStepSound)
 	    				SoundCueToBePlayed = ConcreteStepSound;
 	    	}
-
+	    	
 	    	if(SoundCueToBePlayed)
 	    		UGameplayStatics::PlaySoundAtLocation(GetWorld(), SoundCueToBePlayed, GetActorLocation(), FRotator::ZeroRotator,1, 1, 0, StepSoundAttenuation);
 	    }

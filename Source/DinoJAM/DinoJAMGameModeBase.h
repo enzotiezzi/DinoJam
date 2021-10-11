@@ -106,6 +106,14 @@ public:
 
 	UFUNCTION()
 	void ResumeGame();
+
+	/////////////////////////////////////////////
+	///
+	/// LEVEL 2 SEQUENCES
+	///
+	/////////////////////////////////////////////
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Sequences")
+	class ULevelSequence* GateLevelSequence;
 	
 protected:
 	/////////////////////////////////////////////

@@ -3,9 +3,11 @@
 
 #include "PlayerCharacterResizer.h"
 
+#include "DinoJAMGameModeBase.h"
 #include "PlayerCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "LevelSequence/Public/LevelSequencePlayer.h"
 
 // Sets default values
 APlayerCharacterResizer::APlayerCharacterResizer()
