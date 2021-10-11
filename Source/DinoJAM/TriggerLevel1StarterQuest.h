@@ -20,6 +20,7 @@ public:
 	virtual void PreviewInteraction(ACharacter* Interactor) override;
 
 protected:
+	UPROPERTY(BlueprintReadWrite)
 	ACharacter* CurrentInteractor;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Character")
