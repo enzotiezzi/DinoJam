@@ -100,39 +100,39 @@ void ADinoJAMGameModeBase::PlayDialog(UDialogItem* DialogItem)
 				else
 					MyGameInstance->CurrentNPC->GetMesh()->SetMaterial(DialogItem->NPCFaceMaterialIndex, MyGameInstance->CurrentNPC->DefaultFaceExpression);
 			}
-		}
-		
-		if(DialogAudioComponent != nullptr)
-			DialogAudioComponent->Stop();
+
+			if(DialogAudioComponent != nullptr)
+				DialogAudioComponent->Stop();
 	
-		CurrentDialogItem = DialogItem;
-		CurrentDialogItem->World = GetWorld();
+			CurrentDialogItem = DialogItem;
+			CurrentDialogItem->World = GetWorld();
 
-		if(CurrentDialogSoundTimerHandle.IsValid())
-			GetWorld()->GetTimerManager().ClearTimer(CurrentDialogSoundTimerHandle);
+			if(CurrentDialogSoundTimerHandle.IsValid())
+				GetWorld()->GetTimerManager().ClearTimer(CurrentDialogSoundTimerHandle);
 
-		if(DelayToNextDialogTimerHandle.IsValid())
-			GetWorld()->GetTimerManager().ClearTimer(DelayToNextDialogTimerHandle);
+			if(DelayToNextDialogTimerHandle.IsValid())
+				GetWorld()->GetTimerManager().ClearTimer(DelayToNextDialogTimerHandle);
 	
-		if(DialogItem->Sound)
-		{
-			GetWorld()->GetTimerManager().SetTimer(CurrentDialogSoundTimerHandle, this, &ADinoJAMGameModeBase::OnDialogSoundFinish, DialogItem->Sound->Duration);
+			if(DialogItem->Sound)
+			{
+				GetWorld()->GetTimerManager().SetTimer(CurrentDialogSoundTimerHandle, this, &ADinoJAMGameModeBase::OnDialogSoundFinish, DialogItem->Sound->Duration);
 
-			DialogAudioComponent = UGameplayStatics::SpawnSound2D(GetWorld(), DialogItem->Sound);
+				DialogAudioComponent = UGameplayStatics::SpawnSound2D(GetWorld(), DialogItem->Sound);
+			}
+
+			if(!WidgetDialogText->IsInViewport())
+				WidgetDialogText->AddToViewport();
+
+			FText DialogOwnerText;
+
+			if(DialogItem->DialogOwner == EDialogOwner::PLAYER)
+				DialogOwnerText = FText::FromString(MyGameInstance->CurrentPlayerCharacter->CharacterName);
+			else
+				DialogOwnerText = FText::FromString(MyGameInstance->CurrentNPC->CharacterName);
+
+			WidgetCharacterNameTextBlock->SetText(DialogOwnerText);
+			WidgetDialogTextBlock->SetText(FText::FromString(DialogItem->TextLine));
 		}
-
-		if(!WidgetDialogText->IsInViewport())
-			WidgetDialogText->AddToViewport();
-
-		FText DialogOwnerText;
-
-		if(DialogItem->DialogOwner == EDialogOwner::PLAYER)
-			DialogOwnerText = FText::FromString(MyGameInstance->CurrentPlayerCharacter->CharacterName);
-		else
-			DialogOwnerText = FText::FromString(MyGameInstance->CurrentNPC->CharacterName);
-
-		WidgetCharacterNameTextBlock->SetText(DialogOwnerText);
-		WidgetDialogTextBlock->SetText(FText::FromString(DialogItem->TextLine));
 	}
 }
 
