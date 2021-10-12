@@ -14,6 +14,7 @@
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "LevelSequence/Public/LevelSequencePlayer.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
 #include "Sound/SoundCue.h"
 
@@ -157,30 +158,30 @@ void APlayerCharacter::PlayStepSound_Implementation()
 	    	switch (OutHit.PhysMaterial->SurfaceType)
 	    	{
 	    		case SurfaceType1:
-	    			{
-	    				if(ConcreteStepSound)
-	    					SoundCueToBePlayed = ConcreteStepSound;
-	    			}
+	    			if(ConcreteStepSound)
+	    				SoundCueToBePlayed = ConcreteStepSound;
+	    		break;
+	    		
 	    		case SurfaceType2:
-	    			{
-	    				if(WoodenStepSound)
-	    					SoundCueToBePlayed = WoodenStepSound;
-	    			}
+	    			if(WoodenStepSound)
+	    				SoundCueToBePlayed = WoodenStepSound;
+	    		break;
+	    		
 	    		case SurfaceType3:
-	    			{
-	    				if(DirtStepSound)
-	    					SoundCueToBePlayed = DirtStepSound;
-	    			}
+	    			if(DirtStepSound)
+	    				SoundCueToBePlayed = DirtStepSound;
+	    		break;
+	    		
 	    		case SurfaceType4:
-	    			{
-	    				if(TiledStepSound)
-	    					SoundCueToBePlayed = TiledStepSound;
-	    			}
+	    			if(TiledStepSound)
+	    				SoundCueToBePlayed = TiledStepSound;
+	    		break;
+	    		
 	    		default:
 	    			if(ConcreteStepSound)
 	    				SoundCueToBePlayed = ConcreteStepSound;
 	    	}
-
+	    	
 	    	if(SoundCueToBePlayed)
 	    		UGameplayStatics::PlaySoundAtLocation(GetWorld(), SoundCueToBePlayed, GetActorLocation(), FRotator::ZeroRotator,1, 1, 0, StepSoundAttenuation);
 	    }
