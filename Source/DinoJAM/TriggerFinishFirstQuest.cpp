@@ -52,7 +52,7 @@ void ATriggerFinishFirstQuest::Interact(ACharacter* Interactor)
 				{
 					InitialQuest->CompleteQuest(GetWorld());
 
-					UGameplayStatics::OpenLevel(GetWorld(), "L_KarenIndoor");
+					MyGameMode->ChangeLevel(FName("L_KarenIndoor"));
 				}
 			}
 		}

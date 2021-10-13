@@ -1,11 +1,10 @@
+#include "GateTrigger.h"
+
 #include "DinoJAMGameModeBase.h"
 #include "LevelSequenceActor.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
 // Fill out your copyright notice in the Description page of Project Settings.
-
-
-#include "GateTrigger.h"
 
 // Sets default values
 AGateTrigger::AGateTrigger()
@@ -39,7 +38,7 @@ void AGateTrigger::Interact(ACharacter* Interactor)
 	if(MyGameMode)
 	{
 		ALevelSequenceActor* LevelSequenceActor;
-		
+
 		ULevelSequencePlayer* LevelSequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), MyGameMode->GateLevelSequence, FMovieSceneSequencePlaybackSettings(), LevelSequenceActor);
 
 		if(LevelSequencePlayer)
@@ -53,13 +52,4 @@ void AGateTrigger::Interact(ACharacter* Interactor)
 
 void AGateTrigger::OnCutsceneFinished()
 {
-	if (Gate1)
-	{
-		Gate1->AddActorWorldRotation(FRotator(0.0, -150.0, 0.0));
-	}
-
-	if (Gate2)
-	{
-		Gate2->AddActorWorldRotation(FRotator(0.0, 150.0, 0.0));
-	}
 }

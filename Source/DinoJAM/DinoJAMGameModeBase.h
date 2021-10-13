@@ -109,6 +109,25 @@ public:
 
 	/////////////////////////////////////////////
 	///
+	/// GENERAL SEQUENCES
+	///
+	/////////////////////////////////////////////
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Fade")
+	class ULevelSequence* FadeInLevelSequence;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Fade")
+	class ULevelSequence* FadeOutLevelSequence;
+
+	UPROPERTY(BlueprintReadWrite)
+	FName NextLevelName;
+	
+	void ChangeLevel(FName LevelName);
+
+	UFUNCTION()
+	void OnFadeOutFinish();
+
+	/////////////////////////////////////////////
+	///
 	/// LEVEL 2 SEQUENCES
 	///
 	/////////////////////////////////////////////
