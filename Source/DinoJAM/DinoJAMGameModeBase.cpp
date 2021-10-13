@@ -4,6 +4,7 @@
 #include "DinoJAMGameModeBase.h"
 
 #include "InventorySystem.h"
+#include "LevelSequencePlayer.h"
 #include "MyGameInstance.h"
 #include "PlayerCharacter.h"
 #include "PS1Character.h"
@@ -323,4 +324,25 @@ void ADinoJAMGameModeBase::PauseGame()
 				PlayerController->SetShowMouseCursor(true);
 		}
 	}
+}
+
+void ADinoJAMGameModeBase::ChangeLevel(FName LevelName)
+{
+	NextLevelName = LevelName;
+	
+	ALevelSequenceActor* LevelSequenceActor;
+	
+	ULevelSequencePlayer* LevelSequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), FadeOutLevelSequence, FMovieSceneSequencePlaybackSettings(), LevelSequenceActor);
+
+	if(LevelSequencePlayer)
+	{
+		LevelSequencePlayer->OnFinished.AddDynamic(this, &ADinoJAMGameModeBase::OnFadeOutFinish);
+		
+		LevelSequencePlayer->Play();
+	}
+}
+
+void ADinoJAMGameModeBase::OnFadeOutFinish()
+{
+	UGameplayStatics::OpenLevel(GetWorld(), NextLevelName);
 }
