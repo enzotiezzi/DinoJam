@@ -31,4 +31,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Name")
 	FString CharacterName;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Face")
+	int FaceMaterialIndex;
 };
