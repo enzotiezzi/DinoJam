@@ -24,12 +24,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	class USphereComponent* SphereComponent;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Gates")
-	class AActor* Gate1;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Gates")
-	class AActor* Gate2;
-
 	UFUNCTION()
 	void OnCutsceneFinished();
 
