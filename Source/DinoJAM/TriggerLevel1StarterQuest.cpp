@@ -26,6 +26,8 @@ void ATriggerLevel1StarterQuest::PreviewInteraction(ACharacter* Interactor)
 
 			if(Quest)
 			{
+				Quest->OnDialogFinish.BindUObject(this, &ATriggerLevel1StarterQuest::StopRotateToKaren);
+				
 				MyGameMode->StartDialogSystem(Quest->Dialog, Quest->OnDialogFinish, Cast<APlayerCharacter>(Interactor), Karen);
 
 				this->SetActorEnableCollision(false);
@@ -47,8 +49,10 @@ void ATriggerLevel1StarterQuest::OnRotateToKaren()
 	NewRotation.Pitch = 0;
 	NewRotation.Roll = 0;
 	
-	if (NewRotation.Yaw < .1 && NewRotation.Yaw > -.1)
-		GetWorld()->GetTimerManager().ClearTimer(RotateToKarenTimerHandle);
-
 	CurrentInteractor->SetActorRelativeRotation(NewRotation);
+}
+
+void ATriggerLevel1StarterQuest::StopRotateToKaren(UDialogItem* DialogItem)
+{
+	GetWorld()->GetTimerManager().ClearTimer(RotateToKarenTimerHandle);
 }

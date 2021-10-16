@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "DinoJAMGameModeBase.h"
 #include "Interactable.h"
 #include "PS1Character.h"
 #include "Engine/TriggerSphere.h"
@@ -29,4 +30,6 @@ protected:
 	FTimerHandle RotateToKarenTimerHandle;
 
 	void OnRotateToKaren();
+
+	void StopRotateToKaren(UDialogItem* DialogItem);
 };
