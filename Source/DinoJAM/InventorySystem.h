@@ -22,6 +22,8 @@ public:
 	void AddItem(AItem* NewItem);
 
 	AItem* GetItem(int Index);
+
+	AItem* GetItem(UClass* ClassType);
 	
 	///////////////////////////////////////////
 	///

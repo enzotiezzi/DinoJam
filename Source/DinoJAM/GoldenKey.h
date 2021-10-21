@@ -18,4 +18,8 @@ public:
 	AGoldenKey();
 
 	virtual void UseItem() override;
+
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class AActor* GateTrigger;
 };

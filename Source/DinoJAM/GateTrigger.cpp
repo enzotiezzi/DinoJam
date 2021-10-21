@@ -1,6 +1,8 @@
 #include "GateTrigger.h"
 
 #include "DinoJAMGameModeBase.h"
+#include "GoldenKey.h"
+#include "InventorySystem.h"
 #include "LevelSequenceActor.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -31,25 +33,32 @@ void AGateTrigger::Tick(float DeltaTime)
 
 }
 
-void AGateTrigger::Interact(APS1Character* Interactor)
+void AGateTrigger::OnCutsceneFinished()
 {
-	ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+}
 
-	if(MyGameMode)
+void AGateTrigger::NotifyActorBeginOverlap(AActor* OtherActor)
+{
+	if(Cast<APlayerCharacter>(OtherActor))
 	{
-		ALevelSequenceActor* LevelSequenceActor;
+		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-		ULevelSequencePlayer* LevelSequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), MyGameMode->GateLevelSequence, FMovieSceneSequencePlaybackSettings(), LevelSequenceActor);
-
-		if(LevelSequencePlayer)
+		if(AItem* GoldenKey = MyGameInstance->InventorySystem->GetItem(AGoldenKey::StaticClass()))
 		{
-			LevelSequencePlayer->OnFinished.AddDynamic(this, &AGateTrigger::OnCutsceneFinished);
-			
-			LevelSequencePlayer->Play();
+			GoldenKey->bCanUse = true;
 		}
 	}
 }
 
-void AGateTrigger::OnCutsceneFinished()
+void AGateTrigger::NotifyActorEndOverlap(AActor* OtherActor)
 {
+	if(Cast<APlayerCharacter>(OtherActor))
+	{
+		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+		if(AItem* GoldenKey = MyGameInstance->InventorySystem->GetItem(AGoldenKey::StaticClass()))
+		{
+			GoldenKey->bCanUse = false;
+		}
+	}
 }

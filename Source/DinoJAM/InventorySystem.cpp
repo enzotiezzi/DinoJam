@@ -100,3 +100,17 @@ AItem* UInventorySystem::GetItem(int Index)
 {
 	return ItemSlots[Index]->Item;
 }
+
+AItem* UInventorySystem::GetItem(UClass* ClassType)
+{
+	for (UItemSlot* Slot : ItemSlots)
+	{
+		if(Slot->Item)
+		{
+			if(Slot->Item->GetClass()->GetSuperClass() == ClassType)
+				return Slot->Item;
+		}
+	}
+	
+	return nullptr;
+}
