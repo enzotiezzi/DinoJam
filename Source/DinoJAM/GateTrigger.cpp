@@ -31,7 +31,7 @@ void AGateTrigger::Tick(float DeltaTime)
 
 }
 
-void AGateTrigger::Interact(ACharacter* Interactor)
+void AGateTrigger::Interact(APS1Character* Interactor)
 {
 	ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 

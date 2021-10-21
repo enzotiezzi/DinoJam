@@ -18,7 +18,7 @@ class DINOJAM_API ATriggerLevel1StarterQuest : public ATriggerSphere, public IIn
 	GENERATED_BODY()
 
 public:
-	virtual void PreviewInteraction(ACharacter* Interactor) override;
+	virtual void PreviewInteraction(APS1Character* Interactor) override;
 
 protected:
 	UPROPERTY(BlueprintReadWrite)

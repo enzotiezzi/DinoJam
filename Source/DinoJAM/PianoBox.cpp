@@ -38,7 +38,7 @@ void APianoBox::Tick(float DeltaTime)
 
 }
 
-void APianoBox::Interact(ACharacter* Interactor)
+void APianoBox::Interact(APS1Character* Interactor)
 {
 	ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 

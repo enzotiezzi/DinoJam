@@ -27,7 +27,7 @@ ATriggerGetHammer::ATriggerGetHammer()
 }
 
 
-void ATriggerGetHammer::Interact(ACharacter* Interactor)
+void ATriggerGetHammer::Interact(APS1Character* Interactor)
 {
 	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 

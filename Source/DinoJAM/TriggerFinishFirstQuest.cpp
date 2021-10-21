@@ -34,7 +34,7 @@ void ATriggerFinishFirstQuest::Tick(float DeltaTime)
 
 }
 
-void ATriggerFinishFirstQuest::Interact(ACharacter* Interactor)
+void ATriggerFinishFirstQuest::Interact(APS1Character* Interactor)
 {
 	ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 

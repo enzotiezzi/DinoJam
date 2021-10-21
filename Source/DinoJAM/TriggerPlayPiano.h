@@ -18,7 +18,7 @@ class DINOJAM_API ATriggerPlayPiano : public ATriggerSphere, public IInteractabl
 public:
 	ATriggerPlayPiano();
 	
-	virtual void Interact(ACharacter* Interactor) override;
+	virtual void Interact(APS1Character* Interactor) override;
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)

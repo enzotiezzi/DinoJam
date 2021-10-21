@@ -21,7 +21,7 @@ public:
 
 	virtual void BeginPlay() override;
 	
-	virtual void Interact(ACharacter* Interactor) override;
+	virtual void Interact(APS1Character* Interactor) override;
 
 	virtual void UseItem() override;
 

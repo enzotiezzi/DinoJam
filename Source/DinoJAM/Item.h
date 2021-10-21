@@ -27,7 +27,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void UseItem();
+	virtual void Interact(APS1Character* Interactor) override;
+
+	virtual void UseItem()
+	{
+		
+	}
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Thumbnail")
 	class UTexture2D* ItemThumbnail;

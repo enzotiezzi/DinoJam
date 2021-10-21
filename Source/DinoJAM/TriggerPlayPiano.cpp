@@ -20,7 +20,7 @@ ATriggerPlayPiano::ATriggerPlayPiano()
 	GetSpriteComponent()->DestroyComponent();
 }
 
-void ATriggerPlayPiano::Interact(ACharacter* Interactor)
+void ATriggerPlayPiano::Interact(APS1Character* Interactor)
 {
 	ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 

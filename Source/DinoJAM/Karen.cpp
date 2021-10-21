@@ -44,7 +44,7 @@ void AKaren::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-void AKaren::Interact(ACharacter* Interactor)
+void AKaren::Interact(APS1Character* Interactor)
 {
 	this->CurrentInteractor = Cast<APlayerCharacter>(Interactor);
 	

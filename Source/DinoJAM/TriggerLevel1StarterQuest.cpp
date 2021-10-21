@@ -10,7 +10,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 
-void ATriggerLevel1StarterQuest::PreviewInteraction(ACharacter* Interactor)
+void ATriggerLevel1StarterQuest::PreviewInteraction(APS1Character* Interactor)
 {
 	CurrentInteractor = Interactor;
 	

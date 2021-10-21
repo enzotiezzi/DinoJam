@@ -3,7 +3,12 @@
 
 #include "Item.h"
 
+#include "InventorySystem.h"
+#include "MyGameInstance.h"
+#include "PlayerCharacter.h"
 #include "Components/SphereComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 
 // Sets default values
 AItem::AItem()
@@ -32,7 +37,17 @@ void AItem::Tick(float DeltaTime)
 
 }
 
-void AItem::UseItem()
+void AItem::Interact(APS1Character* Interactor)
 {
-	
+	if(APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(Interactor))
+	{
+		if(UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
+		{
+			MyGameInstance->InventorySystem->AddItem(this);
+
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->PickUpItemSound, GetActorLocation(), GetActorRotation());
+			
+			SphereComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		}
+	}
 }

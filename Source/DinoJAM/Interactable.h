@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PS1Character.h"
 #include "Interactable.generated.h"
 
 UINTERFACE(Blueprintable)
@@ -17,7 +18,7 @@ class IInteractable
 	GENERATED_BODY()
 
 public:
-	virtual void Interact(ACharacter* Interactor);
+	virtual void Interact(APS1Character* Interactor);
 
-	virtual void PreviewInteraction(ACharacter* Interactor);
+	virtual void PreviewInteraction(APS1Character* Interactor);
 };

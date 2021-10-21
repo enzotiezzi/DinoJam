@@ -31,5 +31,5 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void Interact(ACharacter* Interactor) override;
+	virtual void Interact(APS1Character* Interactor) override;
 };

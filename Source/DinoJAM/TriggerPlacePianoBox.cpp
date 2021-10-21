@@ -48,7 +48,7 @@ void ATriggerPlacePianoBox::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void ATriggerPlacePianoBox::Interact(ACharacter* Interactor)
+void ATriggerPlacePianoBox::Interact(APS1Character* Interactor)
 {
 	ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 

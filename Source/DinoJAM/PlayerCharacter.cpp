@@ -9,8 +9,6 @@
 #include "InventorySystem.h"
 #include "LandscapeComponent.h"
 #include "LandscapeInfo.h"
-#include "Level1GetPianoQuest.h"
-#include "Components/ArrowComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"

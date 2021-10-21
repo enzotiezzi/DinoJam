@@ -31,7 +31,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
-	virtual void Interact(ACharacter* Interactor) override;
+	virtual void Interact(APS1Character* Interactor) override;
 	
 	//
 	UPROPERTY()
