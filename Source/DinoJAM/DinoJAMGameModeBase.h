@@ -44,9 +44,6 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Facial Expression")
 	class UMaterialInterface* NPCFaceExpressionMaterial;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Facial Expression")
-    int NPCFaceMaterialIndex;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Facial Expression")
 	class UMaterialInterface* PlayerFaceExpressionMaterial;

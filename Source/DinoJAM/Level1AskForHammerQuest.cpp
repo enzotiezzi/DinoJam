@@ -44,10 +44,10 @@ void ULevel1AskForHammerQuest::ExecuteOnDialogFinish(UDialogItem* DialogItem)
 	{
 		if(MyGameInstance->CurrentNPC)
 		{
-			MyGameInstance->CurrentNPC->GetMesh()->SetMaterial(DialogItem->NPCFaceMaterialIndex, MyGameInstance->CurrentNPC->DefaultFaceExpression);
+			MyGameInstance->CurrentNPC->GetMesh()->SetMaterial(MyGameInstance->CurrentNPC->FaceMaterialIndex, MyGameInstance->CurrentNPC->DefaultFaceExpression);
 			MyGameInstance->CurrentNPC->StopAnimMontage();
 
-			MyGameInstance->CurrentPlayerCharacter->GetMesh()->SetMaterial(3, MyGameInstance->CurrentPlayerCharacter->DefaultFaceExpression);
+			MyGameInstance->CurrentPlayerCharacter->GetMesh()->SetMaterial(MyGameInstance->CurrentPlayerCharacter->FaceMaterialIndex, MyGameInstance->CurrentPlayerCharacter->DefaultFaceExpression);
 		}
 	}
 }

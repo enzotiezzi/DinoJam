@@ -86,7 +86,7 @@ void ADinoJAMGameModeBase::PlayDialog(UDialogItem* DialogItem)
 					MyGameInstance->CurrentPlayerCharacter->StopAnimMontage();
 
 				if(DialogItem->PlayerFaceExpressionMaterial)
-					MyGameInstance->CurrentPlayerCharacter->GetMesh()->SetMaterial(3, DialogItem->PlayerFaceExpressionMaterial);
+					MyGameInstance->CurrentPlayerCharacter->GetMesh()->SetMaterial(MyGameInstance->CurrentPlayerCharacter->FaceMaterialIndex, DialogItem->PlayerFaceExpressionMaterial);
 			}
 
 			if(MyGameInstance->CurrentNPC)
@@ -97,9 +97,9 @@ void ADinoJAMGameModeBase::PlayDialog(UDialogItem* DialogItem)
 					MyGameInstance->CurrentNPC->StopAnimMontage();
 				
 				if(DialogItem->NPCFaceExpressionMaterial)
-					MyGameInstance->CurrentNPC->GetMesh()->SetMaterial(DialogItem->NPCFaceMaterialIndex, DialogItem->NPCFaceExpressionMaterial);
+					MyGameInstance->CurrentNPC->GetMesh()->SetMaterial(MyGameInstance->CurrentNPC->FaceMaterialIndex, DialogItem->NPCFaceExpressionMaterial);
 				else
-					MyGameInstance->CurrentNPC->GetMesh()->SetMaterial(DialogItem->NPCFaceMaterialIndex, MyGameInstance->CurrentNPC->DefaultFaceExpression);
+					MyGameInstance->CurrentNPC->GetMesh()->SetMaterial(MyGameInstance->CurrentNPC->FaceMaterialIndex, MyGameInstance->CurrentNPC->DefaultFaceExpression);
 			}
 
 			if(DialogAudioComponent != nullptr)

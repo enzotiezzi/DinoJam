@@ -35,7 +35,7 @@ void ULevel1SetupPianoQuest::OnStarterDialogFinish(UDialogItem* DialogItem)
 	{
 		if(MyGameInstance->CurrentNPC)
 		{
-			MyGameInstance->CurrentNPC->GetMesh()->SetMaterial(DialogItem->NPCFaceMaterialIndex, MyGameInstance->CurrentNPC->DefaultFaceExpression);
+			MyGameInstance->CurrentNPC->GetMesh()->SetMaterial(MyGameInstance->CurrentNPC->FaceMaterialIndex, MyGameInstance->CurrentNPC->DefaultFaceExpression);
 		}
 	}
 }
