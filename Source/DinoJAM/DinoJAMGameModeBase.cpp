@@ -338,6 +338,7 @@ void ADinoJAMGameModeBase::PauseGame()
 				PlayerController->SetShowMouseCursor(true);
 
 			FInputModeUIOnly InputMode;
+			InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::LockAlways);
 			InputMode.SetWidgetToFocus(PauseMenuWidget->GetWidgetFromName("Pause_Menu_Button_Inventory")->TakeWidget());
 			
 			PlayerController->SetInputMode(InputMode);
