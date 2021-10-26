@@ -221,18 +221,20 @@ void ADinoJAMGameModeBase::StartTitleScreen()
 	if(TitleScreen)
 	{
 		TitleScreen->AddToViewport();
-
+		
 		APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 		
 		if(PlayerCharacter)
 		{
-			StartDialogSystem(TArray<TSubclassOf<UDialogItem>>(), FOnDialogFinish(), PlayerCharacter, nullptr);
-
 			PlayerCharacter->StartWavingAnimationMontage();
 
 			if(APlayerController* PlayerController = Cast<APlayerController>(PlayerCharacter->GetController()))
 			{
+				FInputModeUIOnly InputMode;
+				InputMode.SetWidgetToFocus(TitleScreen->GetWidgetFromName("Button_Start")->TakeWidget());
+				
 				PlayerController->SetShowMouseCursor(true);
+				PlayerController->SetInputMode(InputMode);
 			}
 		}
 	}
@@ -241,6 +243,16 @@ void ADinoJAMGameModeBase::StartTitleScreen()
 void ADinoJAMGameModeBase::StartGame()
 {
 	UGameplayStatics::OpenLevel(GetWorld(), "L_KarenOutdoor");
+
+	APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
+	if(PlayerCharacter)
+	{
+		if(APlayerController* PlayerController = Cast<APlayerController>(PlayerCharacter->GetController()))
+		{
+			PlayerController->SetInputMode(FInputModeGameOnly());
+		}
+	}
 }
 
 void ADinoJAMGameModeBase::QuitGame()
@@ -299,6 +311,8 @@ void ADinoJAMGameModeBase::ResumeGame()
 
 		if(PlayerController)
 			PlayerController->SetShowMouseCursor(false);
+
+		PlayerController->SetInputMode(FInputModeGameOnly());
 	}
 }
 
@@ -322,6 +336,11 @@ void ADinoJAMGameModeBase::PauseGame()
 
 			if(PlayerController)
 				PlayerController->SetShowMouseCursor(true);
+
+			FInputModeUIOnly InputMode;
+			InputMode.SetWidgetToFocus(PauseMenuWidget->GetWidgetFromName("Pause_Menu_Button_Inventory")->TakeWidget());
+			
+			PlayerController->SetInputMode(InputMode);
 		}
 	}
 }
