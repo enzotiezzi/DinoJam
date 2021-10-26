@@ -214,30 +214,14 @@ protected:
 	UPROPERTY(BlueprintReadWrite)
 	class UButton* PauseMenuInventoryButton;
 
-	struct FSlateBrush PauseMenuInventoryButtonNormal;
-	
-	struct FSlateBrush PauseMenuInventoryButtonHovered;
-
 	UPROPERTY(BlueprintReadWrite)
 	class UButton* PauseMenuResumeButton;
-	
-	struct FSlateBrush PauseMenuResumeButtonNormal;
-    	
-    struct FSlateBrush PauseMenuResumeButtonHovered;
 
 	UPROPERTY(BlueprintReadWrite)
 	class UButton* PauseMenuSaveButton;
-	
-	struct FSlateBrush PauseMenuSaveButtonNormal;
-    	
-    struct FSlateBrush PauseMenuSaveButtonHovered;
 
 	UPROPERTY(BlueprintReadWrite)
 	class UButton* PauseMenuQuitButton;
-	
-	struct FSlateBrush PauseMenuQuitButtonNormal;
-    	
-    struct FSlateBrush PauseMenuQuitButtonHovered;
 
 	UPROPERTY()
 	TArray<class UButton*> PauseMenuButtons;
