@@ -279,6 +279,24 @@ void ADinoJAMGameModeBase::SetupPauseMenuWidget()
 			PauseMenuInventoryButton->OnClicked.AddDynamic(this, &ADinoJAMGameModeBase::OpenInventory);
 			PauseMenuResumeButton->OnClicked.AddDynamic(this, &ADinoJAMGameModeBase::ResumeGame);
 			PauseMenuQuitButton->OnClicked.AddDynamic(this, &ADinoJAMGameModeBase::QuitGame);
+
+			PauseMenuButtons = TArray<class UButton*, TFixedAllocator<4>>();
+			PauseMenuButtons.Add(PauseMenuInventoryButton);
+			PauseMenuButtons.Add(PauseMenuResumeButton);
+			PauseMenuButtons.Add(PauseMenuSaveButton);
+			PauseMenuButtons.Add(PauseMenuQuitButton);
+
+			PauseMenuButtonsNormalStates = TArray<struct FSlateBrush, TFixedAllocator<4>>();
+			PauseMenuButtonsNormalStates.Add(PauseMenuInventoryButton->WidgetStyle.Normal);
+			PauseMenuButtonsNormalStates.Add(PauseMenuResumeButton->WidgetStyle.Normal);
+			PauseMenuButtonsNormalStates.Add(PauseMenuSaveButton->WidgetStyle.Normal);
+			PauseMenuButtonsNormalStates.Add(PauseMenuQuitButton->WidgetStyle.Normal);
+
+			PauseMenuButtonsHoveredStates = TArray<struct FSlateBrush, TFixedAllocator<4>>();
+			PauseMenuButtonsHoveredStates.Add(PauseMenuInventoryButton->WidgetStyle.Hovered);
+			PauseMenuButtonsHoveredStates.Add(PauseMenuResumeButton->WidgetStyle.Hovered);
+			PauseMenuButtonsHoveredStates.Add(PauseMenuSaveButton->WidgetStyle.Hovered);
+			PauseMenuButtonsHoveredStates.Add(PauseMenuQuitButton->WidgetStyle.Hovered);
 		}
 	}
 }
@@ -314,6 +332,8 @@ void ADinoJAMGameModeBase::ResumeGame()
 
 		PlayerController->SetInputMode(FInputModeGameOnly());
 	}
+
+	GetWorld()->GetTimerManager().ClearTimer(PauseMenuUITimerHandle);
 }
 
 void ADinoJAMGameModeBase::PauseGame()
@@ -342,9 +362,30 @@ void ADinoJAMGameModeBase::PauseGame()
 			InputMode.SetWidgetToFocus(PauseMenuWidget->GetWidgetFromName("Pause_Menu_Button_Inventory")->TakeWidget());
 			
 			PlayerController->SetInputMode(InputMode);
+
+			if(!PauseMenuUITimerHandle.IsValid())
+				GetWorld()->GetTimerManager().SetTimer(PauseMenuUITimerHandle, this, &ADinoJAMGameModeBase::TickPauseMenuUI, GetWorld()->GetDeltaSeconds(), true);
 		}
 	}
 }
+
+void ADinoJAMGameModeBase::TickPauseMenuUI()
+{
+	for(int i = 0; i < PauseMenuButtons.Num(); i++)
+	{
+		UButton* CurrentButton = PauseMenuButtons[i];
+
+		if(CurrentButton->HasKeyboardFocus())
+		{
+			CurrentButton->WidgetStyle.Normal = PauseMenuButtonsHoveredStates[i];
+		}
+		else
+		{
+			CurrentButton->WidgetStyle.Normal = PauseMenuButtonsNormalStates[i];
+		}
+	}
+}
+
 
 void ADinoJAMGameModeBase::ChangeLevel(FName LevelName)
 {
