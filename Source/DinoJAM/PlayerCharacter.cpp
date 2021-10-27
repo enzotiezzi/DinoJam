@@ -85,29 +85,6 @@ void APlayerCharacter::Interact()
 		{
 			CurrentInteractable->Interact(this);
 		}
-		else
-		{
-			FVector Start = GetActorLocation();
-			FVector End = GetActorLocation() + (GetActorForwardVector() * 150.0);
-
-			FHitResult OutHit;
-
-			FCollisionQueryParams CollisionQueryParams = FCollisionQueryParams::DefaultQueryParam;
-			CollisionQueryParams.AddIgnoredActor(this);
-
-			DrawDebugLine(GetWorld(), Start, End, FColor::Red, true);
-			bool Success = GetWorld()->LineTraceSingleByChannel(OutHit, Start, End, ECC_Pawn, CollisionQueryParams);
-
-			if(Success)
-			{
-				IInteractable* InteractableCharacter = Cast<IInteractable>(OutHit.Actor);
-
-				if(InteractableCharacter)
-				{
-					InteractableCharacter->Interact(this);
-				}
-			}
-		}
 	}
 }
 

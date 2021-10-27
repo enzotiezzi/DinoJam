@@ -14,5 +14,13 @@ UCLASS()
 class DINOJAM_API ANiece : public APS1Character, public IInteractable
 {
 	GENERATED_BODY()
+
+public:
+	ANiece();
 	
+	virtual void Interact(APS1Character* Interactor) override;
+
+protected:
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite)
+	class USphereComponent* SphereComponent;
 };
