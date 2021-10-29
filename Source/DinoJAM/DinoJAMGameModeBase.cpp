@@ -102,6 +102,33 @@ void ADinoJAMGameModeBase::PlayDialog(UDialogItem* DialogItem)
 					MyGameInstance->CurrentNPC->GetMesh()->SetMaterial(MyGameInstance->CurrentNPC->FaceMaterialIndex, MyGameInstance->CurrentNPC->DefaultFaceExpression);
 			}
 
+			if(DialogItem->Sequence)
+			{
+				if(CurrentSequencePlayer)
+				{
+					CurrentSequencePlayer->Stop();
+				}
+				
+				ALevelSequenceActor* LevelSequenceActor;
+				
+				FMovieSceneSequencePlaybackSettings MovieSceneSequencePlaybackSettings;
+				MovieSceneSequencePlaybackSettings.bPauseAtEnd = true;
+				
+				CurrentSequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), DialogItem->Sequence, MovieSceneSequencePlaybackSettings,LevelSequenceActor);
+
+				if(CurrentSequencePlayer)
+				{
+					CurrentSequencePlayer->Play();
+				}
+			}
+			else
+			{
+				if(CurrentSequencePlayer)
+				{
+					CurrentSequencePlayer->Stop();
+				}
+			}
+
 			if(DialogAudioComponent != nullptr)
 				DialogAudioComponent->Stop();
 	

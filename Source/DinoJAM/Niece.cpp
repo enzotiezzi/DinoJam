@@ -16,7 +16,6 @@ ANiece::ANiece()
 	SphereComponent->SetupAttachment(GetRootComponent());
 }
 
-
 void ANiece::Interact(APS1Character* Interactor)
 {
 	if(Cast<APlayerCharacter>(Interactor))

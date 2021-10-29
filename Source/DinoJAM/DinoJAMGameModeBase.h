@@ -50,6 +50,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
 	TEnumAsByte<EDialogOwner> DialogOwner;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Sequence")
+	class ULevelSequence* Sequence;
 };
 
 DECLARE_DELEGATE_OneParam(FOnDialogFinish, UDialogItem*);
@@ -132,6 +135,14 @@ public:
 	class ULevelSequence* GateLevelSequence;
 	
 protected:
+	/////////////////////////////////////////////
+	///
+	/// SEQUENCE
+	///
+	/////////////////////////////////////////////
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	class ULevelSequencePlayer* CurrentSequencePlayer;
+	
 	/////////////////////////////////////////////
 	///
 	/// SOUND STUFF
