@@ -3,7 +3,7 @@
 
 #include "TriggerableDialog.h"
 
-#include "Components/SphereComponent.h"
+#include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -12,7 +12,7 @@ ATriggerableDialog::ATriggerableDialog()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
+	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
 }
 
 // Called when the game starts or when spawned

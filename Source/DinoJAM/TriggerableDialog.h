@@ -19,7 +19,7 @@ public:
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	class USphereComponent* SphereComponent;
+	class UBoxComponent* BoxComponent;
 	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
