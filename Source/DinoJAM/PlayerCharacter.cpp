@@ -12,6 +12,7 @@
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "LevelSequence/Public/LevelSequencePlayer.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
 #include "Sound/SoundCue.h"
@@ -84,6 +85,12 @@ void APlayerCharacter::Interact()
 		if(CurrentInteractable)
 		{
 			CurrentInteractable->Interact(this);
+
+			FRotator AmountNeededToLookAt = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), Cast<AActor>(CurrentInteractable)->GetActorLocation());
+			AmountNeededToLookAt.Pitch = 0;
+			AmountNeededToLookAt.Roll = 0;
+			
+			SetActorRelativeRotation(FQuat(AmountNeededToLookAt));
 		}
 	}
 }
