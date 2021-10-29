@@ -84,13 +84,13 @@ void APlayerCharacter::Interact()
 	{
 		if(CurrentInteractable)
 		{
-			CurrentInteractable->Interact(this);
-
 			FRotator AmountNeededToLookAt = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), Cast<AActor>(CurrentInteractable)->GetActorLocation());
 			AmountNeededToLookAt.Pitch = 0;
 			AmountNeededToLookAt.Roll = 0;
 			
 			SetActorRelativeRotation(FQuat(AmountNeededToLookAt));
+			
+			CurrentInteractable->Interact(this);
 		}
 	}
 }

@@ -25,8 +25,10 @@ void AGoldenKey::UseItem()
 		if(MyGameInstance)
 		{
 			ALevelSequenceActor* LevelSequenceActor;
+			FMovieSceneSequencePlaybackSettings MovieSceneSequencePlaybackSettings;
+			MovieSceneSequencePlaybackSettings.bDisableMovementInput = true;
 
-			ULevelSequencePlayer* LevelSequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), MyGameMode->GateLevelSequence, FMovieSceneSequencePlaybackSettings(), LevelSequenceActor);
+			ULevelSequencePlayer* LevelSequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), MyGameMode->GateLevelSequence, MovieSceneSequencePlaybackSettings, LevelSequenceActor);
 
 			if(LevelSequencePlayer)
 			{

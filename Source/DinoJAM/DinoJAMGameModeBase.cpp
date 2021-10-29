@@ -113,7 +113,7 @@ void ADinoJAMGameModeBase::PlayDialog(UDialogItem* DialogItem)
 				
 				FMovieSceneSequencePlaybackSettings MovieSceneSequencePlaybackSettings;
 				MovieSceneSequencePlaybackSettings.bPauseAtEnd = true;
-				
+
 				CurrentSequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), DialogItem->Sequence, MovieSceneSequencePlaybackSettings,LevelSequenceActor);
 
 				if(CurrentSequencePlayer)
