@@ -29,7 +29,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Facial Expression")
 	class UMaterialInterface* DefaultFaceExpression;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Name")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Name")
 	FString CharacterName;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Face")
