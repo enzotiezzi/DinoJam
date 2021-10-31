@@ -9,7 +9,7 @@
 #include "TriggerableDialog.generated.h"
 
 UCLASS()
-class DINOJAM_API ATriggerableDialog : public AActor, public IInteractable
+class DINOJAM_API ATriggerableDialog : public APS1Character, public IInteractable
 {
 	GENERATED_BODY()
 	

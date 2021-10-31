@@ -37,7 +37,7 @@ void ATriggerableDialog::Interact(APS1Character* Interactor)
 
 		if(MyGameMode)
 		{
-			MyGameMode->StartDialogSystem(InteractableDialog, OnInteractableDialogFinish, Cast<APlayerCharacter>(Interactor), nullptr);
+			MyGameMode->StartDialogSystem(InteractableDialog, OnInteractableDialogFinish, Cast<APlayerCharacter>(Interactor), this);
 		}
 	}
 }
