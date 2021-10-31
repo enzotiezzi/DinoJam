@@ -156,7 +156,10 @@ void ADinoJAMGameModeBase::PlayDialog(UDialogItem* DialogItem)
 			if(DialogItem->DialogOwner == EDialogOwner::PLAYER)
 				DialogOwnerText = FText::FromString(MyGameInstance->CurrentPlayerCharacter->CharacterName);
 			else
-				DialogOwnerText = FText::FromString(MyGameInstance->CurrentNPC->CharacterName);
+			{
+				if(MyGameInstance->CurrentNPC)
+					DialogOwnerText = FText::FromString(MyGameInstance->CurrentNPC->CharacterName);
+			}
 
 			WidgetCharacterNameTextBlock->SetText(DialogOwnerText);
 			WidgetDialogTextBlock->SetText(FText::FromString(DialogItem->TextLine));
