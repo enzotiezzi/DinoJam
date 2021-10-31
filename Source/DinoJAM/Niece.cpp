@@ -11,9 +11,6 @@
 
 ANiece::ANiece()
 {
-	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
-
-	SphereComponent->SetupAttachment(GetRootComponent());
 }
 
 void ANiece::Interact(APS1Character* Interactor)

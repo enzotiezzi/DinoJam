@@ -24,10 +24,6 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
-	//COMPONENTS
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Overlap")
-	class USphereComponent* SphereComponent;
-	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	

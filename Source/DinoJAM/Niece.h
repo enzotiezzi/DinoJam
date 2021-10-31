@@ -19,8 +19,4 @@ public:
 	ANiece();
 	
 	virtual void Interact(APS1Character* Interactor) override;
-
-protected:
-	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite)
-	class USphereComponent* SphereComponent;
 };
