@@ -9,6 +9,7 @@
 #include "PlayerCharacter.h"
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 ALevel2InitialQuestTrigger::ALevel2InitialQuestTrigger()
@@ -51,6 +52,12 @@ void ALevel2InitialQuestTrigger::NotifyActorBeginOverlap(AActor* OtherActor)
 
 				if(MyGameMode)
 				{
+					FRotator AmountOfRotationToNiece = UKismetMathLibrary::FindLookAtRotation(OtherActor->GetActorLocation(), Niece->GetActorLocation());
+					AmountOfRotationToNiece.Pitch = 0;
+					AmountOfRotationToNiece.Roll = 0;
+
+					OtherActor->SetActorRelativeRotation(FQuat(AmountOfRotationToNiece));
+					
 					MyGameMode->StartDialogSystem(Quest->StartingDialog, Quest->OnStartingDialogFinish, Cast<APlayerCharacter>(OtherActor), Niece);
 
 					BoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
