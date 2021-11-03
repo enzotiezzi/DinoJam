@@ -14,7 +14,10 @@ void UMyGameInstance::OnStart()
 	InventorySystem = Cast<UInventorySystem>(InventorySystemReference.GetDefaultObject());
 
 	if(InventorySystem)
+	{
 		InventorySystem->SetupInventoryWidget(GetWorld());
+		InventorySystem->SetupItemPopUpWidget(GetWorld());
+	}
 }
 
 void UMyGameInstance::StartQuest(UQuest* Quest)

@@ -3,6 +3,7 @@
 
 #include "Item.h"
 
+#include "DinoJAMGameModeBase.h"
 #include "InventorySystem.h"
 #include "MyGameInstance.h"
 #include "PlayerCharacter.h"
@@ -44,6 +45,7 @@ void AItem::Interact(APS1Character* Interactor)
 		if(UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
 		{
 			MyGameInstance->InventorySystem->AddItem(this);
+			MyGameInstance->InventorySystem->ShowItemPopUp(ItemThumbnail, Description);
 
 			UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->PickUpItemSound, GetActorLocation(), GetActorRotation());
 			

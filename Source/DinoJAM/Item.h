@@ -23,7 +23,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Overlap")
 	class USphereComponent* SphereComponent;
 
-public:	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="POP UP")
+	FString Description;
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 

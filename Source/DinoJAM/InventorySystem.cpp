@@ -41,6 +41,21 @@ void UInventorySystem::SetupInventoryWidget(UWorld* World)
 	}
 }
 
+void UInventorySystem::SetupItemPopUpWidget(UWorld* World)
+{
+	if(ItemPopUpWidgetReference)
+	{
+		ItemPopUpWidget = CreateWidget<UUserWidget>(World, ItemPopUpWidgetReference);
+
+		if(ItemPopUpWidget)
+		{
+			ItemPopUpImage = Cast<UImage>(ItemPopUpWidget->GetWidgetFromName("Image_Item_Thumbnail"));
+			ItemPopUpText = Cast<UTextBlock>(ItemPopUpWidget->GetWidgetFromName("TextBlock_Item_Description"));
+		}
+	}
+}
+
+
 void UInventorySystem::ShowInventory() const
 {
 	if(InventoryWidget)
@@ -113,4 +128,18 @@ AItem* UInventorySystem::GetItem(UClass* ClassType)
 	}
 	
 	return nullptr;
+}
+
+void UInventorySystem::ShowItemPopUp(UTexture2D* ItemImage, FString ItemDescription) const
+{
+	if(ItemPopUpWidget)
+	{
+		ItemPopUpImage->Brush.SetResourceObject(ItemImage);
+		ItemPopUpText->SetText(FText::FromString(ItemDescription));
+
+		if(!ItemPopUpWidget->IsInViewport())
+		{
+			ItemPopUpWidget->AddToViewport();
+		}
+	}
 }

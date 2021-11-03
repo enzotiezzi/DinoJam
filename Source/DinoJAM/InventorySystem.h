@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Item.h"
 #include "ItemSlot.h"
+#include "Components/TextBlock.h"
 #include "UObject/NoExportTypes.h"
 #include "InventorySystem.generated.h"
 
@@ -31,10 +32,14 @@ public:
 	///
 	///////////////////////////////////////////
 	void SetupInventoryWidget(UWorld* World);
+
+	void SetupItemPopUpWidget(UWorld* World);
 	
 	void ShowInventory() const;
 
 	void HideInventory() const;
+
+	void ShowItemPopUp(UTexture2D* ItemImage, FString ItemDescription) const;
 
 protected:
 	UPROPERTY(BlueprintReadWrite)
@@ -48,8 +53,14 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="HUD")
 	TSubclassOf<class UUserWidget> InventoryWidgetReference;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="HUD")
+	TSubclassOf<class UUserWidget> ItemPopUpWidgetReference;
+
 	UPROPERTY(BlueprintReadWrite)
 	class UUserWidget* InventoryWidget;
+
+	UPROPERTY(BlueprintReadWrite)
+	class UUserWidget* ItemPopUpWidget;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Thumbnail")
 	class UTexture2D* DefaultItemSlotThumbNail;
@@ -65,4 +76,10 @@ protected:
 	TArray<class UItemSlot*> ItemSlots;
 	
 	void OnItemSelect(int Index) const;
+
+	UPROPERTY(BlueprintReadWrite)
+	UImage* ItemPopUpImage;
+
+	UPROPERTY(BlueprintReadWrite)
+	UTextBlock* ItemPopUpText;
 };
