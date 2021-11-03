@@ -47,7 +47,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Facial Expression")
 	class UMaterialInterface* PlayerFaceExpressionMaterial;
-
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
 	TEnumAsByte<EDialogOwner> DialogOwner;
 
