@@ -15,6 +15,18 @@ enum EDialogOwner
 	NPC
 };
 
+USTRUCT(BlueprintType)
+struct FFaceExpression
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	int Index;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	class UMaterialInterface* FaceExpressionMaterial;
+};
+
 UCLASS(Blueprintable, EditInlineNew)
 class UDialogItem: public UObject
 {
@@ -47,6 +59,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Facial Expression")
 	class UMaterialInterface* PlayerFaceExpressionMaterial;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Facial Expression")
+	TArray<struct FFaceExpression> ExtraFaceExpressions;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
 	TEnumAsByte<EDialogOwner> DialogOwner;

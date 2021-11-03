@@ -100,6 +100,11 @@ void ADinoJAMGameModeBase::PlayDialog(UDialogItem* DialogItem)
 					MyGameInstance->CurrentNPC->GetMesh()->SetMaterial(MyGameInstance->CurrentNPC->FaceMaterialIndex, DialogItem->NPCFaceExpressionMaterial);
 				else
 					MyGameInstance->CurrentNPC->GetMesh()->SetMaterial(MyGameInstance->CurrentNPC->FaceMaterialIndex, MyGameInstance->CurrentNPC->DefaultFaceExpression);
+
+				for(FFaceExpression FaceExpression : DialogItem->ExtraFaceExpressions)
+				{
+					MyGameInstance->CurrentNPC->GetMesh()->SetMaterial(FaceExpression.Index, FaceExpression.FaceExpressionMaterial);
+				}
 			}
 
 			if(DialogItem->Sequence)
