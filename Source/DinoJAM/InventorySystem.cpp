@@ -63,6 +63,27 @@ void UInventorySystem::ShowInventory() const
 		if(!InventoryWidget->IsInViewport())
 			InventoryWidget->AddToViewport(2);
 	}
+
+	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(CurrentWorld));
+	
+	if(MyGameInstance)
+	{
+		if(MyGameInstance->CurrentPlayerCharacter)
+		{
+			APlayerController* PlayerController = Cast<APlayerController>(MyGameInstance->CurrentPlayerCharacter->GetController());
+
+			if(PlayerController)
+			{
+				FInputModeGameAndUI InputMode;
+				InputMode.SetWidgetToFocus(ItemSlots[0]->ButtonSlot->TakeWidget());
+				
+				MyGameInstance->CurrentPlayerCharacter->StopMoving();
+				
+				PlayerController->SetInputMode(InputMode);
+				PlayerController->SetShowMouseCursor(true);
+			}
+		}
+	}
 }
 
 void UInventorySystem::HideInventory() const
@@ -71,6 +92,24 @@ void UInventorySystem::HideInventory() const
 	{
 		if(InventoryWidget->IsInViewport())
 			InventoryWidget->RemoveFromViewport();
+	}
+
+	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(CurrentWorld));
+
+	if(MyGameInstance)
+	{
+		if(MyGameInstance->CurrentPlayerCharacter)
+		{
+			APlayerController* PlayerController = Cast<APlayerController>(MyGameInstance->CurrentPlayerCharacter->GetController());
+
+			if(PlayerController)
+			{
+				MyGameInstance->CurrentPlayerCharacter->ContinueMoving();
+				
+				PlayerController->SetInputMode(FInputModeGameOnly());
+				PlayerController->SetShowMouseCursor(false);
+			}
+		}
 	}
 }
 

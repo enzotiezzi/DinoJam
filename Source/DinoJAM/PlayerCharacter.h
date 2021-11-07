@@ -93,6 +93,8 @@ protected:
 	////////////////////////////////////////////////////
 	void PauseGame();
 
+	void OpenInventory();
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -165,4 +167,19 @@ public:
 	void StartWavingAnimationMontage();
 
 	void StartBuildAnimation();
+
+	///////////////////////////////////////////////////////
+	///
+	/// INTERACTIONS CONTROL
+	///
+	///////////////////////////////////////////////////////
+	void StopMoving()
+	{
+		bCanMove = false;
+	}
+
+	void ContinueMoving()
+	{
+		bCanMove = true;
+	}
 };

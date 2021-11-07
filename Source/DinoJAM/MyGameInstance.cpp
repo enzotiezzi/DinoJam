@@ -15,6 +15,7 @@ void UMyGameInstance::OnStart()
 
 	if(InventorySystem)
 	{
+		InventorySystem->CurrentWorld = GetWorld();
 		InventorySystem->SetupInventoryWidget(GetWorld());
 		InventorySystem->SetupItemPopUpWidget(GetWorld());
 	}

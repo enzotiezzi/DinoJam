@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Item.h"
 #include "ItemSlot.h"
+#include "Blueprint/UserWidget.h"
 #include "Components/TextBlock.h"
 #include "UObject/NoExportTypes.h"
 #include "InventorySystem.generated.h"
@@ -19,6 +20,9 @@ class DINOJAM_API UInventorySystem : public UObject
 
 public:
 	UInventorySystem();
+	
+	UPROPERTY(BlueprintReadWrite)
+	class UWorld* CurrentWorld;
 	
 	void AddItem(AItem* NewItem);
 
@@ -41,10 +45,12 @@ public:
 
 	void ShowItemPopUp(UTexture2D* ItemImage, FString ItemDescription) const;
 
-protected:
-	UPROPERTY(BlueprintReadWrite)
-	class UWorld* CurrentWorld;
+	bool IsOpened() const
+	{
+		return InventoryWidget->IsInViewport();
+	}
 
+protected:
 	/////////////////////////////////////////////
 	///
 	/// UI

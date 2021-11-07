@@ -63,6 +63,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	
 	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &APlayerCharacter::Interact);
 	PlayerInputComponent->BindAction("Pause", IE_Pressed, this, &APlayerCharacter::PauseGame);
+	PlayerInputComponent->BindAction("Inventory", IE_Pressed, this, &APlayerCharacter::OpenInventory);
 	
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
@@ -211,4 +212,22 @@ void APlayerCharacter::StartBuildAnimation()
 {
 	if(BuildAnimation)
 		PlayAnimMontage(BuildAnimation);
+}
+
+void APlayerCharacter::OpenInventory()
+{
+	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if(MyGameInstance)
+	{
+		APlayerController* PlayerController = Cast<APlayerController>(GetController());
+
+		if(PlayerController)
+		{
+				if(!MyGameInstance->InventorySystem->IsOpened())
+				MyGameInstance->InventorySystem->ShowInventory();
+			else
+				MyGameInstance->InventorySystem->HideInventory();
+		}
+	}
 }
