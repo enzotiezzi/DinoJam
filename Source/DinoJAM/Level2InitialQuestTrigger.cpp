@@ -4,6 +4,7 @@
 #include "Level2InitialQuestTrigger.h"
 
 #include "Level2InitialQuest.h"
+#include "LevelSequenceActor.h"
 #include "MyGameInstance.h"
 #include "Niece.h"
 #include "PlayerCharacter.h"

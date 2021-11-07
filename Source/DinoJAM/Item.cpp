@@ -18,17 +18,25 @@ AItem::AItem()
 	PrimaryActorTick.bCanEverTick = true;
 
 	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
+	SkeletalMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMeshComponent"));
+	static ConstructorHelpers::FObjectFinder<USkeletalMesh> SkeletalMeshFinder(TEXT("/Game/itens/ItemFlare/Item_Flare_Object"));
+	SkeletalMesh = SkeletalMeshFinder.Object;
 	
 	SetRootComponent(SphereComponent);
+	SkeletalMeshComponent->SetupAttachment(GetRootComponent());
 	
 	SphereComponent->SetSphereRadius(64.0);
+
+	SkeletalMeshComponent->SetRelativeLocationAndRotation(FVector(0, 0, 20), FQuat(FRotator(0, 0, -90)));
+	SkeletalMeshComponent->SetWorldScale3D(FVector(.1, .1, .1));
 }
 
 // Called when the game starts or when spawned
 void AItem::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	SkeletalMeshComponent->SetSkeletalMesh(SkeletalMesh);
 }
 
 // Called every frame
@@ -50,6 +58,7 @@ void AItem::Interact(APS1Character* Interactor)
 			UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->PickUpItemSound, GetActorLocation(), GetActorRotation());
 			
 			SphereComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			SkeletalMeshComponent->DestroyComponent();
 		}
 	}
 }

@@ -25,6 +25,13 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="POP UP")
 	FString Description;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Flare")
+	class USkeletalMeshComponent* SkeletalMeshComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	class USkeletalMesh* SkeletalMesh;
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
