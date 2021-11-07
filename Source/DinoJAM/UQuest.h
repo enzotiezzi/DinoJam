@@ -32,6 +32,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="DialogSystem")
 	TArray<TSubclassOf<class UDialogItem>> Dialog;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="DialogSystem")
+	TMap<TSubclassOf<class APS1Character>, TSubclassOf<class UDialog>> CharactersDialog;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Quest")
 	TSubclassOf<UQuest> NextQuest;
 
