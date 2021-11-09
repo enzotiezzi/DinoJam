@@ -3,6 +3,7 @@
 
 #include "Level2InitialQuestTrigger.h"
 
+#include "DialogSystem.h"
 #include "Level2InitialQuest.h"
 #include "LevelSequenceActor.h"
 #include "MyGameInstance.h"
@@ -59,7 +60,7 @@ void ALevel2InitialQuestTrigger::NotifyActorBeginOverlap(AActor* OtherActor)
 
 					OtherActor->SetActorRelativeRotation(FQuat(AmountOfRotationToNiece));
 					
-					MyGameMode->StartDialogSystem(Quest->StartingDialog, Quest->OnStartingDialogFinish, Cast<APlayerCharacter>(OtherActor), Niece);
+					MyGameMode->DialogSystem->StartDialogSystem(Quest->StartingDialog.GetDefaultObject(), Cast<APlayerCharacter>(OtherActor), Niece);
 
 					BoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 				}

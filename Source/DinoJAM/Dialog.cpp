@@ -18,11 +18,20 @@ void UDialog::OnDialogFinished(class UDialogItem* DialogItem)
 	{
 		if(MyGameInstance->CurrentNPC)
 		{
-			MyGameInstance->CurrentNPC->GetMesh()->SetMaterial(MyGameInstance->CurrentNPC->FaceMaterialIndex, MyGameInstance->CurrentNPC->DefaultFaceExpression);
-			MyGameInstance->CurrentNPC->StopAnimMontage();
+			if(bRestoreNPCState)
+			{
+				MyGameInstance->CurrentNPC->GetMesh()->SetMaterial(MyGameInstance->CurrentNPC->FaceMaterialIndex, MyGameInstance->CurrentNPC->DefaultFaceExpression);
+				MyGameInstance->CurrentNPC->StopAnimMontage();
+			}
+		}
 
-			MyGameInstance->CurrentPlayerCharacter->GetMesh()->SetMaterial(MyGameInstance->CurrentPlayerCharacter->FaceMaterialIndex, MyGameInstance->CurrentPlayerCharacter->DefaultFaceExpression);
-			MyGameInstance->CurrentPlayerCharacter->StopAnimMontage();
+		if(MyGameInstance->CurrentPlayerCharacter)
+		{
+			if(bRestorePlayerState)
+			{
+				MyGameInstance->CurrentPlayerCharacter->GetMesh()->SetMaterial(MyGameInstance->CurrentPlayerCharacter->FaceMaterialIndex, MyGameInstance->CurrentPlayerCharacter->DefaultFaceExpression);
+				MyGameInstance->CurrentPlayerCharacter->StopAnimMontage();
+			}
 		}
 	}
 }

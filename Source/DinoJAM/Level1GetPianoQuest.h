@@ -16,6 +16,4 @@ class DINOJAM_API ULevel1GetPianoQuest : public UQuest
 
 protected:
 	void ExecuteOnDialogFinish(UDialogItem* DialogItem);
-
-	virtual void OnQuestStart(UWorld* World) override;
 };

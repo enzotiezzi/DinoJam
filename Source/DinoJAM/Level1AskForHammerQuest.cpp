@@ -3,38 +3,28 @@
 
 #include "Level1AskForHammerQuest.h"
 
+#include "DialogSystem.h"
 #include "PS1Character.h"
 #include "Kismet/GameplayStatics.h"
 
 void ULevel1AskForHammerQuest::OnQuestStart(UWorld* World)
 {
-	OnPreDialogFinish.BindUObject(this, &ULevel1AskForHammerQuest::ExecuteOnDialogFinish);
-	OnDontHaveHammerDialogFinish.BindUObject(this, &ULevel1AskForHammerQuest::ExecuteOnDialogFinish);
-	OnHaveHammerDialogFinish.BindUObject(this, &ULevel1AskForHammerQuest::ExecuteOnDialogFinish);
-	
 	ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(World));
 
 	if(MyGameMode)
 	{
-		MyGameMode->StartDialogSystem(PreDialog, OnPreDialogFinish);
+		MyGameMode->DialogSystem->StartDialogSystem(PreDialog.GetDefaultObject());
 	}
 }
 
-TArray<TSubclassOf<UDialogItem>> ULevel1AskForHammerQuest::GetDialogBasedOnComplexCondition()
+TSubclassOf<UDialog> ULevel1AskForHammerQuest::GetDialog(UClass* Class)
 {
 	if(bHaveHammer)
 		return HaveHammerDialog;
-	
+
 	return DontHaveHammerDialog;
 }
 
-FOnDialogFinish ULevel1AskForHammerQuest::GetOnDialogFinishBasedOnComplexCondition()
-{
-	if(bHaveHammer)
-		return OnHaveHammerDialogFinish;
-	
-	return OnDontHaveHammerDialogFinish;
-}
 
 void ULevel1AskForHammerQuest::ExecuteOnDialogFinish(UDialogItem* DialogItem)
 {

@@ -3,6 +3,7 @@
 
 #include "TriggerPlayPiano.h"
 
+#include "DialogSystem.h"
 #include "DinoJAMGameModeBase.h"
 #include "Level1PlayPianoQuest.h"
 #include "MyGameInstance.h"
@@ -67,7 +68,7 @@ void ATriggerPlayPiano::OnMusicFinish()
 			{
 				MyGameInstance->CurrentPlayerCharacter->StopAnimMontage();
 				
-				MyGameMode->StartDialogSystem(Quest->AfterPlayPianoDialog, Quest->OnDialogAfterPlayPianoFinish);
+				MyGameMode->DialogSystem->StartDialogSystem(Quest->AfterPlayPianoDialog.GetDefaultObject());
 			}
 		}
 	}

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Dialog.h"
 #include "DinoJAMGameModeBase.h"
 #include "UQuest.generated.h"
 
@@ -23,36 +24,23 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Name")
 	FString Name;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Condition")
-	bool bComplexCondition = false;
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Quest")
 	bool bCompleted = false;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="DialogSystem")
-	TArray<TSubclassOf<class UDialogItem>> Dialog;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="DialogSystem")
-	TMap<TSubclassOf<class APS1Character>, TSubclassOf<class UDialog>> CharactersDialog;
+	TMap<UClass*, TSubclassOf<class UDialog>> CharactersDialog;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Quest")
 	TSubclassOf<UQuest> NextQuest;
-
-	FOnDialogFinish OnDialogFinish;
 
 	virtual void OnQuestFinish(UWorld* World);
 
 	virtual void OnQuestStart(UWorld* World);
 	
 	virtual void CompleteQuest(UWorld* World);
-
-	virtual TArray<TSubclassOf<class UDialogItem>> GetDialogBasedOnComplexCondition()
+	
+	virtual TSubclassOf<class UDialog> GetDialog(UClass* Class)
 	{
-		return TArray<TSubclassOf<class UDialogItem>>();
-	};
-
-	virtual FOnDialogFinish GetOnDialogFinishBasedOnComplexCondition()
-	{
-		return FOnDialogFinish();
+		return CharactersDialog[Class];
 	};
 };

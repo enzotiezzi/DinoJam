@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "DialogSystem.h"
 #include "DinoJAMGameModeBase.h"
 #include "Interactable.h"
 #include "PS1Character.h"
@@ -31,5 +32,5 @@ protected:
 
 	void OnRotateToKaren();
 
-	void StopRotateToKaren(UDialogItem* DialogItem);
+	void StopRotateToKaren(class UDialogItem* DialogItem);
 };

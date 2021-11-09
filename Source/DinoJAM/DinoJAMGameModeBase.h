@@ -8,69 +8,6 @@
 #include "GameFramework/GameModeBase.h"
 #include "DinoJAMGameModeBase.generated.h"
 
-UENUM()
-enum EDialogOwner
-{
-	PLAYER,
-	NPC
-};
-
-USTRUCT(BlueprintType)
-struct FFaceExpression
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	int Index;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	class UMaterialInterface* FaceExpressionMaterial;
-};
-
-UCLASS(Blueprintable, EditInlineNew)
-class UDialogItem: public UObject
-{
-	GENERATED_BODY()
-
-public:
-	UPROPERTY()
-	UWorld* World;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Sound")
-	class USoundBase* Sound;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="TextLine")
-	FString TextLine;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Timer")
-	float DelayToNextDialog;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Flow")
-	bool AutomaticPlayNextDialog = false;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Animation")
-	class UAnimMontage* NPCAnimation;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Animation")
-	class UAnimMontage* PlayerAnimation;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Facial Expression")
-	class UMaterialInterface* NPCFaceExpressionMaterial;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Facial Expression")
-	class UMaterialInterface* PlayerFaceExpressionMaterial;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Facial Expression")
-	TArray<struct FFaceExpression> ExtraFaceExpressions;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog")
-	TEnumAsByte<EDialogOwner> DialogOwner;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Sequence")
-	class ULevelSequence* Sequence;
-};
-
-DECLARE_DELEGATE_OneParam(FOnDialogFinish, UDialogItem*);
 
 /**
 * 
@@ -83,19 +20,16 @@ class DINOJAM_API ADinoJAMGameModeBase : public AGameModeBase
 public:
 	virtual void BeginPlay() override;
 
-	/////////////////////////////////////////////
+	//////////////////////////////////////////////
 	///
 	/// DIALOG SYSTEM
 	///
-	/////////////////////////////////////////////
-	void PlayNextDialog();
-	
-	void StartDialogSystem(TArray<TSubclassOf<UDialogItem>> NewDialogs, FOnDialogFinish OnNewDialogFinish);
-
-	void StartDialogSystem(TArray<TSubclassOf<UDialogItem>> NewDialogs, FOnDialogFinish OnNewDialogFinish, APlayerCharacter* PlayerCharacter, APS1Character* NPC);
-	
+	//////////////////////////////////////////////
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog System")
-	TArray<TSubclassOf<UDialogItem>> Dialogs;
+	TSubclassOf<class UDialogSystem> DialogSystemReference;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Dialog System")
+	class UDialogSystem* DialogSystem;
 
 	//////////////////////////////////////////////
 	///
@@ -150,57 +84,6 @@ public:
 	class ULevelSequence* GateLevelSequence;
 	
 protected:
-	/////////////////////////////////////////////
-	///
-	/// SEQUENCE
-	///
-	/////////////////////////////////////////////
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	class ULevelSequencePlayer* CurrentSequencePlayer;
-	
-	/////////////////////////////////////////////
-	///
-	/// SOUND STUFF
-	///
-	//////////////////////////////////////////////
-	UPROPERTY()
-	class UAudioComponent* DialogAudioComponent;
-
-	UPROPERTY()
-	struct FTimerHandle CurrentDialogSoundTimerHandle;
-	void OnDialogSoundFinish();
-
-	//////////////////////////////////////////////
-	///
-	/// DIALOG SYSTEM
-	///
-	//////////////////////////////////////////////
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="HUD")
-	TSubclassOf<class UUserWidget> WidgetDialogTextReference;
-
-	UPROPERTY()
-	class UDialogItem* CurrentDialogItem;
-	
-	UPROPERTY()
-	class UUserWidget* WidgetDialogText;
-
-	UPROPERTY()
-	class UTextBlock* WidgetDialogTextBlock;
-
-	UPROPERTY()
-	class UTextBlock* WidgetCharacterNameTextBlock;
-	
-	UPROPERTY()
-	struct FTimerHandle DelayToNextDialogTimerHandle;
-
-	void PlayDialog(UDialogItem* DialogItem);
-
-	FOnDialogFinish OnDialogFinish;
-	
-	void OnDialogSystemFinish(UDialogItem* DialogItem);
-
-	void SetupDialogSystemWidget();
-
 	///////////////////////////////////////////////////
 	///
 	/// TITLE SCREEN

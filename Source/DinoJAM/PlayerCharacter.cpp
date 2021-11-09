@@ -3,6 +3,7 @@
 
 #include "PlayerCharacter.h"
 
+#include "DialogSystem.h"
 #include "DinoJAMGameModeBase.h"
 #include "DrawDebugHelpers.h"
 #include "Interactable.h"
@@ -78,7 +79,7 @@ void APlayerCharacter::Interact()
 
 		if (MyGameMode)
 		{
-			MyGameMode->PlayNextDialog();
+			MyGameMode->DialogSystem->PlayNextDialog();
 		}
 	}
 	else

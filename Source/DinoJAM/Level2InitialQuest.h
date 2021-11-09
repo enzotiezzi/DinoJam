@@ -18,9 +18,7 @@ public:
 	virtual void OnQuestStart(UWorld* World) override;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog System")
-	TArray<TSubclassOf<class UDialogItem>> StartingDialog;
+	TSubclassOf<class UDialog> StartingDialog;
 
-	FOnDialogFinish OnStartingDialogFinish;
-
-	void OnStartingDialogFinished(class UDialogItem* DialogItem);
+	void OnStartingDialogFinish(class UDialogItem* DialogItem);
 };

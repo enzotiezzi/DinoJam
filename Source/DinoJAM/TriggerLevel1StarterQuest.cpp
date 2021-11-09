@@ -26,9 +26,9 @@ void ATriggerLevel1StarterQuest::PreviewInteraction(APS1Character* Interactor)
 
 			if(Quest)
 			{
-				Quest->OnDialogFinish.BindUObject(this, &ATriggerLevel1StarterQuest::StopRotateToKaren);
+				Cast<UDialog>(Quest->CharactersDialog[Karen->GetClass()->GetSuperClass()].GetDefaultObject())->OnDialogFinish.BindUObject(this, &ATriggerLevel1StarterQuest::StopRotateToKaren);
 				
-				MyGameMode->StartDialogSystem(Quest->Dialog, Quest->OnDialogFinish, Cast<APlayerCharacter>(Interactor), Karen);
+				MyGameMode->DialogSystem->StartDialogSystem(Quest->GetDialog(Karen->GetClass()->GetSuperClass()).GetDefaultObject(), Cast<APlayerCharacter>(Interactor), Karen);
 
 				this->SetActorEnableCollision(false);
 

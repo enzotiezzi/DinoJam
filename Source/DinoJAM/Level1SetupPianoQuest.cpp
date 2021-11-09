@@ -3,19 +3,18 @@
 
 #include "Level1SetupPianoQuest.h"
 
+#include "DialogSystem.h"
 #include "PS1Character.h"
 #include "TriggerPlacePianoBox.h"
 #include "Kismet/GameplayStatics.h"
 
 void ULevel1SetupPianoQuest::OnQuestStart(UWorld* World)
 {
-	StarterDialogFinish.BindUObject(this, &ULevel1SetupPianoQuest::OnStarterDialogFinish);
-	
 	ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(World));
 
 	if(MyGameMode)
 	{
-		MyGameMode->StartDialogSystem(DialogStartQuest, StarterDialogFinish);
+		MyGameMode->DialogSystem->StartDialogSystem(DialogStartQuest.GetDefaultObject());
 	}
 
 	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(World));
@@ -27,15 +26,3 @@ void ULevel1SetupPianoQuest::OnQuestStart(UWorld* World)
 	}
 }
 
-void ULevel1SetupPianoQuest::OnStarterDialogFinish(UDialogItem* DialogItem)
-{
-	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(DialogItem->World));
-
-	if(MyGameInstance)
-	{
-		if(MyGameInstance->CurrentNPC)
-		{
-			MyGameInstance->CurrentNPC->GetMesh()->SetMaterial(MyGameInstance->CurrentNPC->FaceMaterialIndex, MyGameInstance->CurrentNPC->DefaultFaceExpression);
-		}
-	}
-}

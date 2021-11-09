@@ -3,6 +3,7 @@
 
 #include "Niece.h"
 
+#include "DialogSystem.h"
 #include "Level2InitialQuest.h"
 #include "MyGameInstance.h"
 #include "PlayerCharacter.h"
@@ -21,16 +22,11 @@ void ANiece::Interact(APS1Character* Interactor)
 
 		if(MyGameInstance)
 		{
-			ULevel2InitialQuest* Quest = Cast<ULevel2InitialQuest>(MyGameInstance->qCurrentQuest);
+			ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 
-			if(Quest)
+			if(MyGameMode)
 			{
-				ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-
-				if(MyGameMode)
-				{
-					MyGameMode->StartDialogSystem(Quest->Dialog, Quest->OnDialogFinish, Cast<APlayerCharacter>(Interactor), this);
-				}
+				MyGameMode->DialogSystem->StartDialogSystem(MyGameInstance->qCurrentQuest->GetDialog(GetClass()->GetSuperClass()).GetDefaultObject(), Cast<APlayerCharacter>(Interactor), this);
 			}
 		}
 	}

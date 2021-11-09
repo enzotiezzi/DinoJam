@@ -3,6 +3,7 @@
 
 #include "Karen.h"
 
+#include "DialogSystem.h"
 #include "Level1InitialQuest.h"
 #include "MyGameInstance.h"
 #include "PlayerCharacter.h"
@@ -54,21 +55,7 @@ void AKaren::Interact(APS1Character* Interactor)
 
 		if(MyGameInstance)
 		{
-			TArray<TSubclassOf<class UDialogItem>> DialogToBeUsed;
-			FOnDialogFinish OnDialogFinishToBeUsed;
-		
-			if(MyGameInstance->qCurrentQuest->bComplexCondition)
-			{
-				DialogToBeUsed = MyGameInstance->qCurrentQuest->GetDialogBasedOnComplexCondition();
-				OnDialogFinishToBeUsed = MyGameInstance->qCurrentQuest->GetOnDialogFinishBasedOnComplexCondition();
-			}
-			else
-			{
-				DialogToBeUsed = MyGameInstance->qCurrentQuest->Dialog;
-				OnDialogFinishToBeUsed = MyGameInstance->qCurrentQuest->OnDialogFinish;
-			}
-
-			MyGameMode->StartDialogSystem(DialogToBeUsed, OnDialogFinishToBeUsed, CurrentInteractor, this);
+			MyGameMode->DialogSystem->StartDialogSystem(MyGameInstance->qCurrentQuest->GetDialog(GetClass()->GetSuperClass()).GetDefaultObject(), CurrentInteractor, this);
 		}
 	}
 }

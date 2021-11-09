@@ -3,22 +3,22 @@
 
 #include "Level1PlayPianoQuest.h"
 
+#include "DialogSystem.h"
+#include "Karen.h"
 #include "Kismet/GameplayStatics.h"
 
 
 void ULevel1PlayPianoQuest::OnQuestStart(UWorld* World)
 {
-	OnStarterDialogFinish.BindUObject(this, &ULevel1PlayPianoQuest::ExecuteOnStarterDialogFinish);
-	OnDialogAfterPlayPianoFinish.BindUObject(this, &ULevel1PlayPianoQuest::ExecuteDialogAfterPlayPianoFinish);
-	OnDialogFinish.BindUObject(this, &ULevel1PlayPianoQuest::ExecuteDialogAfterPlayPianoFinish);
+	Cast<UDialog>(AfterPlayPianoDialog.GetDefaultObject())->OnDialogFinish.BindUObject(this, &ULevel1PlayPianoQuest::ExecuteDialogAfterPlayPianoFinish);
 	
-	Dialog = StartDialog;
+	CharactersDialog[AKaren::StaticClass()] = StartDialog;
 	
 	ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(World));
 
 	if(MyGameMode)
 	{
-		MyGameMode->StartDialogSystem(StartDialog, OnStarterDialogFinish);
+		MyGameMode->DialogSystem->StartDialogSystem(StartDialog.GetDefaultObject());
 	}
 }
 
@@ -26,7 +26,7 @@ void ULevel1PlayPianoQuest::ExecuteDialogAfterPlayPianoFinish(UDialogItem* Dialo
 {
 	CompleteQuest(DialogItem->World);
 
-	Dialog = AfterPlayPianoDialog;
+	CharactersDialog[AKaren::StaticClass()] = AfterPlayPianoDialog;
 
 	ExecuteOnStarterDialogFinish(DialogItem);
 }

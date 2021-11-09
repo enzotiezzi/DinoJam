@@ -17,25 +17,19 @@ class DINOJAM_API ULevel1AskForHammerQuest : public UQuest
 public:
 	virtual void OnQuestStart(UWorld* World) override;
 
-	virtual TArray<TSubclassOf<class UDialogItem>> GetDialogBasedOnComplexCondition() override;
-
-	virtual FOnDialogFinish GetOnDialogFinishBasedOnComplexCondition() override;
+	virtual TSubclassOf<UDialog> GetDialog(UClass* Class) override;
 	
 	bool bHaveHammer = false;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog System")
-	TArray<TSubclassOf<class UDialogItem>> PreDialog;
+	TSubclassOf<class UDialog> PreDialog;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog System")
-	TArray<TSubclassOf<class UDialogItem>> DontHaveHammerDialog;
+	TSubclassOf<class UDialog> DontHaveHammerDialog;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog System")
-	TArray<TSubclassOf<class UDialogItem>> HaveHammerDialog;
-
-	FOnDialogFinish OnHaveHammerDialogFinish;
-	FOnDialogFinish OnPreDialogFinish;
-	FOnDialogFinish OnDontHaveHammerDialogFinish;
+	TSubclassOf<class UDialog> HaveHammerDialog;
 
 	void ExecuteOnDialogFinish(UDialogItem* DialogItem);
 };

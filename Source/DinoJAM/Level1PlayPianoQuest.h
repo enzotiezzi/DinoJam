@@ -16,18 +16,14 @@ class DINOJAM_API ULevel1PlayPianoQuest : public UQuest
 
 public:
 	virtual void OnQuestStart(UWorld* World) override;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog System")
-	TArray<TSubclassOf<class UDialogItem>> StartDialog;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog System")
-	TArray<TSubclassOf<class UDialogItem>> AfterPlayPianoDialog;
-
-	FOnDialogFinish OnDialogAfterPlayPianoFinish;
 	
-	void ExecuteDialogAfterPlayPianoFinish(UDialogItem* DialogItem);
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog System")
+	TSubclassOf<class UDialog> StartDialog;
 
-	FOnDialogFinish OnStarterDialogFinish;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog System")
+	TSubclassOf<class UDialog> AfterPlayPianoDialog;
+
+	void ExecuteDialogAfterPlayPianoFinish(UDialogItem* DialogItem);
 
 	void ExecuteOnStarterDialogFinish(UDialogItem* DialogItem);
 };
