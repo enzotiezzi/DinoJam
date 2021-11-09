@@ -28,10 +28,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Dialog System")
 	TSubclassOf<class UDialog> Dialog;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Dialog System")
-	TArray<TSubclassOf<class UDialogItem>> InteractableDialog;
-
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
