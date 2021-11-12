@@ -58,7 +58,12 @@ void ALevel2InitialQuestTrigger::NotifyActorBeginOverlap(AActor* OtherActor)
 					AmountOfRotationToNiece.Pitch = 0;
 					AmountOfRotationToNiece.Roll = 0;
 
+					FRotator AmountOfRotationToPlayer = UKismetMathLibrary::FindLookAtRotation(Niece->GetActorLocation(), OtherActor->GetActorLocation());
+					AmountOfRotationToPlayer.Pitch = 0;
+					AmountOfRotationToPlayer.Roll = 0;
+
 					OtherActor->SetActorRelativeRotation(FQuat(AmountOfRotationToNiece));
+					Niece->SetActorRelativeRotation(FQuat(AmountOfRotationToPlayer));
 					
 					MyGameMode->DialogSystem->StartDialogSystem(Quest->StartingDialog.GetDefaultObject(), Cast<APlayerCharacter>(OtherActor), Niece);
 
