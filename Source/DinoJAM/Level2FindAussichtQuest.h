@@ -17,7 +17,6 @@ class DINOJAM_API ULevel2FindAussichtQuest : public UQuest
 public:
 	virtual void OnQuestStart(UWorld* World) override;
 
-protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSubclassOf<class UDialog> StartQuestDialog;
 };
