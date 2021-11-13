@@ -43,7 +43,7 @@ void AGateTrigger::NotifyActorBeginOverlap(AActor* OtherActor)
 	{
 		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-		if(AItem* GoldenKey = MyGameInstance->InventorySystem->GetItem(AGoldenKey::StaticClass()))
+		if(AItem* GoldenKey = MyGameInstance->InventorySystem->GetItem<AGoldenKey>())
 		{
 			GoldenKey->bCanUse = true;
 		}
@@ -56,7 +56,7 @@ void AGateTrigger::NotifyActorEndOverlap(AActor* OtherActor)
 	{
 		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-		if(AItem* GoldenKey = MyGameInstance->InventorySystem->GetItem(AGoldenKey::StaticClass()))
+		if(AItem* GoldenKey = MyGameInstance->InventorySystem->GetItem<AGoldenKey>())
 		{
 			GoldenKey->bCanUse = false;
 		}

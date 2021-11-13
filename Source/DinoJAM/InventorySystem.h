@@ -3,6 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
+#include <any>
+
 #include "Item.h"
 #include "ItemSlot.h"
 #include "Blueprint/UserWidget.h"
@@ -29,6 +32,21 @@ public:
 	AItem* GetItem(int Index);
 
 	AItem* GetItem(UClass* ClassType);
+
+	template <typename T>
+	AItem* GetItem()
+	{
+		for (UItemSlot* Slot : ItemSlots)
+		{
+			if(Slot->Item)
+			{
+				if(Cast<T>(Slot->Item))
+						return Slot->Item;
+			}
+		}
+	
+		return nullptr;
+	}
 	
 	///////////////////////////////////////////
 	///

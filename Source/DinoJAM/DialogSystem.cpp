@@ -216,8 +216,8 @@ void UDialogSystem::OnDialogSystemFinish(UDialogItem* DialogItem)
 			MyGameInstance->CurrentPlayerCharacter->OnDialogFinish();
 	
 		if(OnDialogFinish.IsBound())
-			OnDialogFinish.Execute(CurrentDialogItem);
+			OnDialogFinish.Execute(DialogItem);
 
-		CurrentDialog->OnDialogFinished(CurrentDialogItem);
+		CurrentDialog->OnDialogFinished(DialogItem);
 	}
 }

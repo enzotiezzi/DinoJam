@@ -6,8 +6,11 @@
 #include "Cyclop.h"
 #include "DialogSystem.h"
 #include "DinoJAMGameModeBase.h"
+#include "InventorySystem.h"
+#include "Item.h"
 #include "Level2FindAussichtQuest.h"
 #include "LevelSequencePlayer.h"
+#include "MrAussichtPack.h"
 #include "MyGameInstance.h"
 #include "QuestSystem.h"
 #include "Components/BoxComponent.h"
@@ -40,39 +43,70 @@ void ATriggerLevel2FindMrAussicht::Tick(float DeltaTime)
 
 void ATriggerLevel2FindMrAussicht::NotifyActorBeginOverlap(AActor* OtherActor)
 {
-	if(Sequence)
+	if(Cast<APlayerCharacter>(OtherActor))
 	{
-		ALevelSequenceActor* LevelSequenceActor;
+		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-		FMovieSceneSequencePlaybackSettings MovieSceneSequencePlaybackSettings;
-		MovieSceneSequencePlaybackSettings.bDisableMovementInput = true;
-		MovieSceneSequencePlaybackSettings.bHideHud = true;
-		
-		ULevelSequencePlayer* LevelSequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), Sequence, MovieSceneSequencePlaybackSettings, LevelSequenceActor);
-
-		if(LevelSequencePlayer)
+		if(!bAlreadyPlayedSequence)
 		{
-			LevelSequencePlayer->Play();
-		}
-	}
+			if(Sequence)
+			{
+				ALevelSequenceActor* LevelSequenceActor;
 
-	if(Cyclop)
+				FMovieSceneSequencePlaybackSettings MovieSceneSequencePlaybackSettings;
+				MovieSceneSequencePlaybackSettings.bDisableMovementInput = true;
+				MovieSceneSequencePlaybackSettings.bHideHud = true;
+		
+				ULevelSequencePlayer* LevelSequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), Sequence, MovieSceneSequencePlaybackSettings, LevelSequenceActor);
+
+				if(LevelSequencePlayer)
+				{
+					LevelSequencePlayer->Play();
+					bAlreadyPlayedSequence = true;
+				}
+			}
+	
+			if(Cyclop)
+			{
+				if(MyGameInstance)
+				{
+					ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+
+					if(MyGameMode)
+					{
+						ULevel2FindAussichtQuest* Quest = Cast<ULevel2FindAussichtQuest>(MyGameInstance->QuestSystem->GetCurrentQuest());
+
+						if(Quest)
+						{
+							MyGameMode->DialogSystem->StartDialogSystem(Quest->StartQuestDialog.GetDefaultObject(), Cast<APlayerCharacter>(OtherActor), Cyclop);
+						}
+					}
+				}
+			}
+		}
+
+		if(MyGameInstance)
+		{
+			if(AItem* Item = MyGameInstance->InventorySystem->GetItem<AMrAussichtPack>())
+			{
+				Item->bCanUse = true;
+			}
+		}	
+	}
+}
+
+void ATriggerLevel2FindMrAussicht::NotifyActorEndOverlap(AActor* OtherActor)
+{
+	if(Cast<APlayerCharacter>(OtherActor))
 	{
 		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
 		if(MyGameInstance)
 		{
-			ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-
-			if(MyGameMode)
+			if(AItem* Item = MyGameInstance->InventorySystem->GetItem<AMrAussichtPack>())
 			{
-				ULevel2FindAussichtQuest* Quest = Cast<ULevel2FindAussichtQuest>(MyGameInstance->QuestSystem->GetCurrentQuest());
-
-				if(Quest)
-				{
-					MyGameMode->DialogSystem->StartDialogSystem(Quest->StartQuestDialog.GetDefaultObject(), Cast<APlayerCharacter>(OtherActor), Cyclop);
-				}
+				Item->bCanUse = false;
 			}
-		}
+		}	
 	}
 }

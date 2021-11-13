@@ -15,7 +15,9 @@ public:
 	// Sets default values for this actor's properties
 	ATriggerLevel2FindMrAussicht();
 
-	virtual  void NotifyActorBeginOverlap(AActor* OtherActor) override;
+	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
+
+	virtual void NotifyActorEndOverlap(AActor* OtherActor) override;
 
 protected:
 	// Called when the game starts or when spawned
@@ -29,6 +31,8 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Sequence")
 	class ULevelSequence* Sequence;
+
+	bool bAlreadyPlayedSequence = false;
 
 public:	
 	// Called every frame
