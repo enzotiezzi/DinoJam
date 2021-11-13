@@ -6,6 +6,7 @@
 #include "DinoJAMGameModeBase.h"
 #include "Level1InitialQuest.h"
 #include "MyGameInstance.h"
+#include "QuestSystem.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -44,7 +45,7 @@ void ATriggerFinishFirstQuest::Interact(APS1Character* Interactor)
 
 		if(MyGameInstance)
 		{
-			ULevel1InitialQuest* InitialQuest = Cast<ULevel1InitialQuest>(MyGameInstance->qCurrentQuest);
+			ULevel1InitialQuest* InitialQuest = Cast<ULevel1InitialQuest>(MyGameInstance->QuestSystem->GetCurrentQuest());
 
 			if(InitialQuest)
 			{

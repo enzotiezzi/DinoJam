@@ -9,6 +9,7 @@
 #include "MyGameInstance.h"
 #include "Niece.h"
 #include "PlayerCharacter.h"
+#include "QuestSystem.h"
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -46,7 +47,7 @@ void ALevel2InitialQuestTrigger::NotifyActorBeginOverlap(AActor* OtherActor)
 
 		if(MyGameInstance)
 		{
-			ULevel2InitialQuest* Quest = Cast<ULevel2InitialQuest>(MyGameInstance->qCurrentQuest);
+			ULevel2InitialQuest* Quest = Cast<ULevel2InitialQuest>(MyGameInstance->QuestSystem->GetCurrentQuest());
 
 			if(Quest)
 			{

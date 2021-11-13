@@ -9,6 +9,7 @@
 #include "Level1SetupPianoQuest.h"
 #include "MyGameInstance.h"
 #include "PlayerCharacter.h"
+#include "QuestSystem.h"
 #include "TriggerGetHammer.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -58,7 +59,7 @@ void ATriggerPlacePianoBox::Interact(APS1Character* Interactor)
 	{
 		if(MyGameInstance)
 		{
-			ULevel1SetupPianoQuest* Quest = Cast<ULevel1SetupPianoQuest>(MyGameInstance->qCurrentQuest);
+			ULevel1SetupPianoQuest* Quest = Cast<ULevel1SetupPianoQuest>(MyGameInstance->QuestSystem->GetCurrentQuest());
 
 			if(Quest)
 			{

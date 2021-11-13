@@ -7,6 +7,7 @@
 #include "DinoJAMGameModeBase.h"
 #include "MyGameInstance.h"
 #include "PlayerCharacter.h"
+#include "QuestSystem.h"
 #include "UQuest.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -27,7 +28,7 @@ void ACyclop::Interact(APS1Character* Interactor)
 
 			if(MyGameMode)
 			{
-				MyGameMode->DialogSystem->StartDialogSystem(MyGameInstance->qCurrentQuest->GetDialog(GetClass()->GetSuperClass()).GetDefaultObject(), PlayerCharacter, this);
+				MyGameMode->DialogSystem->StartDialogSystem(MyGameInstance->QuestSystem->GetCurrentQuest()->GetDialog(GetClass()->GetSuperClass()).GetDefaultObject(), PlayerCharacter, this);
 			}
 		}
 	}

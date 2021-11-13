@@ -3,6 +3,7 @@
 
 #include "UQuest.h"
 
+#include "QuestSystem.h"
 #include "Kismet/GameplayStatics.h"
 
 UQuest::UQuest()
@@ -39,7 +40,7 @@ void UQuest::CompleteQuest(UWorld* World)
 			{
 				UQuest* Quest = Cast<UQuest>(NextQuest->GetDefaultObject());
 			
-				MyGameInstance->StartQuest(Quest);
+				MyGameInstance->QuestSystem->StartQuest(Quest);
 			}
 		}
 	}

@@ -33,13 +33,8 @@ public:
 	/// QUEST STUFF
 	///
 	//////////////////////////////////////////////
-	void StartQuest(class UQuest* Quest);
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Quest")
-	TSubclassOf<class UQuest> CurrentQuest;
-	
-	UPROPERTY()
-	class UQuest* qCurrentQuest;
+	UPROPERTY(BlueprintReadWrite, Category="Quest System")
+	class UQuestSystem* QuestSystem; 
 
 	///////////////////////////////////////////////////
 	///
@@ -86,5 +81,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Inventory")
 	TSubclassOf<class UInventorySystem> InventorySystemReference;
 
-	
+	///////////////////////////////////////////////
+	///
+	/// QUEST SYSTEM
+	///
+	///////////////////////////////////////////////
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Quest System")
+	class TSubclassOf<class UQuestSystem> QuestSystemReference;
 };

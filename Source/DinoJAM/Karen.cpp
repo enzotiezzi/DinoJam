@@ -7,6 +7,7 @@
 #include "Level1InitialQuest.h"
 #include "MyGameInstance.h"
 #include "PlayerCharacter.h"
+#include "QuestSystem.h"
 #include "UQuest.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -55,7 +56,7 @@ void AKaren::Interact(APS1Character* Interactor)
 
 		if(MyGameInstance)
 		{
-			MyGameMode->DialogSystem->StartDialogSystem(MyGameInstance->qCurrentQuest->GetDialog(GetClass()->GetSuperClass()).GetDefaultObject(), CurrentInteractor, this);
+			MyGameMode->DialogSystem->StartDialogSystem(MyGameInstance->QuestSystem->GetCurrentQuest()->GetDialog(GetClass()->GetSuperClass()).GetDefaultObject(), CurrentInteractor, this);
 		}
 	}
 }

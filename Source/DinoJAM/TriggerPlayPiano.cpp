@@ -8,6 +8,7 @@
 #include "Level1PlayPianoQuest.h"
 #include "MyGameInstance.h"
 #include "PlayerCharacter.h"
+#include "QuestSystem.h"
 #include "Components/BillboardComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundCue.h"
@@ -31,7 +32,7 @@ void ATriggerPlayPiano::Interact(APS1Character* Interactor)
 
 		if(MyGameInstance)
 		{
-			ULevel1PlayPianoQuest* Quest = Cast<ULevel1PlayPianoQuest>(MyGameInstance->qCurrentQuest);
+			ULevel1PlayPianoQuest* Quest = Cast<ULevel1PlayPianoQuest>(MyGameInstance->QuestSystem->GetCurrentQuest());
 
 			if(Quest)
 			{
@@ -62,7 +63,7 @@ void ATriggerPlayPiano::OnMusicFinish()
 
 		if(MyGameInstance)
 		{
-			ULevel1PlayPianoQuest* Quest = Cast<ULevel1PlayPianoQuest>(MyGameInstance->qCurrentQuest);
+			ULevel1PlayPianoQuest* Quest = Cast<ULevel1PlayPianoQuest>(MyGameInstance->QuestSystem->GetCurrentQuest());
 
 			if(Quest)
 			{

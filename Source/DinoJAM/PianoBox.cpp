@@ -8,6 +8,7 @@
 #include "Level1GetPianoQuest.h"
 #include "MyGameInstance.h"
 #include "PlayerCharacter.h"
+#include "QuestSystem.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundCue.h"
@@ -48,7 +49,7 @@ void APianoBox::Interact(APS1Character* Interactor)
 
 		if(MyGameInstance)
 		{
-			ULevel1GetPianoQuest* Quest = Cast<ULevel1GetPianoQuest>(MyGameInstance->qCurrentQuest);
+			ULevel1GetPianoQuest* Quest = Cast<ULevel1GetPianoQuest>(MyGameInstance->QuestSystem->GetCurrentQuest());
 
 			if(Quest)
 			{
@@ -80,7 +81,7 @@ void APianoBox::UseItem()
 
 	if(MyGameInstance)
 	{
-		ULevel1GetPianoQuest* Quest = Cast<ULevel1GetPianoQuest>(MyGameInstance->qCurrentQuest);
+		ULevel1GetPianoQuest* Quest = Cast<ULevel1GetPianoQuest>(MyGameInstance->QuestSystem->GetCurrentQuest());
 
 		if(Quest)
 		{

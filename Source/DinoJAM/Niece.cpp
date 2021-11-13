@@ -7,6 +7,7 @@
 #include "Level2InitialQuest.h"
 #include "MyGameInstance.h"
 #include "PlayerCharacter.h"
+#include "QuestSystem.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -26,7 +27,7 @@ void ANiece::Interact(APS1Character* Interactor)
 
 			if(MyGameMode)
 			{
-				MyGameMode->DialogSystem->StartDialogSystem(MyGameInstance->qCurrentQuest->GetDialog(GetClass()->GetSuperClass()).GetDefaultObject(), Cast<APlayerCharacter>(Interactor), this);
+				MyGameMode->DialogSystem->StartDialogSystem(MyGameInstance->QuestSystem->GetCurrentQuest()->GetDialog(GetClass()->GetSuperClass()).GetDefaultObject(), Cast<APlayerCharacter>(Interactor), this);
 			}
 		}
 	}

@@ -9,6 +9,7 @@
 #include "Level2FindAussichtQuest.h"
 #include "LevelSequencePlayer.h"
 #include "MyGameInstance.h"
+#include "QuestSystem.h"
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -65,7 +66,7 @@ void ATriggerLevel2FindMrAussicht::NotifyActorBeginOverlap(AActor* OtherActor)
 
 			if(MyGameMode)
 			{
-				ULevel2FindAussichtQuest* Quest = Cast<ULevel2FindAussichtQuest>(MyGameInstance->qCurrentQuest);
+				ULevel2FindAussichtQuest* Quest = Cast<ULevel2FindAussichtQuest>(MyGameInstance->QuestSystem->GetCurrentQuest());
 
 				if(Quest)
 				{

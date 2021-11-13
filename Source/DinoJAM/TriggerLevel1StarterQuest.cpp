@@ -7,6 +7,7 @@
 #include "Level1InitialQuest.h"
 #include "MyGameInstance.h"
 #include "PlayerCharacter.h"
+#include "QuestSystem.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 
@@ -22,7 +23,7 @@ void ATriggerLevel1StarterQuest::PreviewInteraction(APS1Character* Interactor)
 
 		if(MyGameInstance)
 		{
-			ULevel1InitialQuest* Quest = Cast<ULevel1InitialQuest>(MyGameInstance->qCurrentQuest);
+			ULevel1InitialQuest* Quest = Cast<ULevel1InitialQuest>(MyGameInstance->QuestSystem->GetCurrentQuest());
 
 			if(Quest)
 			{

@@ -7,6 +7,7 @@
 #include "InventorySystem.h"
 #include "Level1AskForHammerQuest.h"
 #include "MyGameInstance.h"
+#include "QuestSystem.h"
 #include "TriggerPlacePianoBox.h"
 #include "Components/BillboardComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -33,7 +34,7 @@ void ATriggerGetHammer::Interact(APS1Character* Interactor)
 
 	if(MyGameInstance)
 	{
-		ULevel1AskForHammerQuest* Quest = Cast<ULevel1AskForHammerQuest>(MyGameInstance->qCurrentQuest);
+		ULevel1AskForHammerQuest* Quest = Cast<ULevel1AskForHammerQuest>(MyGameInstance->QuestSystem->GetCurrentQuest());
 
 		if(Quest)
 		{
@@ -57,7 +58,7 @@ void ATriggerGetHammer::UseItem()
 
 	if(MyGameInstance)
 	{
-		ULevel1AskForHammerQuest* AskForHammerQuest = Cast<ULevel1AskForHammerQuest>(MyGameInstance->qCurrentQuest);
+		ULevel1AskForHammerQuest* AskForHammerQuest = Cast<ULevel1AskForHammerQuest>(MyGameInstance->QuestSystem->GetCurrentQuest());
 
 		if(AskForHammerQuest)
 		{
