@@ -29,10 +29,6 @@ public:
 	
 	void AddItem(AItem* NewItem);
 
-	AItem* GetItem(int Index);
-
-	AItem* GetItem(UClass* ClassType);
-
 	template <typename T>
 	AItem* GetItem()
 	{
@@ -40,8 +36,8 @@ public:
 		{
 			if(Slot->Item)
 			{
-				if(Cast<T>(Slot->Item))
-						return Slot->Item;
+				if(Slot->Item->IsA<T>())
+					return Slot->Item;
 			}
 		}
 	

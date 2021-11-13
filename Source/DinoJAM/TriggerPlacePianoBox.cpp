@@ -95,7 +95,7 @@ void ATriggerPlacePianoBox::NotifyActorBeginOverlap(AActor* OtherActor)
 		// CAN USE HAMMER
 		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-		ATriggerGetHammer* Hammer = Cast<ATriggerGetHammer>(MyGameInstance->InventorySystem->GetItem(0));
+		ATriggerGetHammer* Hammer = Cast<ATriggerGetHammer>(MyGameInstance->InventorySystem->GetItem<ATriggerGetHammer>());
 		
 		if(Hammer)
 			Hammer->bCanUse = true;
@@ -109,7 +109,7 @@ void ATriggerPlacePianoBox::NotifyActorEndOverlap(AActor* OtherActor)
 		// CAN USE HAMMER
 		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-		ATriggerGetHammer* Hammer = Cast<ATriggerGetHammer>(MyGameInstance->InventorySystem->GetItem(0));
+		ATriggerGetHammer* Hammer = Cast<ATriggerGetHammer>(MyGameInstance->InventorySystem->GetItem<ATriggerGetHammer>());
 		
 		if(Hammer)
 			Hammer->bCanUse = false;

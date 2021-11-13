@@ -150,25 +150,6 @@ void UInventorySystem::AddItem(AItem* NewItem)
 	}
 }
 
-AItem* UInventorySystem::GetItem(int Index)
-{
-	return ItemSlots[Index]->Item;
-}
-
-AItem* UInventorySystem::GetItem(UClass* ClassType)
-{
-	for (UItemSlot* Slot : ItemSlots)
-	{
-		if(Slot->Item)
-		{
-			if(Slot->Item->GetClass()->GetSuperClass() == ClassType)
-				return Slot->Item;
-		}
-	}
-	
-	return nullptr;
-}
-
 void UInventorySystem::ShowItemPopUp(UTexture2D* ItemImage, FString ItemDescription) const
 {
 	if(ItemPopUpWidget)

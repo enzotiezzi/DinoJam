@@ -47,8 +47,8 @@ void ACableCarTrigger::Interact(APS1Character* Interactor)
 
 		if(MyGameInstance)
 		{
-			AItem* RedKey = MyGameInstance->InventorySystem->GetItem<ARedKey>();
-			AItem* Gear = MyGameInstance->InventorySystem->GetItem<AGear>();
+			const AItem* RedKey = MyGameInstance->InventorySystem->GetItem<ARedKey>();
+			const AItem* Gear = MyGameInstance->InventorySystem->GetItem<AGear>();
 
 			if(RedKey && Gear)
 			{
