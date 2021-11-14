@@ -4,6 +4,7 @@
 #include "GoldenKey.h"
 #include "InventorySystem.h"
 #include "LevelSequenceActor.h"
+#include "MrAussichtPack.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
 // Fill out your copyright notice in the Description page of Project Settings.

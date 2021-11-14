@@ -22,9 +22,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Overlap")
-	class UStaticMeshComponent* PianoBoxComponent;
-
 	struct FTimerHandle DelayUntilAddItem;
 
 	void AddItemToInventory();
@@ -36,4 +33,7 @@ public:
 	virtual void Interact(APS1Character* Interactor) override;
 
 	virtual void UseItem() override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Overlap")
+	class UStaticMeshComponent* PianoBoxComponent;
 };

@@ -20,4 +20,8 @@ public:
 	virtual void BeginPlay() override;
 
 	virtual void UseItem() override;
+
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Box")
+	class TSubclassOf<class APianoBox> BoxReference;
 };
