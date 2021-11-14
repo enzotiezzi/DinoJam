@@ -72,7 +72,11 @@ void UDialogSystem::PlayDialog(UDialogItem* DialogItem)
 				if(DialogItem->PlayerAnimation)
 					MyGameInstance->CurrentPlayerCharacter->PlayAnimMontage(DialogItem->PlayerAnimation);
 				else
-					MyGameInstance->CurrentPlayerCharacter->StopAnimMontage();
+				{
+					if(!MyGameInstance->CurrentPlayerCharacter->bIsCarryBoxAnimation)
+						MyGameInstance->CurrentPlayerCharacter->StopAnimMontage();
+				}
+					
 
 				if(DialogItem->PlayerFaceExpressionMaterial)
 					MyGameInstance->CurrentPlayerCharacter->GetMesh()->SetMaterial(MyGameInstance->CurrentPlayerCharacter->FaceMaterialIndex, DialogItem->PlayerFaceExpressionMaterial);

@@ -3,10 +3,15 @@
 
 #include "MrAussichtPack.h"
 
+#include "Cyclop.h"
+#include "DialogSystem.h"
 #include "InventorySystem.h"
+#include "Level2FindAussichtQuest.h"
 #include "MyGameInstance.h"
 #include "PianoBox.h"
 #include "PlayerCharacter.h"
+#include "QuestSystem.h"
+#include "UQuest.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundCue.h"
 
@@ -36,13 +41,23 @@ void AMrAussichtPack::UseItem()
 			APianoBox* Box = GetWorld()->SpawnActor<APianoBox>(BoxReference, GetActorLocation(), GetActorRotation(), FActorSpawnParameters());
 
 			MyGameInstance->CurrentPlayerCharacter->CarryPianoBox();
-			
-			FAttachmentTransformRules AttachmentTransformRules = FAttachmentTransformRules::SnapToTargetIncludingScale;
+
+			const FAttachmentTransformRules AttachmentTransformRules = FAttachmentTransformRules::SnapToTargetIncludingScale;
 
 			Box->PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 			Box->PianoBoxComponent->AttachToComponent(MyGameInstance->CurrentPlayerCharacter->GetMesh(), AttachmentTransformRules, FName("PianoBoxSocket"));
 
 			UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->PickUpItemSound, GetActorLocation(), GetActorRotation());
+
+			if(ULevel2FindAussichtQuest* Quest = Cast<ULevel2FindAussichtQuest>(MyGameInstance->QuestSystem->GetCurrentQuest()))
+			{
+				Quest->CompleteQuest(GetWorld());
+
+				if (ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld())))
+				{
+					MyGameMode->DialogSystem->StartDialogSystem(MyGameInstance->QuestSystem->GetCurrentQuest()->GetDialog(ACyclop::StaticClass()).GetDefaultObject());
+				}
+			}
 		}
 	}
 }
