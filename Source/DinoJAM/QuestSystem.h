@@ -17,6 +17,9 @@ class DINOJAM_API UQuestSystem : public UObject
 public:
 	UQuestSystem();
 
+	UPROPERTY(BlueprintReadWrite)
+	UWorld* CurrentWorld;
+
 	void StartQuest(class UQuest* Quest);
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Quest")

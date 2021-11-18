@@ -8,6 +8,7 @@
 #include "LevelSequencePlayer.h"
 #include "MyGameInstance.h"
 #include "PlayerCharacter.h"
+#include "QuestSystem.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
 #include "Kismet/GameplayStatics.h"
@@ -20,6 +21,14 @@ UDialogSystem::UDialogSystem()
 void ADinoJAMGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if(MyGameInstance)
+	{
+		MyGameInstance->InventorySystem->CurrentWorld = GetWorld();
+		MyGameInstance->QuestSystem->CurrentWorld = GetWorld();
+	}
 
 	if(DialogSystemReference)
 	{
