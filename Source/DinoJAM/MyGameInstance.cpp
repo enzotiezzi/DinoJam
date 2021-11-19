@@ -22,6 +22,7 @@ void UMyGameInstance::OnStart()
 
 	if(QuestSystem)
 	{
+		QuestSystem->CurrentWorld = GetWorld();
 		QuestSystem->StartQuest(QuestSystem->CurrentQuest.GetDefaultObject());
 	}
 }

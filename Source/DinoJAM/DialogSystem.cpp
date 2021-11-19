@@ -76,7 +76,6 @@ void UDialogSystem::PlayDialog(UDialogItem* DialogItem)
 					if(!MyGameInstance->CurrentPlayerCharacter->bIsCarryBoxAnimation)
 						MyGameInstance->CurrentPlayerCharacter->StopAnimMontage();
 				}
-					
 
 				if(DialogItem->PlayerFaceExpressionMaterial)
 					MyGameInstance->CurrentPlayerCharacter->GetMesh()->SetMaterial(MyGameInstance->CurrentPlayerCharacter->FaceMaterialIndex, DialogItem->PlayerFaceExpressionMaterial);
@@ -111,6 +110,7 @@ void UDialogSystem::PlayDialog(UDialogItem* DialogItem)
 				
 				FMovieSceneSequencePlaybackSettings MovieSceneSequencePlaybackSettings;
 				MovieSceneSequencePlaybackSettings.bPauseAtEnd = true;
+				MovieSceneSequencePlaybackSettings.bHideHud = true;
 
 				CurrentSequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(CurrentWorld, DialogItem->Sequence, MovieSceneSequencePlaybackSettings,LevelSequenceActor);
 

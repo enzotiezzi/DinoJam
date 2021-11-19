@@ -13,9 +13,9 @@ UQuestSystem::UQuestSystem()
 void UQuestSystem::StartQuest(UQuest* Quest)
 {
 	if (qCurrentQuest)
-		qCurrentQuest->OnQuestFinish(GetWorld());
+		qCurrentQuest->OnQuestFinish(CurrentWorld);
 
 	qCurrentQuest = Quest;
 
-	qCurrentQuest->OnQuestStart(GetWorld());
+	qCurrentQuest->OnQuestStart(CurrentWorld);
 }
