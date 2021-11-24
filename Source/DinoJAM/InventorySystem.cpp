@@ -62,7 +62,7 @@ void UInventorySystem::ShowInventory() const
 	{
 		if(!InventoryWidget->IsInViewport())
 		{
-			InventoryWidget->AddToViewport(2);
+			InventoryWidget->AddToViewport(1);
 
 			if(OpenInventorySound)
 				UGameplayStatics::PlaySound2D(CurrentWorld, OpenInventorySound);
@@ -99,10 +99,9 @@ void UInventorySystem::HideInventory() const
 		{
 			InventoryWidget->RemoveFromViewport();
 			
-			if(OpenInventorySound)
-				UGameplayStatics::PlaySound2D(CurrentWorld, OpenInventorySound);
+			if(CloseInventorySound)
+				UGameplayStatics::PlaySound2D(CurrentWorld, CloseInventorySound);
 		}
-			
 	}
 
 	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(CurrentWorld));
