@@ -29,7 +29,7 @@ public:
 	
 	void AddItem(AItem* NewItem);
 
-	template <typename T>
+	template <class T>
 	AItem* GetItem()
 	{
 		for (UItemSlot* Slot : ItemSlots)
@@ -63,6 +63,17 @@ public:
 	{
 		return InventoryWidget->IsInViewport();
 	}
+
+	///////////////////////////////////////////
+	///
+	/// SOUNDS
+	///
+	///////////////////////////////////////////
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Sounds")
+	class USoundBase* OpenInventorySound;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Sounds")
+	class USoundBase* CloseInventorySound;
 
 protected:
 	/////////////////////////////////////////////
