@@ -26,17 +26,17 @@ AItem::AItem()
 	SkeletalMeshComponent->SetupAttachment(GetRootComponent());
 	
 	SphereComponent->SetSphereRadius(64.0);
+	
+	SkeletalMeshComponent->SetSkeletalMesh(SkeletalMesh);
+
+	SkeletalMeshComponent->SetRelativeLocationAndRotation(FVector(0, 0, 20), FQuat(FRotator(0, 0, -90)));
+	SkeletalMeshComponent->SetWorldScale3D(FVector(.1, .1, .1));
 }
 
 // Called when the game starts or when spawned
 void AItem::BeginPlay()
 {
 	Super::BeginPlay();
-
-	SkeletalMeshComponent->SetRelativeLocationAndRotation(Location, FQuat(FRotator(0, 0, -90)));
-	SkeletalMeshComponent->SetWorldScale3D(Scale);
-	
-	SkeletalMeshComponent->SetSkeletalMesh(SkeletalMesh);
 }
 
 // Called every frame
