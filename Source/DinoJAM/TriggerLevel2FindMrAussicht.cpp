@@ -43,12 +43,14 @@ void ATriggerLevel2FindMrAussicht::Tick(float DeltaTime)
 
 void ATriggerLevel2FindMrAussicht::NotifyActorBeginOverlap(AActor* OtherActor)
 {
-	if(Cast<APlayerCharacter>(OtherActor))
+	if(!bAlreadyPlayedSequence)
 	{
-		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-
-		if(!bAlreadyPlayedSequence)
+		if(Cast<APlayerCharacter>(OtherActor))
 		{
+			Player = OtherActor;
+		
+			UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+			
 			if(Sequence)
 			{
 				ALevelSequenceActor* LevelSequenceActor;
@@ -61,37 +63,22 @@ void ATriggerLevel2FindMrAussicht::NotifyActorBeginOverlap(AActor* OtherActor)
 
 				if(LevelSequencePlayer)
 				{
+					LevelSequencePlayer->OnFinished.AddDynamic(this, &ATriggerLevel2FindMrAussicht::OnSceneFinished);
+
 					LevelSequencePlayer->Play();
+
 					bAlreadyPlayedSequence = true;
 				}
-			}
-	
-			if(Cyclop)
-			{
+
 				if(MyGameInstance)
 				{
-					ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-
-					if(MyGameMode)
+					if(AItem* Item = MyGameInstance->InventorySystem->GetItem<AMrAussichtPack>())
 					{
-						ULevel2FindAussichtQuest* Quest = Cast<ULevel2FindAussichtQuest>(MyGameInstance->QuestSystem->GetCurrentQuest());
-
-						if(Quest)
-						{
-							MyGameMode->DialogSystem->StartDialogSystem(Quest->StartQuestDialog.GetDefaultObject(), Cast<APlayerCharacter>(OtherActor), Cyclop);
-						}
+						Item->bCanUse = true;
 					}
 				}
 			}
 		}
-
-		if(MyGameInstance)
-		{
-			if(AItem* Item = MyGameInstance->InventorySystem->GetItem<AMrAussichtPack>())
-			{
-				Item->bCanUse = true;
-			}
-		}	
 	}
 }
 
@@ -108,5 +95,30 @@ void ATriggerLevel2FindMrAussicht::NotifyActorEndOverlap(AActor* OtherActor)
 				Item->bCanUse = false;
 			}
 		}	
+	}
+}
+
+void ATriggerLevel2FindMrAussicht::OnSceneFinished()
+{
+	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if(Cyclop)
+	{
+		Cyclop->SetActorHiddenInGame(false);
+		
+		if(MyGameInstance)
+		{
+			ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+
+			if(MyGameMode)
+			{
+				ULevel2FindAussichtQuest* Quest = Cast<ULevel2FindAussichtQuest>(MyGameInstance->QuestSystem->GetCurrentQuest());
+
+				if(Quest)
+				{
+					MyGameMode->DialogSystem->StartDialogSystem(Quest->StartQuestDialog.GetDefaultObject(), Cast<APlayerCharacter>(Player), Cyclop);
+				}
+			}
+		}
 	}
 }

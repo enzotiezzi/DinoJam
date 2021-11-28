@@ -29,10 +29,16 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Mr Aussicht")
 	class ACyclop* Cyclop;
 
+	UPROPERTY(BlueprintReadWrite)
+	class AActor* Player;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Sequence")
 	class ULevelSequence* Sequence;
 
 	bool bAlreadyPlayedSequence = false;
+
+	UFUNCTION()
+	void OnSceneFinished();
 
 public:	
 	// Called every frame

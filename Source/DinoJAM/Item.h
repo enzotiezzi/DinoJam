@@ -32,6 +32,12 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	class USkeletalMesh* SkeletalMesh;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Flare Transform")
+	FVector Location = FVector(0, 0, 20);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Flare Transform")
+	FVector Scale = FVector(.1, .1, .1);
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
