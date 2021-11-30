@@ -3,31 +3,27 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Interactable.h"
-#include "Objective.h"
 #include "GameFramework/Actor.h"
-#include "TriggerFinishFirstQuest.generated.h"
+#include "Level1DialogSystemInitializer.generated.h"
 
 UCLASS()
-class DINOJAM_API ATriggerFinishFirstQuest : public AObjective, public IInteractable
+class DINOJAM_API ALevel1DialogSystemInitializer : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ATriggerFinishFirstQuest();
+	ALevel1DialogSystemInitializer();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Overlap")
-	class USphereComponent* SphereComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class AKaren* Karen;
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	virtual void Interact(APS1Character* Interactor) override;
 
 };

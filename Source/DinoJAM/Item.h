@@ -26,17 +26,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="POP UP")
 	FString Description;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Flare")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Flare")
 	class USkeletalMeshComponent* SkeletalMeshComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	class USkeletalMesh* SkeletalMesh;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Flare Transform")
-	FVector Location = FVector(0, 0, 20);
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Flare Transform")
-	FVector Scale = FVector(.1, .1, .1);
 
 public:
 	// Called every frame

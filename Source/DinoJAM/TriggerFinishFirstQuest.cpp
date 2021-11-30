@@ -19,6 +19,8 @@ ATriggerFinishFirstQuest::ATriggerFinishFirstQuest()
 	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
 
 	SetRootComponent(SphereComponent);
+
+	SkeletalMeshComponent->SetupAttachment(SphereComponent);
 }
 
 // Called when the game starts or when spawned

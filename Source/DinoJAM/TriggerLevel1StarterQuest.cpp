@@ -6,6 +6,7 @@
 #include "DinoJAMGameModeBase.h"
 #include "Level1InitialQuest.h"
 #include "MyGameInstance.h"
+#include "Objective.h"
 #include "PlayerCharacter.h"
 #include "QuestSystem.h"
 #include "Kismet/GameplayStatics.h"
@@ -56,4 +57,9 @@ void ATriggerLevel1StarterQuest::OnRotateToKaren()
 void ATriggerLevel1StarterQuest::StopRotateToKaren(UDialogItem* DialogItem)
 {
 	GetWorld()->GetTimerManager().ClearTimer(RotateToKarenTimerHandle);
+
+	if(Objective)
+	{
+		Objective->ShowIndicator();
+	}
 }

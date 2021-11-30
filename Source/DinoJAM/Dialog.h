@@ -68,6 +68,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Sequence")
 	class ULevelSequence* Sequence;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Sequence")
+	bool HidePlayerDuringSequence = false;
 };
 
 DECLARE_DELEGATE_OneParam(FOnDialogFinish, UDialogItem*);

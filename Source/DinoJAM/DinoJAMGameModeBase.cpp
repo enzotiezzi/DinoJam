@@ -243,6 +243,11 @@ void ADinoJAMGameModeBase::ChangeLevel(FName LevelName)
 
 	if(LevelSequencePlayer)
 	{
+		if(UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
+		{
+			MyGameInstance->CurrentPlayerCharacter->StopMoving();
+		}
+		
 		LevelSequencePlayer->OnFinished.AddDynamic(this, &ADinoJAMGameModeBase::OnFadeOutFinish);
 		
 		LevelSequencePlayer->Play();
@@ -251,5 +256,10 @@ void ADinoJAMGameModeBase::ChangeLevel(FName LevelName)
 
 void ADinoJAMGameModeBase::OnFadeOutFinish()
 {
+	if(UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
+	{
+		MyGameInstance->CurrentPlayerCharacter->ContinueMoving();
+	}
+	
 	UGameplayStatics::OpenLevel(GetWorld(), NextLevelName);
 }
