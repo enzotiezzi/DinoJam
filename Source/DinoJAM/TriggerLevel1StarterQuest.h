@@ -28,6 +28,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Character")
 	class APS1Character* Karen;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Objective")
+	class AObjective* Objective;
+
 	FTimerHandle RotateToKarenTimerHandle;
 
 	void OnRotateToKaren();

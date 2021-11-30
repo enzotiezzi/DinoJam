@@ -4,12 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Interactable.h"
+#include "Objective.h"
 #include "PlayerCharacter.h"
 #include "GameFramework/Actor.h"
 #include "CableCarTrigger.generated.h"
 
 UCLASS()
-class DINOJAM_API ACableCarTrigger : public AActor, public IInteractable
+class DINOJAM_API ACableCarTrigger : public AObjective, public IInteractable
 {
 	GENERATED_BODY()
 	

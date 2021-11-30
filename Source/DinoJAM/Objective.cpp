@@ -12,6 +12,9 @@ AObjective::AObjective()
 	SkeletalMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMeshComponent"));
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> SkeletalMeshFinder(TEXT("/Game/itens/Quest_Arrow/Quest_Arrow"));
 	static ConstructorHelpers::FObjectFinder<UAnimBlueprint> AnimationFinder(TEXT("/Game/itens/Quest_Arrow/BPA_Quest_Arrow"));
+
+
+	SetRootComponent(SkeletalMeshComponent);
 	
 	if(SkeletalMeshFinder.Object)
 	{
@@ -23,7 +26,9 @@ AObjective::AObjective()
 		}
 	}
 
-	SetActorScale3D(FVector(.1, .1, .1));
+	SkeletalMeshComponent->SetRelativeScale3D(FVector(.1, .1, .1));
+
+	SkeletalMeshComponent->SetHiddenInGame(true);
 }
 
 // Called when the game starts or when spawned
@@ -40,3 +45,12 @@ void AObjective::Tick(float DeltaTime)
 
 }
 
+void AObjective::ShowIndicator() const
+{
+	SkeletalMeshComponent->SetHiddenInGame(false);
+}
+
+void AObjective::HideIndicator() const
+{
+	SkeletalMeshComponent->SetHiddenInGame(true);
+}

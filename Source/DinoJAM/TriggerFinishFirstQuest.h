@@ -4,11 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Interactable.h"
+#include "Objective.h"
 #include "GameFramework/Actor.h"
 #include "TriggerFinishFirstQuest.generated.h"
 
 UCLASS()
-class DINOJAM_API ATriggerFinishFirstQuest : public AActor, public IInteractable
+class DINOJAM_API ATriggerFinishFirstQuest : public AObjective, public IInteractable
 {
 	GENERATED_BODY()
 	
