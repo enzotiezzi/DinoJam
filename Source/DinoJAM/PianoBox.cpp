@@ -53,23 +53,20 @@ void APianoBox::Interact(APS1Character* Interactor)
 
 			if(Quest)
 			{
-				if(!Quest->bCompleted)
-				{
-					Quest->CompleteQuest(GetWorld());
+				Quest->CompleteQuest(GetWorld());
 
-					MyGameInstance->PianoBoxComponent = PianoBoxComponent;
+				MyGameInstance->PianoBoxComponent = PianoBoxComponent;
 
-					APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(Interactor);
-	
-					PlayerCharacter->CarryPianoBox();
-	
-					FAttachmentTransformRules AttachmentTransformRules = FAttachmentTransformRules::SnapToTargetIncludingScale;
+				APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(Interactor);
 
-					PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-					PianoBoxComponent->AttachToComponent(PlayerCharacter->GetMesh(), AttachmentTransformRules, FName("PianoBoxSocket"));
+				PlayerCharacter->CarryPianoBox();
 
-					UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->PickUpItemSound, GetActorLocation(), GetActorRotation());
-				}
+				FAttachmentTransformRules AttachmentTransformRules = FAttachmentTransformRules::SnapToTargetIncludingScale;
+
+				PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+				PianoBoxComponent->AttachToComponent(PlayerCharacter->GetMesh(), AttachmentTransformRules, FName("PianoBoxSocket"));
+
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->PickUpItemSound, GetActorLocation(), GetActorRotation());
 			}
 		}
 	}
@@ -85,23 +82,20 @@ void APianoBox::UseItem()
 
 		if(Quest)
 		{
-			if(!Quest->bCompleted)
-			{
-				Quest->CompleteQuest(GetWorld());
+			Quest->CompleteQuest(GetWorld());
 
-				MyGameInstance->PianoBoxComponent = PianoBoxComponent;
-	
-				MyGameInstance->CurrentPlayerCharacter->CarryPianoBox();
-	
-				FAttachmentTransformRules AttachmentTransformRules = FAttachmentTransformRules::SnapToTargetIncludingScale;
+			MyGameInstance->PianoBoxComponent = PianoBoxComponent;
 
-				PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-				PianoBoxComponent->AttachToComponent(MyGameInstance->CurrentPlayerCharacter->GetMesh(), AttachmentTransformRules, FName("PianoBoxSocket"));
+			MyGameInstance->CurrentPlayerCharacter->CarryPianoBox();
 
-				UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->PickUpItemSound, GetActorLocation(), GetActorRotation());
-				
-				MyGameInstance->InventorySystem->HideInventory();
-			}
+			FAttachmentTransformRules AttachmentTransformRules = FAttachmentTransformRules::SnapToTargetIncludingScale;
+
+			PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			PianoBoxComponent->AttachToComponent(MyGameInstance->CurrentPlayerCharacter->GetMesh(), AttachmentTransformRules, FName("PianoBoxSocket"));
+
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->PickUpItemSound, GetActorLocation(), GetActorRotation());
+			
+			MyGameInstance->InventorySystem->HideInventory();
 		}
 	}
 }

@@ -23,6 +23,7 @@ void ULevel1SetupPianoQuest::OnQuestStart(UWorld* World)
 	{
 		MyGameInstance->TriggerPlacePianoBox->SetActorHiddenInGame(false);
 		MyGameInstance->TriggerPlacePianoBox->SetActorEnableCollision(true);
+		MyGameInstance->TriggerPlacePianoBox->ShowIndicator();
 	}
 }
 

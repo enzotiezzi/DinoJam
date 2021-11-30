@@ -26,6 +26,7 @@ ATriggerPlacePianoBox::ATriggerPlacePianoBox()
 
 	SetRootComponent(SphereComponent);
 	PianoBoxComponent->SetupAttachment(SphereComponent);
+	SkeletalMeshComponent->SetupAttachment(SphereComponent);
 }
 
 // Called when the game starts or when spawned
@@ -63,26 +64,24 @@ void ATriggerPlacePianoBox::Interact(APS1Character* Interactor)
 
 			if(Quest)
 			{
-				if(!Quest->bCompleted)
+				APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(Interactor);
+		
+				if(PlayerCharacter)
 				{
-					APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(Interactor);
-			
-					if(PlayerCharacter)
-					{
-						PianoBoxComponent->DestroyComponent();
-						
-						MyGameInstance->PianoBoxComponent->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-						MyGameInstance->PianoBoxComponent->AttachToComponent(SphereComponent, FAttachmentTransformRules::KeepWorldTransform);
-						MyGameInstance->PianoBoxComponent->SetRelativeLocationAndRotation(FVector::ZeroVector, FQuat::Identity);
-						MyGameInstance->PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-						
-						PlayerCharacter->DropPianoBox();
+					PianoBoxComponent->DestroyComponent();
+					SkeletalMeshComponent->DestroyComponent();
+					
+					MyGameInstance->PianoBoxComponent->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+					MyGameInstance->PianoBoxComponent->AttachToComponent(SphereComponent, FAttachmentTransformRules::KeepWorldTransform);
+					MyGameInstance->PianoBoxComponent->SetRelativeLocationAndRotation(FVector::ZeroVector, FQuat::Identity);
+					MyGameInstance->PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+					
+					PlayerCharacter->DropPianoBox();
 
-						UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->DropItemSound, GetActorLocation(), GetActorRotation());
-					}
-
-					Quest->CompleteQuest(GetWorld());
+					UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->DropItemSound, GetActorLocation(), GetActorRotation());
 				}
+
+				Quest->CompleteQuest(GetWorld());
 			}
 		}
 	}

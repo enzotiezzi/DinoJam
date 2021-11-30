@@ -36,17 +36,14 @@ void ATriggerPlayPiano::Interact(APS1Character* Interactor)
 
 			if(Quest)
 			{
-				if(!Quest->bCompleted)
+				if(Music)
 				{
-					if(Music)
-					{
-						MyGameInstance->CurrentPlayerCharacter->StartDialog();
-						MyGameInstance->CurrentPlayerCharacter->StartBuildAnimation();
-					
-						UGameplayStatics::PlaySoundAtLocation(GetWorld(), Music, GetActorLocation(), FRotator::ZeroRotator, 1, 1, 0, SoundAttenuation);
+					MyGameInstance->CurrentPlayerCharacter->StartDialog();
+					MyGameInstance->CurrentPlayerCharacter->StartBuildAnimation();
+				
+					UGameplayStatics::PlaySoundAtLocation(GetWorld(), Music, GetActorLocation(), FRotator::ZeroRotator, 1, 1, 0, SoundAttenuation);
 
-						GetWorld()->GetTimerManager().SetTimer(MusicTimerHandle, this, &ATriggerPlayPiano::OnMusicFinish, Music->Duration);
-					}
+					GetWorld()->GetTimerManager().SetTimer(MusicTimerHandle, this, &ATriggerPlayPiano::OnMusicFinish, Music->Duration);
 				}
 			}
 		}

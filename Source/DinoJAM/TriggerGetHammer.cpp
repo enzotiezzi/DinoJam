@@ -38,16 +38,13 @@ void ATriggerGetHammer::Interact(APS1Character* Interactor)
 
 		if(Quest)
 		{
-			if(!Quest->bCompleted)
-			{
-				MyGameInstance->InventorySystem->AddItem(this);
-				
-				Quest->bHaveHammer = true;
+			MyGameInstance->InventorySystem->AddItem(this);
+			
+			Quest->bHaveHammer = true;
 
-				UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->PickUpItemSound, GetActorLocation(), GetActorRotation());
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->PickUpItemSound, GetActorLocation(), GetActorRotation());
 
-				Destroy();
-			}
+			Destroy();
 		}
 	}
 }
@@ -62,7 +59,7 @@ void ATriggerGetHammer::UseItem()
 
 		if(AskForHammerQuest)
 		{
-			if(!AskForHammerQuest->bCompleted && AskForHammerQuest->bHaveHammer)
+			if(AskForHammerQuest->bHaveHammer)
 			{
 				AskForHammerQuest->CompleteQuest(GetWorld());
 

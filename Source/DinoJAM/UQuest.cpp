@@ -8,7 +8,6 @@
 
 UQuest::UQuest()
 {
-	bCompleted = false;
 }
 
 void UQuest::OnQuestFinish(UWorld* World)
@@ -23,9 +22,6 @@ void UQuest::OnQuestStart(UWorld* World)
 
 void UQuest::CompleteQuest(UWorld* World)
 {
-	if(!bCompleted)
-		bCompleted = true;
-	
 	if(NextQuest)
 	{
 		AGameModeBase* GameModeBase = UGameplayStatics::GetGameMode(World);

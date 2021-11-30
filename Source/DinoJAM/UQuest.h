@@ -24,9 +24,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Name")
 	FString Name;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Quest")
-	bool bCompleted = false;
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="DialogSystem")
 	TMap<UClass*, TSubclassOf<class UDialog>> CharactersDialog;
 	

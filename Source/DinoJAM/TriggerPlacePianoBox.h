@@ -4,12 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Interactable.h"
+#include "Objective.h"
 #include "TriggerPlayPiano.h"
 #include "GameFramework/Actor.h"
 #include "TriggerPlacePianoBox.generated.h"
 
 UCLASS()
-class DINOJAM_API ATriggerPlacePianoBox : public AActor, public IInteractable
+class DINOJAM_API ATriggerPlacePianoBox : public AObjective, public IInteractable
 {
 	GENERATED_BODY()
 	

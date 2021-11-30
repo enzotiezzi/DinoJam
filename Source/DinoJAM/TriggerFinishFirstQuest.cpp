@@ -51,12 +51,9 @@ void ATriggerFinishFirstQuest::Interact(APS1Character* Interactor)
 
 			if(InitialQuest)
 			{
-				if(!InitialQuest->bCompleted)
-				{
-					InitialQuest->CompleteQuest(GetWorld());
+				InitialQuest->CompleteQuest(GetWorld());
 
-					MyGameMode->ChangeLevel(FName("L_KarenIndoor"));
-				}
+				MyGameMode->ChangeLevel(FName("L_KarenIndoor"));
 			}
 		}
 	}
