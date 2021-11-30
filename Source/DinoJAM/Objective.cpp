@@ -26,7 +26,7 @@ AObjective::AObjective()
 		}
 	}
 
-	SkeletalMeshComponent->SetRelativeScale3D(FVector(.1, .1, .1));
+	SkeletalMeshComponent->SetRelativeScale3D(FVector(.3, .3, .3));
 
 	SkeletalMeshComponent->SetHiddenInGame(true);
 }
