@@ -12,8 +12,7 @@ AObjective::AObjective()
 	SkeletalMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMeshComponent"));
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> SkeletalMeshFinder(TEXT("/Game/itens/Quest_Arrow/Quest_Arrow"));
 	static ConstructorHelpers::FObjectFinder<UAnimBlueprint> AnimationFinder(TEXT("/Game/itens/Quest_Arrow/BPA_Quest_Arrow"));
-
-
+	
 	SetRootComponent(SkeletalMeshComponent);
 	
 	if(SkeletalMeshFinder.Object)
