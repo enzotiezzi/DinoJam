@@ -12,6 +12,7 @@
 #include "LevelSequencePlayer.h"
 #include "MrAussichtPack.h"
 #include "MyGameInstance.h"
+#include "Objective.h"
 #include "QuestSystem.h"
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -48,8 +49,6 @@ void ATriggerLevel2FindMrAussicht::NotifyActorBeginOverlap(AActor* OtherActor)
 		if(Cast<APlayerCharacter>(OtherActor))
 		{
 			Player = OtherActor;
-		
-			UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 			
 			if(Sequence)
 			{
@@ -68,14 +67,6 @@ void ATriggerLevel2FindMrAussicht::NotifyActorBeginOverlap(AActor* OtherActor)
 					LevelSequencePlayer->Play();
 
 					bAlreadyPlayedSequence = true;
-				}
-
-				if(MyGameInstance)
-				{
-					if(AItem* Item = MyGameInstance->InventorySystem->GetItem<AMrAussichtPack>())
-					{
-						Item->bCanUse = true;
-					}
 				}
 			}
 		}
@@ -102,6 +93,11 @@ void ATriggerLevel2FindMrAussicht::OnSceneFinished()
 {
 	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
+	if(ULevel2FindAussichtQuest* Quest = Cast<ULevel2FindAussichtQuest>(MyGameInstance->QuestSystem->GetCurrentQuest()))
+	{
+		Cast<UDialog>(Quest->StartQuestDialog.GetDefaultObject())->OnDialogFinish.BindUObject(this, &ATriggerLevel2FindMrAussicht::OnStarterDialogFinish);
+	}
+	
 	if(Cyclop)
 	{
 		Cyclop->SetActorHiddenInGame(false);
@@ -120,5 +116,13 @@ void ATriggerLevel2FindMrAussicht::OnSceneFinished()
 				}
 			}
 		}
+	}
+}
+
+void ATriggerLevel2FindMrAussicht::OnStarterDialogFinish(UDialogItem* DialogItem)
+{
+	if(Objective)
+	{
+		Objective->ShowIndicator();
 	}
 }
