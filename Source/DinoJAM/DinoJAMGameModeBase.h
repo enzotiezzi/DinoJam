@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Level1Objectives.h"
 #include "MyGameInstance.h"
 #include "PlayerCharacter.h"
 #include "GameFramework/GameModeBase.h"
@@ -18,6 +19,8 @@ class DINOJAM_API ADinoJAMGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 
 public:
+	ADinoJAMGameModeBase();
+	
 	virtual void BeginPlay() override;
 
 	//////////////////////////////////////////////

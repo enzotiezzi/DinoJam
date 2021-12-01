@@ -11,6 +11,11 @@
 #include "Kismet/GameplayStatics.h"
 #include "Components/AudioComponent.h"
 
+UDialogSystem::UDialogSystem()
+{
+	
+}
+
 void UDialogSystem::SetupDialogSystemWidget()
 {
 	if(WidgetDialogTextReference)

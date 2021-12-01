@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Level1Objectives.h"
 #include "Engine/GameInstance.h"
 #include "MyGameInstance.generated.h"
 
@@ -71,7 +72,15 @@ public:
 	////////////////////////////////////////////
 	UPROPERTY(BlueprintReadWrite)
 	class UInventorySystem* InventorySystem;
-	
+
+	/////////////////////////////////////////////
+	///
+	/// OBJECTIVES
+	///
+	/////////////////////////////////////////////
+	UPROPERTY(BlueprintReadWrite)
+	ULevel1Objectives* Level1Objectives;
+
 protected:
 	///////////////////////////////////////////////
 	///

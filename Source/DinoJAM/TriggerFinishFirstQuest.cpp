@@ -5,6 +5,7 @@
 
 #include "DinoJAMGameModeBase.h"
 #include "Level1InitialQuest.h"
+#include "Level1Objectives.h"
 #include "MyGameInstance.h"
 #include "QuestSystem.h"
 #include "Components/SphereComponent.h"
@@ -27,7 +28,14 @@ ATriggerFinishFirstQuest::ATriggerFinishFirstQuest()
 void ATriggerFinishFirstQuest::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	if(UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
+	{
+		if(MyGameInstance->Level1Objectives)
+		{
+			MyGameInstance->Level1Objectives->KarenOutDoorStairs = this;
+		}
+	}
 }
 
 // Called every frame

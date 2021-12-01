@@ -6,6 +6,7 @@
 #include "DinoJAMGameModeBase.h"
 #include "InventorySystem.h"
 #include "Level1AskForHammerQuest.h"
+#include "Level1Objectives.h"
 #include "Level1SetupPianoQuest.h"
 #include "MyGameInstance.h"
 #include "PlayerCharacter.h"
@@ -42,6 +43,8 @@ void ATriggerPlacePianoBox::BeginPlay()
 		this->SetActorEnableCollision(false);
 		MyGameInstance->TriggerPlacePianoBox = this;
 	}
+	
+	MyGameInstance->Level1Objectives->KarenIndoorPlaceBox = this;
 }
 
 // Called every frame
