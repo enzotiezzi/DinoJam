@@ -25,6 +25,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class ANiece* Niece;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Objective")
+	class AObjective* Objective;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

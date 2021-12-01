@@ -20,5 +20,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialog System")
 	TSubclassOf<class UDialog> StartingDialog;
 
+	UFUNCTION()
 	void OnStartingDialogFinish(class UDialogItem* DialogItem);
+	
+	UPROPERTY(BlueprintReadWrite)
+	class AObjective* Objective;
 };

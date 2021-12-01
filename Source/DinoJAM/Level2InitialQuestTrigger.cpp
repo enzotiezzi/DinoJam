@@ -8,6 +8,7 @@
 #include "LevelSequenceActor.h"
 #include "MyGameInstance.h"
 #include "Niece.h"
+#include "Objective.h"
 #include "PlayerCharacter.h"
 #include "QuestSystem.h"
 #include "Components/BoxComponent.h"
@@ -51,6 +52,8 @@ void ALevel2InitialQuestTrigger::NotifyActorBeginOverlap(AActor* OtherActor)
 
 			if(Quest)
 			{
+				Quest->Objective = Objective;
+				
 				ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 
 				if(MyGameMode)

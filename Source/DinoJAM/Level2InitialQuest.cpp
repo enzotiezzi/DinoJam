@@ -3,6 +3,8 @@
 
 #include "Level2InitialQuest.h"
 
+#include "Objective.h"
+
 
 void ULevel2InitialQuest::OnQuestStart(UWorld* World)
 {
@@ -11,5 +13,10 @@ void ULevel2InitialQuest::OnQuestStart(UWorld* World)
 
 void ULevel2InitialQuest::OnStartingDialogFinish(UDialogItem* DialogItem)
 {
+	if(Objective)
+	{
+		Objective->ShowIndicator();
+	}
+	
 	CompleteQuest(DialogItem->World);
 }

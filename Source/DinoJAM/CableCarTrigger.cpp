@@ -20,7 +20,8 @@ ACableCarTrigger::ACableCarTrigger()
 
 	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
 
-	SphereComponent->SetupAttachment(GetRootComponent());
+	SetRootComponent(SphereComponent);
+	SkeletalMeshComponent->SetupAttachment(SphereComponent);
 }
 
 // Called when the game starts or when spawned
@@ -65,6 +66,8 @@ void ACableCarTrigger::Interact(APS1Character* Interactor)
 
 					if(LevelSequencePlayer)
 					{
+						HideIndicator();
+						
 						LevelSequencePlayer->OnFinished.AddDynamic(this, &ACableCarTrigger::OnCableCarSequenceFinished);
 
 						LevelSequencePlayer->Play();
