@@ -153,6 +153,12 @@ void ADinoJAMGameModeBase::OpenInventory()
 	if(MyGameInstance)
 	{
 		MyGameInstance->InventorySystem->ShowInventory();
+
+		if(PauseMenuWidget)
+		{
+			if(PauseMenuWidget->IsInViewport())
+				PauseMenuWidget->RemoveFromViewport();
+		}
 	}
 }
 

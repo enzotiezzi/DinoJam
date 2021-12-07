@@ -52,3 +52,14 @@ void ATriggerPlaceMrAussichtPack::NotifyActorEndOverlap(AActor* OtherActor)
 		}
 	}
 }
+
+void ATriggerPlaceMrAussichtPack::Interact(APS1Character* Interactor)
+{
+	if(APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(Interactor))
+	{
+		if(PlayerCharacter->bIsCarryBoxAnimation)
+		{
+			
+		}
+	}
+}

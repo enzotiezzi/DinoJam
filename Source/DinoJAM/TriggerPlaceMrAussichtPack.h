@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Interactable.h"
 #include "Objective.h"
 #include "TriggerPlaceMrAussichtPack.generated.h"
 
@@ -10,7 +11,7 @@
  * 
  */
 UCLASS()
-class DINOJAM_API ATriggerPlaceMrAussichtPack : public AObjective
+class DINOJAM_API ATriggerPlaceMrAussichtPack : public AObjective, public IInteractable
 {
 	GENERATED_BODY()
 
@@ -20,6 +21,8 @@ public:
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 
 	virtual void NotifyActorEndOverlap(AActor* OtherActor) override;
+
+	virtual void Interact(APS1Character* Interactor) override;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Overlap")
