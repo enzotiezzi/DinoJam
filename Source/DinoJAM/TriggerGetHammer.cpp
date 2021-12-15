@@ -7,6 +7,7 @@
 #include "InventorySystem.h"
 #include "Level1AskForHammerQuest.h"
 #include "MyGameInstance.h"
+#include "PianoBox.h"
 #include "QuestSystem.h"
 #include "TriggerPlacePianoBox.h"
 #include "Components/BillboardComponent.h"
@@ -69,7 +70,7 @@ void ATriggerGetHammer::UseItem()
 
 					Destroy();
 					
-					MyGameInstance->PianoBoxComponent->DestroyComponent();
+					MyGameInstance->CurrentPlayerCharacter->Package->Destroy();
 				}
 			}
 		}

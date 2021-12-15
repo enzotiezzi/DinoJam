@@ -40,7 +40,7 @@ void AMrAussichtPack::UseItem()
 		{
 			APianoBox* Box = GetWorld()->SpawnActor<APianoBox>(BoxReference, GetActorLocation(), GetActorRotation(), FActorSpawnParameters());
 
-			MyGameInstance->CurrentPlayerCharacter->CarryPianoBox();
+			MyGameInstance->CurrentPlayerCharacter->CarryPackage(Box);
 
 			const FAttachmentTransformRules AttachmentTransformRules = FAttachmentTransformRules::SnapToTargetIncludingScale;
 

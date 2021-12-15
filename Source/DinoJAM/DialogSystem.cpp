@@ -78,7 +78,7 @@ void UDialogSystem::PlayDialog(UDialogItem* DialogItem)
 					MyGameInstance->CurrentPlayerCharacter->PlayAnimMontage(DialogItem->PlayerAnimation);
 				else
 				{
-					if(!MyGameInstance->CurrentPlayerCharacter->bIsCarryBoxAnimation)
+					if(!MyGameInstance->CurrentPlayerCharacter->bIsCarryPackageAnimation)
 						MyGameInstance->CurrentPlayerCharacter->StopAnimMontage();
 				}
 

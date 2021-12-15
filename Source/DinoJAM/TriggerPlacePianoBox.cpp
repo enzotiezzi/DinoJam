@@ -9,6 +9,7 @@
 #include "Level1Objectives.h"
 #include "Level1SetupPianoQuest.h"
 #include "MyGameInstance.h"
+#include "PianoBox.h"
 #include "PlayerCharacter.h"
 #include "QuestSystem.h"
 #include "TriggerGetHammer.h"
@@ -74,12 +75,12 @@ void ATriggerPlacePianoBox::Interact(APS1Character* Interactor)
 					PianoBoxComponent->DestroyComponent();
 					SkeletalMeshComponent->DestroyComponent();
 					
-					MyGameInstance->PianoBoxComponent->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-					MyGameInstance->PianoBoxComponent->AttachToComponent(SphereComponent, FAttachmentTransformRules::KeepWorldTransform);
-					MyGameInstance->PianoBoxComponent->SetRelativeLocationAndRotation(FVector::ZeroVector, FQuat::Identity);
-					MyGameInstance->PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+					PlayerCharacter->Package->PianoBoxComponent->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+					PlayerCharacter->Package->PianoBoxComponent->AttachToComponent(SphereComponent, FAttachmentTransformRules::KeepWorldTransform);
+					PlayerCharacter->Package->PianoBoxComponent->SetRelativeLocationAndRotation(FVector::ZeroVector, FQuat::Identity);
+					PlayerCharacter->Package->PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 					
-					PlayerCharacter->DropPianoBox();
+					PlayerCharacter->DropPackage();
 
 					UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->DropItemSound, GetActorLocation(), GetActorRotation());
 				}

@@ -121,19 +121,25 @@ public:
 
 	//////////////////////////////////////////////////////////////////
 	///
-	/// PIANO STUFF
+	/// PACKAGEG STUFF
 	///
 	/////////////////////////////////////////////////////////////////
-	void CarryPianoBox()
+	
+	UPROPERTY(BlueprintReadWrite)
+	class APianoBox* Package;
+	
+	void CarryPackage(class APianoBox* NewPackage)
 	{
-		bIsCarryBoxAnimation = true;
+		Package = NewPackage;
+		
+		bIsCarryPackageAnimation = true;
 		
 		PlayAnimMontage(CarryPianoBoxMontage);
 	}
 
-	void DropPianoBox()
+	void DropPackage()
 	{
-		bIsCarryBoxAnimation = false;
+		bIsCarryPackageAnimation = false;
 
 		PlayAnimMontage(nullptr);
 	}
@@ -155,7 +161,7 @@ public:
 	/// 
 	////////////////////////////////////////////////////////
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Animation")
-	bool bIsCarryBoxAnimation = false;
+	bool bIsCarryPackageAnimation = false;
 
 	bool bIsRootMotionAnimation = false;
 

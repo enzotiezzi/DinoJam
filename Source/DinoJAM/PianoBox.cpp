@@ -54,12 +54,10 @@ void APianoBox::Interact(APS1Character* Interactor)
 			if(Quest)
 			{
 				Quest->CompleteQuest(GetWorld());
-
-				MyGameInstance->PianoBoxComponent = PianoBoxComponent;
-
+				
 				APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(Interactor);
 
-				PlayerCharacter->CarryPianoBox();
+				PlayerCharacter->CarryPackage(this);
 
 				FAttachmentTransformRules AttachmentTransformRules = FAttachmentTransformRules::SnapToTargetIncludingScale;
 
@@ -84,9 +82,7 @@ void APianoBox::UseItem()
 		{
 			Quest->CompleteQuest(GetWorld());
 
-			MyGameInstance->PianoBoxComponent = PianoBoxComponent;
-
-			MyGameInstance->CurrentPlayerCharacter->CarryPianoBox();
+			MyGameInstance->CurrentPlayerCharacter->CarryPackage(this);
 
 			FAttachmentTransformRules AttachmentTransformRules = FAttachmentTransformRules::SnapToTargetIncludingScale;
 
@@ -108,8 +104,6 @@ void APianoBox::AddItemToInventory()
 
 	if(MyGameInstance)
 	{
-		MyGameInstance->PianoBoxComponent = PianoBoxComponent;
-		
 		MyGameInstance->InventorySystem->AddItem(this);
 	}
 }
