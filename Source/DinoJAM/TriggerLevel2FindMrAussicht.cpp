@@ -69,6 +69,16 @@ void ATriggerLevel2FindMrAussicht::NotifyActorBeginOverlap(AActor* OtherActor)
 					bAlreadyPlayedSequence = true;
 				}
 			}
+
+			UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+			if(MyGameInstance)
+			{
+				if(AItem* Item = MyGameInstance->InventorySystem->GetItem<AMrAussichtPack>())
+				{
+					Item->bCanUse = true;
+				}
+			}
 		}
 	}
 }
@@ -85,7 +95,7 @@ void ATriggerLevel2FindMrAussicht::NotifyActorEndOverlap(AActor* OtherActor)
 			{
 				Item->bCanUse = false;
 			}
-		}	
+		}
 	}
 }
 

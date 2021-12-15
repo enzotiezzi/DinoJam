@@ -3,11 +3,17 @@
 
 #include "TriggerPlaceMrAussichtPack.h"
 
+#include "Cyclop.h"
+#include "DialogSystem.h"
+#include "DinoJAMGameModeBase.h"
 #include "InventorySystem.h"
 #include "Item.h"
 #include "MrAussichtPack.h"
 #include "MyGameInstance.h"
+#include "PianoBox.h"
 #include "PlayerCharacter.h"
+#include "QuestSystem.h"
+#include "UQuest.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -59,7 +65,16 @@ void ATriggerPlaceMrAussichtPack::Interact(APS1Character* Interactor)
 	{
 		if(PlayerCharacter->bIsCarryPackageAnimation)
 		{
-			
+			PlayerCharacter->Package->Destroy();
+			PlayerCharacter->DropPackage();
+
+			if (const ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld())))
+			{
+				if(const UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
+				{
+					MyGameMode->DialogSystem->StartDialogSystem(MyGameInstance->QuestSystem->GetCurrentQuest()->GetDialog(ACyclop::StaticClass()).GetDefaultObject());
+				}
+			}
 		}
 	}
 }

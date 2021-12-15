@@ -52,11 +52,6 @@ void AMrAussichtPack::UseItem()
 			if(ULevel2FindAussichtQuest* Quest = Cast<ULevel2FindAussichtQuest>(MyGameInstance->QuestSystem->GetCurrentQuest()))
 			{
 				Quest->CompleteQuest(GetWorld());
-
-				if (ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld())))
-				{
-					MyGameMode->DialogSystem->StartDialogSystem(MyGameInstance->QuestSystem->GetCurrentQuest()->GetDialog(ACyclop::StaticClass()).GetDefaultObject());
-				}
 			}
 		}
 	}
