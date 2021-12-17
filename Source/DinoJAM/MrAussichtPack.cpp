@@ -52,6 +52,8 @@ void AMrAussichtPack::UseItem()
 			if(ULevel2FindAussichtQuest* Quest = Cast<ULevel2FindAussichtQuest>(MyGameInstance->QuestSystem->GetCurrentQuest()))
 			{
 				Quest->CompleteQuest(GetWorld());
+
+				
 			}
 		}
 	}

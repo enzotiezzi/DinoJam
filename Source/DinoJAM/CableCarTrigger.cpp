@@ -70,6 +70,8 @@ void ACableCarTrigger::Interact(APS1Character* Interactor)
 						
 						LevelSequencePlayer->OnFinished.AddDynamic(this, &ACableCarTrigger::OnCableCarSequenceFinished);
 
+						MyGameInstance->CurrentPlayerCharacter->bCanInteract = false;
+						
 						LevelSequencePlayer->Play();
 					}
 				}
@@ -83,5 +85,6 @@ void ACableCarTrigger::OnCableCarSequenceFinished()
 	if(CableCarExit)
 	{
 		PlayerCharacter->SetActorRelativeLocation(CableCarExit->GetActorLocation());
+		PlayerCharacter->bCanInteract = true;
 	}
 }
