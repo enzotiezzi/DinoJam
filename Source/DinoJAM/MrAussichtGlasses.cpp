@@ -3,6 +3,13 @@
 
 #include "MrAussichtGlasses.h"
 
+#include "Cyclop.h"
+#include "DialogSystem.h"
+#include "DinoJAMGameModeBase.h"
+#include "QuestSystem.h"
+#include "UQuest.h"
+#include "Kismet/GameplayStatics.h"
+
 // Sets default values
 AMrAussichtGlasses::AMrAussichtGlasses()
 {
@@ -33,5 +40,13 @@ void AMrAussichtGlasses::Tick(float DeltaTime)
 
 void AMrAussichtGlasses::Interact(APS1Character* Interactor)
 {
-	
+	if(const ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld())))
+	{
+		if(const UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
+		{
+			MyGameMode->DialogSystem->StartDialogSystem(MyGameInstance->QuestSystem->GetCurrentQuest()->GetDialog(ACyclop::StaticClass()).GetDefaultObject());
+
+			Destroy();
+		}
+	}
 }
