@@ -78,6 +78,7 @@ void UDialogSystem::PlayDialog(UDialogItem* DialogItem)
 					MyGameInstance->CurrentPlayerCharacter->PlayAnimMontage(DialogItem->PlayerAnimation);
 				else
 				{
+					// TODO: IMPROVE STOP MONTAGE WHEN IN DIALOG
 					if(!MyGameInstance->CurrentPlayerCharacter->bIsCarryPackageAnimation)
 						MyGameInstance->CurrentPlayerCharacter->StopAnimMontage();
 				}
@@ -98,19 +99,17 @@ void UDialogSystem::PlayDialog(UDialogItem* DialogItem)
 				else
 					MyGameInstance->CurrentNPC->GetMesh()->SetMaterial(MyGameInstance->CurrentNPC->FaceMaterialIndex, MyGameInstance->CurrentNPC->DefaultFaceExpression);
 
-				for(FFaceExpression FaceExpression : DialogItem->ExtraFaceExpressions)
+				for(const FFaceExpression FaceExpression : DialogItem->ExtraFaceExpressions)
 				{
 					MyGameInstance->CurrentNPC->GetMesh()->SetMaterial(FaceExpression.Index, FaceExpression.FaceExpressionMaterial);
 				}
 			}
 
+			if(CurrentSequencePlayer)
+				CurrentSequencePlayer->Stop();
+
 			if(DialogItem->Sequence)
 			{
-				if(CurrentSequencePlayer)
-				{
-					CurrentSequencePlayer->Stop();
-				}
-				
 				ALevelSequenceActor* LevelSequenceActor;
 				
 				FMovieSceneSequencePlaybackSettings MovieSceneSequencePlaybackSettings;
@@ -123,13 +122,6 @@ void UDialogSystem::PlayDialog(UDialogItem* DialogItem)
 				if(CurrentSequencePlayer)
 				{
 					CurrentSequencePlayer->Play();
-				}
-			}
-			else
-			{
-				if(CurrentSequencePlayer)
-				{
-					CurrentSequencePlayer->Stop();
 				}
 			}
 
@@ -209,7 +201,7 @@ void UDialogSystem::PlayNextDialog()
 				WidgetDialogText->RemoveFromViewport();
 		}
 
-		if(DialogAudioComponent != nullptr)
+		if(DialogAudioComponent)
 			DialogAudioComponent->Stop();
 
 		OnDialogSystemFinish(CurrentDialogItem);
