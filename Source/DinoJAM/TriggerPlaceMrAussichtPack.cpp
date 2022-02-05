@@ -4,16 +4,9 @@
 #include "TriggerPlaceMrAussichtPack.h"
 
 #include "Cyclop.h"
-#include "DialogSystem.h"
-#include "DinoJAMGameModeBase.h"
-#include "InventorySystem.h"
-#include "Item.h"
-#include "MrAussichtPack.h"
-#include "MyGameInstance.h"
 #include "PianoBox.h"
 #include "PlayerCharacter.h"
-#include "QuestSystem.h"
-#include "UQuest.h"
+#include "Components/ArrowComponent.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -22,42 +15,13 @@ ATriggerPlaceMrAussichtPack::ATriggerPlaceMrAussichtPack()
 	PrimaryActorTick.bCanEverTick = false;
 
 	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
+	SpawnArrow = CreateDefaultSubobject<UArrowComponent>(TEXT("SpawnArrow"));
 
 	SetRootComponent(SphereComponent);
 	SkeletalMeshComponent->SetupAttachment(SphereComponent);
+	SpawnArrow->SetupAttachment(SphereComponent);
 }
 
-void ATriggerPlaceMrAussichtPack::NotifyActorBeginOverlap(AActor* OtherActor)
-{
-	if(Cast<APlayerCharacter>(OtherActor))
-	{
-		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-
-		if(MyGameInstance)
-		{
-			if(AItem* Item = MyGameInstance->InventorySystem->GetItem<AMrAussichtPack>())
-			{
-				Item->bCanUse = true;
-			}
-		}
-	}
-}
-
-void ATriggerPlaceMrAussichtPack::NotifyActorEndOverlap(AActor* OtherActor)
-{
-	if(Cast<APlayerCharacter>(OtherActor))
-	{
-		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-
-		if(MyGameInstance)
-		{
-			if(AItem* Item = MyGameInstance->InventorySystem->GetItem<AMrAussichtPack>())
-			{
-				Item->bCanUse = false;
-			}
-		}
-	}
-}
 
 void ATriggerPlaceMrAussichtPack::Interact(APS1Character* Interactor)
 {
@@ -68,12 +32,17 @@ void ATriggerPlaceMrAussichtPack::Interact(APS1Character* Interactor)
 			PlayerCharacter->Package->Destroy();
 			PlayerCharacter->DropPackage();
 
-			if (const ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld())))
+			if(Glasses)
 			{
-				if(const UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
-				{
-					MyGameMode->DialogSystem->StartDialogSystem(MyGameInstance->QuestSystem->GetCurrentQuest()->GetDialog(ACyclop::StaticClass()).GetDefaultObject());
-				}
+				FActorSpawnParameters SpawnParameters;
+				SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+				
+				AMrAussichtGlasses* MrAussichtGlasses = GetWorld()->SpawnActor<AMrAussichtGlasses>(Glasses, SpawnArrow->GetComponentLocation(), SpawnArrow->GetComponentRotation(), SpawnParameters);
+
+				MrAussichtGlasses->ShowIndicator();
+				
+				HideIndicator();
+				SetActorEnableCollision(false);
 			}
 		}
 	}

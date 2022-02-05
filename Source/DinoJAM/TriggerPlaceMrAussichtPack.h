@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Interactable.h"
+#include "MrAussichtGlasses.h"
 #include "Objective.h"
 #include "TriggerPlaceMrAussichtPack.generated.h"
 
@@ -18,13 +19,15 @@ class DINOJAM_API ATriggerPlaceMrAussichtPack : public AObjective, public IInter
 public:
 	ATriggerPlaceMrAussichtPack();
 
-	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
-
-	virtual void NotifyActorEndOverlap(AActor* OtherActor) override;
-
 	virtual void Interact(APS1Character* Interactor) override;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Overlap")
-	class USphereComponent* SphereComponent;
+	USphereComponent* SphereComponent;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Spawn Area")
+	UArrowComponent* SpawnArrow;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Glasses")
+	TSubclassOf<AMrAussichtGlasses> Glasses;
 };
