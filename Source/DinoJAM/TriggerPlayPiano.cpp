@@ -18,8 +18,6 @@ ATriggerPlayPiano::ATriggerPlayPiano()
 	PianoStaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PianoStaticMeshComponent"));
 
 	PianoStaticMeshComponent->SetupAttachment(GetRootComponent());
-
-	GetSpriteComponent()->DestroyComponent();
 }
 
 void ATriggerPlayPiano::Interact(APS1Character* Interactor)
