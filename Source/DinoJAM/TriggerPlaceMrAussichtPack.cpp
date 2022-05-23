@@ -9,6 +9,8 @@
 #include "Components/ArrowComponent.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include <DinoJAM/MyGameInstance.h>
+#include <DinoJAM/InventorySystem.h>
 
 ATriggerPlaceMrAussichtPack::ATriggerPlaceMrAussichtPack()
 {
@@ -45,5 +47,12 @@ void ATriggerPlaceMrAussichtPack::Interact(APS1Character* Interactor)
 				SetActorEnableCollision(false);
 			}
 		}
+	}
+
+	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if (MyGameInstance)
+	{
+		MyGameInstance->InventorySystem->RemoveItem<APianoBox>();
 	}
 }

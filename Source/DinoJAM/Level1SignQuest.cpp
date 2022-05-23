@@ -37,8 +37,6 @@ void ULevel1SignQuest::OnDialogFinish(UDialogItem* DialogItem)
 					}
 				}
 			}, RemoveSignatureWidgetInSeconds, false);
-			
-			CompleteQuest(DialogItem->World);
 
 			ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(DialogItem->World));
 

@@ -133,13 +133,15 @@ void UInventorySystem::OnItemSelect(int Index) const
 			{
 				MyGameMode->ResumeGame();
 			}
-			
-			ItemSlots[Index]->Item->UseItem();
 
+			AItem* Item = ItemSlots[Index]->Item;
+			
 			ItemSlots[Index]->Item = nullptr;
 			ItemSlots[Index]->ButtonSlot->WidgetStyle.Normal.SetResourceObject(DefaultItemSlotThumbNail);
 			ItemSlots[Index]->ButtonSlot->WidgetStyle.Hovered.SetResourceObject(DefaultItemSlotThumbNail);
 			ItemSlots[Index]->ButtonSlot->WidgetStyle.Pressed.SetResourceObject(DefaultItemSlotThumbNail);
+
+			Item->UseItem();
 		}
 	}
 }

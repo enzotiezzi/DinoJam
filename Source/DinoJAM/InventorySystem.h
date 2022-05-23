@@ -11,6 +11,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/TextBlock.h"
 #include "UObject/NoExportTypes.h"
+#include <DinoJAM/ItemButton.h>
 #include "InventorySystem.generated.h"
 
 /**
@@ -28,6 +29,24 @@ public:
 	class UWorld* CurrentWorld;
 	
 	void AddItem(AItem* NewItem);
+
+	template <class T>
+	void RemoveItem()
+	{
+		for (UItemSlot* Slot : ItemSlots)
+		{
+			if (Slot->Item)
+			{
+				if (Slot->Item->IsA<T>())
+				{
+					Slot->Item = nullptr;
+					Slot->ButtonSlot->WidgetStyle.Normal.SetResourceObject(DefaultItemSlotThumbNail);
+					Slot->ButtonSlot->WidgetStyle.Hovered.SetResourceObject(DefaultItemSlotThumbNail);
+					Slot->ButtonSlot->WidgetStyle.Pressed.SetResourceObject(DefaultItemSlotThumbNail);
+				}
+			}
+		}
+	}
 
 	template <class T>
 	AItem* GetItem()

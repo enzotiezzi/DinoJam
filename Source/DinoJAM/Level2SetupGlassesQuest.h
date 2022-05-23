@@ -19,4 +19,17 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Starting Dialog")
 	TSubclassOf<UDialog> StartingDialog;
+
+
+protected:
+	void OnMainDialogFinish(UDialogItem* DialogItem);
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "HUD")
+	TSubclassOf<class UUserWidget> WidgetSignatureReference;
+
+	UPROPERTY(BlueprintReadWrite)
+	class UUserWidget* WidgetSignature;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "HUD")
+	float RemoveSignatureWidgetInSeconds = 2.5;
 };
