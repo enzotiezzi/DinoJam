@@ -27,6 +27,8 @@ void AMrAussichtPack::BeginPlay()
 
 	if(UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
 	{
+		bCanUse = false;
+
 		MyGameInstance->InventorySystem->AddItem(this);
 	}
 }
