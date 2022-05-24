@@ -22,8 +22,21 @@ ATriggerPlaceMrAussichtPack::ATriggerPlaceMrAussichtPack()
 	SetRootComponent(SphereComponent);
 	SkeletalMeshComponent->SetupAttachment(SphereComponent);
 	SpawnArrow->SetupAttachment(SphereComponent);
+
+	SetActorEnableCollision(false);
 }
 
+void ATriggerPlaceMrAussichtPack::BeginPlay() 
+{
+	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if (MyGameInstance)
+	{
+		MyGameInstance->Level2Objectives->PlaceMrAussichtPackObjective = this;
+	}
+
+	Super::BeginPlay();
+}
 
 void ATriggerPlaceMrAussichtPack::Interact(APS1Character* Interactor)
 {

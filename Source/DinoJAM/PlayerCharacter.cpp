@@ -96,6 +96,32 @@ void APlayerCharacter::Interact()
 			
 				CurrentInteractable->Interact(this);
 			}
+			else 
+			{
+				FHitResult OutHit;
+
+				DrawDebugLine(GetWorld(), GetActorLocation(), GetActorLocation() + (GetActorForwardVector() * 25), FColor::Red, false, .5);
+
+				bool Success = GetWorld()->LineTraceSingleByChannel(OutHit, GetActorLocation(), GetActorLocation() + (GetActorForwardVector() * 25), ECC_Visibility);
+
+				if (Success) 
+				{
+					IInteractable* OtherInteractable = Cast<IInteractable>(OutHit.Actor);
+
+					if (OtherInteractable)
+					{
+						CurrentInteractable = OtherInteractable;
+
+						FRotator AmountNeededToLookAt = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), Cast<AActor>(CurrentInteractable)->GetActorLocation());
+						AmountNeededToLookAt.Pitch = 0;
+						AmountNeededToLookAt.Roll = 0;
+
+						SetActorRelativeRotation(FQuat(AmountNeededToLookAt));
+
+						CurrentInteractable->Interact(this);
+					}
+				}
+			}
 		}
 	}
 }

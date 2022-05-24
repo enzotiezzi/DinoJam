@@ -21,6 +21,8 @@ public:
 
 	virtual void Interact(APS1Character* Interactor) override;
 
+	virtual void BeginPlay() override;
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Overlap")
 	USphereComponent* SphereComponent;

@@ -11,6 +11,7 @@
 void UMyGameInstance::OnStart()
 {
 	Level1Objectives = NewObject<ULevel1Objectives>();
+	Level2Objectives = NewObject<ULevel2Objectives>();
 	InventorySystem = Cast<UInventorySystem>(InventorySystemReference.GetDefaultObject());
 	QuestSystem = Cast<UQuestSystem>(QuestSystemReference.GetDefaultObject());
 	

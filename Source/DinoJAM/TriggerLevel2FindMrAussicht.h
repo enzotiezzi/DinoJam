@@ -29,9 +29,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Mr Aussicht")
 	class ACyclop* Cyclop;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Objective")
-	class AObjective* Objective;
-
 	UPROPERTY(BlueprintReadWrite)
 	class AActor* Player;
 
@@ -42,9 +39,6 @@ protected:
 
 	UFUNCTION()
 	void OnSceneFinished();
-
-	UFUNCTION()
-	void OnStarterDialogFinish(class UDialogItem* DialogItem);
 
 public:	
 	// Called every frame

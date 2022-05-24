@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Level1Objectives.h"
 #include "Engine/GameInstance.h"
+#include <DinoJAM/Level2Objectives.h>
 #include "MyGameInstance.generated.h"
 
 /**
@@ -78,6 +79,9 @@ public:
 	/////////////////////////////////////////////
 	UPROPERTY(BlueprintReadWrite)
 	ULevel1Objectives* Level1Objectives;
+
+	UPROPERTY(BlueprintReadWrite)
+	ULevel2Objectives* Level2Objectives;
 
 protected:
 	///////////////////////////////////////////////

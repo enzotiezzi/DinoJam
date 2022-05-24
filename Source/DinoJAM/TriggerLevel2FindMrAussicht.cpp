@@ -44,6 +44,16 @@ void ATriggerLevel2FindMrAussicht::Tick(float DeltaTime)
 
 void ATriggerLevel2FindMrAussicht::NotifyActorBeginOverlap(AActor* OtherActor)
 {
+	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if (MyGameInstance)
+	{
+		if (AItem* Item = MyGameInstance->InventorySystem->GetItem<AMrAussichtPack>())
+		{
+			Item->bCanUse = true;
+		}
+	}
+
 	if(!bAlreadyPlayedSequence)
 	{
 		if(Cast<APlayerCharacter>(OtherActor))
@@ -69,16 +79,6 @@ void ATriggerLevel2FindMrAussicht::NotifyActorBeginOverlap(AActor* OtherActor)
 					bAlreadyPlayedSequence = true;
 				}
 			}
-
-			UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-
-			if(MyGameInstance)
-			{
-				if(AItem* Item = MyGameInstance->InventorySystem->GetItem<AMrAussichtPack>())
-				{
-					Item->bCanUse = true;
-				}
-			}
 		}
 	}
 }
@@ -102,11 +102,6 @@ void ATriggerLevel2FindMrAussicht::NotifyActorEndOverlap(AActor* OtherActor)
 void ATriggerLevel2FindMrAussicht::OnSceneFinished()
 {
 	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-
-	if(ULevel2FindAussichtQuest* Quest = Cast<ULevel2FindAussichtQuest>(MyGameInstance->QuestSystem->GetCurrentQuest()))
-	{
-		Cast<UDialog>(Quest->StartQuestDialog.GetDefaultObject())->OnDialogFinish.BindUObject(this, &ATriggerLevel2FindMrAussicht::OnStarterDialogFinish);
-	}
 	
 	if(Cyclop)
 	{
@@ -126,13 +121,5 @@ void ATriggerLevel2FindMrAussicht::OnSceneFinished()
 				}
 			}
 		}
-	}
-}
-
-void ATriggerLevel2FindMrAussicht::OnStarterDialogFinish(UDialogItem* DialogItem)
-{
-	if(Objective)
-	{
-		Objective->ShowIndicator();
 	}
 }

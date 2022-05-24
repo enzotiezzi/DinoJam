@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Item.h"
+#include <DinoJAM/Objective.h>
 #include "MrAussichtPack.generated.h"
 
 /**

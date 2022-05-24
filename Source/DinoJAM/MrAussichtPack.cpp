@@ -14,6 +14,7 @@
 #include "UQuest.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundCue.h"
+#include <DinoJAM/Objective.h>
 
 AMrAussichtPack::AMrAussichtPack()
 {
@@ -52,6 +53,12 @@ void AMrAussichtPack::UseItem()
 			if(ULevel2FindAussichtQuest* Quest = Cast<ULevel2FindAussichtQuest>(MyGameInstance->QuestSystem->GetCurrentQuest()))
 			{
 				Quest->CompleteQuest(GetWorld());
+			}
+
+			if(MyGameInstance->Level2Objectives && MyGameInstance->Level2Objectives->PlaceMrAussichtPackObjective) 
+			{
+				MyGameInstance->Level2Objectives->PlaceMrAussichtPackObjective->SetActorEnableCollision(true);
+				MyGameInstance->Level2Objectives->PlaceMrAussichtPackObjective->ShowIndicator();
 			}
 		}
 	}
