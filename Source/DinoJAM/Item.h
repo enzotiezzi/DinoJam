@@ -46,5 +46,5 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Thumbnail")
 	class UTexture2D* ItemThumbnail;
 
-	bool bCanUse = true;
+	bool bCanUse = false;
 };

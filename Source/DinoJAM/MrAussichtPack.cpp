@@ -27,40 +27,41 @@ void AMrAussichtPack::BeginPlay()
 
 	if(UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
 	{
-		bCanUse = false;
-
 		MyGameInstance->InventorySystem->AddItem(this);
 	}
 }
 
 void AMrAussichtPack::UseItem()
 {
-	if(BoxReference)
+	if (bCanUse)
 	{
-		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-
-		if(MyGameInstance)
+		if (BoxReference)
 		{
-			APianoBox* Box = GetWorld()->SpawnActor<APianoBox>(BoxReference, GetActorLocation(), GetActorRotation(), FActorSpawnParameters());
+			UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-			MyGameInstance->CurrentPlayerCharacter->CarryPackage(Box);
-
-			const FAttachmentTransformRules AttachmentTransformRules = FAttachmentTransformRules::SnapToTargetIncludingScale;
-
-			Box->PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-			Box->PianoBoxComponent->AttachToComponent(MyGameInstance->CurrentPlayerCharacter->GetMesh(), AttachmentTransformRules, FName("PianoBoxSocket"));
-
-			UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->PickUpItemSound, GetActorLocation(), GetActorRotation());
-
-			if(ULevel2FindAussichtQuest* Quest = Cast<ULevel2FindAussichtQuest>(MyGameInstance->QuestSystem->GetCurrentQuest()))
+			if (MyGameInstance)
 			{
-				Quest->CompleteQuest(GetWorld());
-			}
+				APianoBox* Box = GetWorld()->SpawnActor<APianoBox>(BoxReference, GetActorLocation(), GetActorRotation(), FActorSpawnParameters());
 
-			if(MyGameInstance->Level2Objectives && MyGameInstance->Level2Objectives->PlaceMrAussichtPackObjective) 
-			{
-				MyGameInstance->Level2Objectives->PlaceMrAussichtPackObjective->SetActorEnableCollision(true);
-				MyGameInstance->Level2Objectives->PlaceMrAussichtPackObjective->ShowIndicator();
+				MyGameInstance->CurrentPlayerCharacter->CarryPackage(Box);
+
+				const FAttachmentTransformRules AttachmentTransformRules = FAttachmentTransformRules::SnapToTargetIncludingScale;
+
+				Box->PianoBoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+				Box->PianoBoxComponent->AttachToComponent(MyGameInstance->CurrentPlayerCharacter->GetMesh(), AttachmentTransformRules, FName("PianoBoxSocket"));
+
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), MyGameInstance->PickUpItemSound, GetActorLocation(), GetActorRotation());
+
+				if (ULevel2FindAussichtQuest* Quest = Cast<ULevel2FindAussichtQuest>(MyGameInstance->QuestSystem->GetCurrentQuest()))
+				{
+					Quest->CompleteQuest(GetWorld());
+				}
+
+				if (MyGameInstance->Level2Objectives && MyGameInstance->Level2Objectives->PlaceMrAussichtPackObjective)
+				{
+					MyGameInstance->Level2Objectives->PlaceMrAussichtPackObjective->SetActorEnableCollision(true);
+					MyGameInstance->Level2Objectives->PlaceMrAussichtPackObjective->ShowIndicator();
+				}
 			}
 		}
 	}

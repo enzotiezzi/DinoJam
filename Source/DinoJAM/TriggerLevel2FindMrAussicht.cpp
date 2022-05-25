@@ -44,39 +44,42 @@ void ATriggerLevel2FindMrAussicht::Tick(float DeltaTime)
 
 void ATriggerLevel2FindMrAussicht::NotifyActorBeginOverlap(AActor* OtherActor)
 {
-	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-
-	if (MyGameInstance)
+	if (Cast<APlayerCharacter>(OtherActor))
 	{
-		if (AItem* Item = MyGameInstance->InventorySystem->GetItem<AMrAussichtPack>())
-		{
-			Item->bCanUse = true;
-		}
-	}
+		UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-	if(!bAlreadyPlayedSequence)
-	{
-		if(Cast<APlayerCharacter>(OtherActor))
+		if (MyGameInstance)
 		{
-			Player = OtherActor;
-			
-			if(Sequence)
+			if (AItem* Item = MyGameInstance->InventorySystem->GetItem<AMrAussichtPack>())
 			{
-				ALevelSequenceActor* LevelSequenceActor;
+				Item->bCanUse = true;
+			}
+		}
 
-				FMovieSceneSequencePlaybackSettings MovieSceneSequencePlaybackSettings;
-				MovieSceneSequencePlaybackSettings.bDisableMovementInput = true;
-				MovieSceneSequencePlaybackSettings.bHideHud = true;
-		
-				ULevelSequencePlayer* LevelSequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), Sequence, MovieSceneSequencePlaybackSettings, LevelSequenceActor);
+		if (!bAlreadyPlayedSequence)
+		{
+			if (Cast<APlayerCharacter>(OtherActor))
+			{
+				Player = OtherActor;
 
-				if(LevelSequencePlayer)
+				if (Sequence)
 				{
-					LevelSequencePlayer->OnFinished.AddDynamic(this, &ATriggerLevel2FindMrAussicht::OnSceneFinished);
+					ALevelSequenceActor* LevelSequenceActor;
 
-					LevelSequencePlayer->Play();
+					FMovieSceneSequencePlaybackSettings MovieSceneSequencePlaybackSettings;
+					MovieSceneSequencePlaybackSettings.bDisableMovementInput = true;
+					MovieSceneSequencePlaybackSettings.bHideHud = true;
 
-					bAlreadyPlayedSequence = true;
+					ULevelSequencePlayer* LevelSequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), Sequence, MovieSceneSequencePlaybackSettings, LevelSequenceActor);
+
+					if (LevelSequencePlayer)
+					{
+						LevelSequencePlayer->OnFinished.AddDynamic(this, &ATriggerLevel2FindMrAussicht::OnSceneFinished);
+
+						LevelSequencePlayer->Play();
+
+						bAlreadyPlayedSequence = true;
+					}
 				}
 			}
 		}
