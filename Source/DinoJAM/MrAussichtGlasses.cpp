@@ -9,6 +9,7 @@
 #include "QuestSystem.h"
 #include "UQuest.h"
 #include "Kismet/GameplayStatics.h"
+#include <DinoJAM/Level2SetupGlassesQuest.h>
 
 // Sets default values
 AMrAussichtGlasses::AMrAussichtGlasses()
@@ -44,9 +45,14 @@ void AMrAussichtGlasses::Interact(APS1Character* Interactor)
 	{
 		if(const UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
 		{
-			MyGameMode->DialogSystem->StartDialogSystem(MyGameInstance->QuestSystem->GetCurrentQuest()->GetDialog(ACyclop::StaticClass()).GetDefaultObject());
+			if (ULevel2SetupGlassesQuest* Quest = Cast<ULevel2SetupGlassesQuest>(MyGameInstance->QuestSystem->GetCurrentQuest()))
+			{
+				Quest->CharactersDialog[ACyclop::StaticClass()] = Quest->FinishDialog;
 
-			Destroy();
+				MyGameMode->DialogSystem->StartDialogSystem(Quest->GetDialog(ACyclop::StaticClass()).GetDefaultObject());
+
+				Destroy();
+			}
 		}
 	}
 }

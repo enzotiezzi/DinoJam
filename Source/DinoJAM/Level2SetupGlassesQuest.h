@@ -20,6 +20,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Starting Dialog")
 	TSubclassOf<UDialog> StartingDialog;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Starting Dialog")
+	TSubclassOf<UDialog> FinishDialog;
 
 protected:
 	void OnMainDialogFinish(UDialogItem* DialogItem);

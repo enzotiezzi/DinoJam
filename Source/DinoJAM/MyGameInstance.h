@@ -99,4 +99,12 @@ protected:
 	///////////////////////////////////////////////
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Quest System")
 	class TSubclassOf<class UQuestSystem> QuestSystemReference;
+
+	///////////////////////////////////////////////
+	///
+	/// Tick
+	/// 
+	/// ///////////////////////////////////////////
+	FTimerHandle GameInstanceTimerHandle;
+	void GameInstanceTick();
 };

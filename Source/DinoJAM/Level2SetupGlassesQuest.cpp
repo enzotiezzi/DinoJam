@@ -12,7 +12,7 @@ void ULevel2SetupGlassesQuest::OnQuestStart(UWorld* World)
 {
 	Super::OnQuestStart(World);
 
-	Cast<UDialog>(CharactersDialog[ACyclop::StaticClass()].GetDefaultObject())->OnDialogFinish.BindUObject(this, &ULevel2SetupGlassesQuest::OnMainDialogFinish);
+	Cast<UDialog>(FinishDialog.GetDefaultObject())->OnDialogFinish.BindUObject(this, &ULevel2SetupGlassesQuest::OnMainDialogFinish);
 
 	if(const ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(World)))
 	{
