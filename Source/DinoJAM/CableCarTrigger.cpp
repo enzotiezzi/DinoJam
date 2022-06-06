@@ -86,5 +86,11 @@ void ACableCarTrigger::OnCableCarSequenceFinished()
 	{
 		PlayerCharacter->SetActorRelativeLocation(CableCarExit->GetActorLocation());
 		PlayerCharacter->bCanInteract = true;
+
+		if (UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld())))
+		{
+			MyGameInstance->InventorySystem->RemoveItem<AGear>();
+			MyGameInstance->InventorySystem->RemoveItem<ARedKey>();
+		}
 	}
 }
