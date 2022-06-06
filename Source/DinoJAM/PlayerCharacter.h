@@ -77,6 +77,9 @@ protected:
 	
 	void MoveSides(float AxisValue);
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadwrite)
+	float TurnSpeed = 1;
+
 	////////////////////////////////////////////////////
 	///
 	/// INVENTORY 

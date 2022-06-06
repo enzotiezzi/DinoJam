@@ -130,10 +130,7 @@ void APlayerCharacter::MoveForward(float AxisValue)
 {
 	if(Controller != nullptr && AxisValue != 0.0 && bCanMove)
 	{
-		FRotator Rotation = GetController()->GetControlRotation();
-		FRotator YawRotation(0.0, Rotation.Yaw, 0.0);
-
-		FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+		FVector Direction = GetActorForwardVector();
 
 		AddMovementInput(Direction, AxisValue);
 	}
@@ -143,12 +140,7 @@ void APlayerCharacter::MoveSides(float AxisValue)
 {
 	if(Controller != nullptr && AxisValue != 0.0 && bCanMove)
 	{
-		FRotator Rotation = GetController()->GetControlRotation();
-		FRotator YawRotation(0.0, Rotation.Yaw, 0.0);
-
-		FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
-
-		AddMovementInput(Direction, AxisValue);
+		AddActorWorldRotation(FQuat(FRotator(0, AxisValue * TurnSpeed, 0)));
 	}
 }
 
