@@ -28,6 +28,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Objective")
 	class AObjective* Objective;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Location")
+	class AActor* PlayerLocation;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

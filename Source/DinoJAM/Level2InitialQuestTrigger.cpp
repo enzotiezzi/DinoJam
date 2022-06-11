@@ -58,6 +58,8 @@ void ALevel2InitialQuestTrigger::NotifyActorBeginOverlap(AActor* OtherActor)
 
 				if(MyGameMode)
 				{
+					OtherActor->SetActorLocation(PlayerLocation->GetActorLocation());
+
 					FRotator AmountOfRotationToNiece = UKismetMathLibrary::FindLookAtRotation(OtherActor->GetActorLocation(), Niece->GetActorLocation());
 					AmountOfRotationToNiece.Pitch = 0;
 					AmountOfRotationToNiece.Roll = 0;
