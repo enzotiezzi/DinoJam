@@ -46,7 +46,7 @@ void ULevel2SetupGlassesQuest::OnMainDialogFinish(UDialogItem* DialogItem)
 
 			if (MyGameMode)
 			{
-				// change level
+				MyGameMode->ChangeLevel("Mosca_Mansion_Part_1");
 			}
 		}
 	}

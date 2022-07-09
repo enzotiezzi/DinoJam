@@ -127,7 +127,49 @@ void UDialogSystem::PlayDialog(UDialogItem* DialogItem)
 
 			if(DialogAudioComponent != nullptr)
 				DialogAudioComponent->Stop();
-	
+
+			if (ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(CurrentWorld)))
+			{
+				if (MyGameMode->AudioManager)
+				{
+					if (DialogItem->StopEnvironmentMusic)
+					{
+						MyGameMode->AudioManager->EnvironmentAudioComponent->Stop();
+					}
+					else
+					{
+						if (DialogItem->PauseEnvironmentMusic)
+						{
+							MyGameMode->AudioManager->EnvironmentAudioComponent->SetPaused(true);
+						}
+						else
+						{
+							if (DialogItem->RestartEnvironmentMusic)
+							{
+								if (MyGameMode->AudioManager->EnvironmentAudioComponent->bIsPaused)
+									MyGameMode->AudioManager->EnvironmentAudioComponent->SetPaused(false);
+								else
+									MyGameMode->AudioManager->EnvironmentAudioComponent->Play();
+							}
+						}
+					}
+
+					if (DialogItem->DialogMusic)
+					{
+						MusicAudioComponent = UGameplayStatics::CreateSound2D(CurrentWorld, DialogItem->DialogMusic);
+						MusicAudioComponent->Play();
+					}
+
+					if (DialogItem->StopPreviousDialogMusic)
+					{
+						if (MusicAudioComponent)
+						{
+							MusicAudioComponent->Stop();
+						}
+					}
+				}
+			}
+
 			CurrentDialogItem = DialogItem;
 			CurrentDialogItem->World = CurrentWorld;
 

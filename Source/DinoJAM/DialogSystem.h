@@ -80,6 +80,9 @@ protected:
 	class UAudioComponent* DialogAudioComponent;
 
 	UPROPERTY()
+	class UAudioComponent* MusicAudioComponent;
+
+	UPROPERTY()
 	struct FTimerHandle CurrentDialogSoundTimerHandle;
 	void OnDialogSoundFinish();
 

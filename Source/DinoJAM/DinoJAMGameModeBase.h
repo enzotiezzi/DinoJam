@@ -6,6 +6,7 @@
 #include "Level1Objectives.h"
 #include "MyGameInstance.h"
 #include "PlayerCharacter.h"
+#include "AudioManager.h"
 #include "GameFramework/GameModeBase.h"
 #include "DinoJAMGameModeBase.generated.h"
 
@@ -85,6 +86,14 @@ public:
 	/////////////////////////////////////////////
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Sequences")
 	class ULevelSequence* GateLevelSequence;
+
+	/////////////////////////////////////////////
+	///
+	/// AUDIO MANAGER
+	///
+	/////////////////////////////////////////////
+	UPROPERTY(BlueprintReadwrite)
+	class AAudioManager* AudioManager;
 	
 protected:
 	///////////////////////////////////////////////////

@@ -14,6 +14,8 @@ AInvisibleWall::AInvisibleWall()
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
 
 	SetRootComponent(BoxComponent);
+
+	BoxComponent->SetCollisionProfileName("InvisibleWall");
 }
 
 // Called when the game starts or when spawned

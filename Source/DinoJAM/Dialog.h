@@ -71,6 +71,26 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Sequence")
 	bool HidePlayerDuringSequence = false;
+
+	//////////////////////////////////////
+	///
+	/// MUSIC
+	/// 
+	/////////////////////////////////////
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Music")
+	class USoundBase* DialogMusic;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Music")
+	bool StopPreviousDialogMusic;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Music")
+	bool RestartEnvironmentMusic;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Music")
+	bool PauseEnvironmentMusic;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Music")
+	bool StopEnvironmentMusic;
 };
 
 DECLARE_DELEGATE_OneParam(FOnDialogFinish, UDialogItem*);
