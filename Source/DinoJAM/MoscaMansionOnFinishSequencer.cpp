@@ -19,14 +19,18 @@ void AMoscaMansionOnFinishSequencer::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld())))
-	{
-		FOnMovieSceneSequencePlayerEvent OnFinish;
-		OnFinish.AddDynamic(this, &AMoscaMansionOnFinishSequencer::OnSceneFinish);
+	FTimerHandle BindOnSceneFinishTimer;
+	GetWorld()->GetTimerManager().SetTimer(BindOnSceneFinishTimer, [this]()
+		{
+			if (ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld())))
+			{
+				FOnMovieSceneSequencePlayerEvent OnFinish;
+				OnFinish.AddDynamic(this, &AMoscaMansionOnFinishSequencer::OnSceneFinish);
 
-		MyGameMode->CutsceneManager->SetOnSceneFinished(OnFinish);
-		MyGameMode->CutsceneManager->PlayCurrentSequence();
-	}
+				MyGameMode->CutsceneManager->SetOnSceneFinished(OnFinish);
+				MyGameMode->CutsceneManager->PlayCurrentSequence();
+			}
+		}, .2, false);
 }
 
 // Called every frame
@@ -39,4 +43,6 @@ void AMoscaMansionOnFinishSequencer::Tick(float DeltaTime)
 void AMoscaMansionOnFinishSequencer::OnSceneFinish()
 {
 	// TODO PROGRAM WHEN SCENE FINISHES
+
+	GEngine->AddOnScreenDebugMessage(rand(), 1, FColor::Red, "Scene Finished");
 }
