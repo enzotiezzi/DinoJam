@@ -36,7 +36,7 @@ public:
 	
 	virtual void CompleteQuest(UWorld* World);
 	
-	virtual TSubclassOf<class UDialog> GetDialog(UClass* Class)
+	virtual TSubclassOf<UDialog> GetDialog(UClass* Class)
 	{
 		return CharactersDialog[Class];
 	};

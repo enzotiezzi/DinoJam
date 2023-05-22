@@ -56,7 +56,10 @@ void AKaren::Interact(APS1Character* Interactor)
 
 		if(MyGameInstance)
 		{
-			MyGameMode->DialogSystem->StartDialogSystem(MyGameInstance->QuestSystem->GetCurrentQuest()->GetDialog(GetClass()->GetSuperClass()).GetDefaultObject(), CurrentInteractor, this);
+			UDialog* Dialog = MyGameInstance->QuestSystem->GetCurrentQuest()->GetDialog(GetClass()->GetSuperClass()).GetDefaultObject();
+
+			if(Dialog)
+				MyGameMode->DialogSystem->StartDialogSystem(Dialog, CurrentInteractor, this);
 		}
 	}
 }
