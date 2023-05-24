@@ -39,8 +39,6 @@ void ATriggerGetHammer::Interact(APS1Character* Interactor)
 
 		if(Quest)
 		{
-			bCanUse = true;
-			
 			MyGameInstance->InventorySystem->AddItem(this);
 			
 			Quest->bHaveHammer = true;

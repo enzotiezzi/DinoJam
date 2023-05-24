@@ -20,8 +20,8 @@ ADinoJAMGameModeBase::ADinoJAMGameModeBase()
 void ADinoJAMGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
-
-	const UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	
+	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
 	if(MyGameInstance)
 	{

@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include <LevelSequence/Public/LevelSequence.h>
+#include <LevelSequence/Public/LevelSequencePlayer.h>
 #include "CutSceneManager.h"
 #include <DinoJAM/DinoJAMGameModeBase.h>
 #include <Runtime/Engine/Classes/Kismet/GameplayStatics.h>
-#include <LevelSequence/Public/LevelSequence.h>
-#include <LevelSequence/Public/LevelSequencePlayer.h>
 
 // Sets default values
 ACutSceneManager::ACutSceneManager()

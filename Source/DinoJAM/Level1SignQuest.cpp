@@ -10,19 +10,13 @@
 void ULevel1SignQuest::OnQuestStart(UWorld* World)
 {
 	Super::OnQuestStart(World);
-	
 	Cast<UDialog>(CharactersDialog[AKaren::StaticClass()].GetDefaultObject())->OnDialogFinish.BindUObject(this, &ULevel1SignQuest::OnDialogFinish);
 }
 
 void ULevel1SignQuest::OnDialogFinish(UDialogItem* DialogItem)
 {
-	APlayerCharacter* Player = Cast<APlayerCharacter>(UGameplayStatics::GetActorOfClass(DialogItem->World, APlayerCharacter::StaticClass()));
-
-	if(Player)
-		Player->bCanInteract = false;
-	
 	CompleteQuest(DialogItem->World);
-	
+
 	if(WidgetSignatureReference)
 	{
 		WidgetSignature = CreateWidget<UUserWidget>(DialogItem->World, WidgetSignatureReference);
@@ -33,12 +27,12 @@ void ULevel1SignQuest::OnDialogFinish(UDialogItem* DialogItem)
 			
 			FTimerHandle HideSignatureTimerHandle;
 
-			DialogItem->World->GetTimerManager().SetTimer(HideSignatureTimerHandle, [this, DialogItem, Player]()
+			DialogItem->World->GetTimerManager().SetTimer(HideSignatureTimerHandle, [this, DialogItem]()
 			{
 				if(WidgetSignature)
 				{
 					if(WidgetSignature->IsInViewport())
-					{	
+					{
 						WidgetSignature->RemoveFromViewport();
 					}
 				}

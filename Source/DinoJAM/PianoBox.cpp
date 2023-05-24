@@ -104,8 +104,6 @@ void APianoBox::AddItemToInventory()
 
 	if(MyGameInstance)
 	{
-		bCanUse = true;
-		
 		MyGameInstance->InventorySystem->AddItem(this);
 	}
 }
