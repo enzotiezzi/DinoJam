@@ -35,6 +35,9 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void OnLastSequenceFinish();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Camera")
+	ACameraActor* CameraToFind;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

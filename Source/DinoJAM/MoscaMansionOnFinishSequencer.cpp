@@ -7,6 +7,8 @@
 #include <DinoJAM/DinoJAMGameModeBase.h>
 
 #include "DialogSystem.h"
+#include "Camera/CameraActor.h"
+#include "Camera/CameraComponent.h"
 
 // Sets default values
 AMoscaMansionOnFinishSequencer::AMoscaMansionOnFinishSequencer()
@@ -79,5 +81,11 @@ void AMoscaMansionOnFinishSequencer::OnLastSequenceFinish()
 	if (const ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld())))
 	{
 		MyGameMode->CutsceneManager->SequencePlayer->Stop();
+		
+		if (APlayerController* PlayerCharacterController = UGameplayStatics::GetPlayerController(GetWorld(), 0))
+		{
+			PlayerCharacterController->SetViewTargetWithBlend(CameraToFind, 0, EViewTargetBlendFunction::VTBlend_Linear);
+			PlayerCharacterController->SetAudioListenerOverride(CameraToFind->GetCameraComponent(), FVector::ZeroVector, FRotator::ZeroRotator);
+		}
 	}
 }
