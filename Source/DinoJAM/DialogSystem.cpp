@@ -197,6 +197,8 @@ void UDialogSystem::PlayDialog(UDialogItem* DialogItem)
 			{
 				if(MyGameInstance->CurrentNPC)
 					DialogOwnerText = FText::FromString(MyGameInstance->CurrentNPC->CharacterName);
+				else
+					DialogOwnerText = FText::FromString(DialogItem->NPCName);
 			}
 
 			WidgetCharacterNameTextBlock->SetText(DialogOwnerText);
@@ -252,6 +254,9 @@ void UDialogSystem::PlayNextDialog()
 
 void UDialogSystem::OnDialogSystemFinish(UDialogItem* DialogItem)
 {
+	if(CurrentSequencePlayer)
+		CurrentSequencePlayer->Stop();
+		
 	UMyGameInstance* MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(CurrentWorld));
 
 	if(MyGameInstance)

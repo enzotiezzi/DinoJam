@@ -6,6 +6,8 @@
 #include <DinoJAM/CutSceneManager.h>
 #include <DinoJAM/DinoJAMGameModeBase.h>
 
+#include "DialogSystem.h"
+
 // Sets default values
 AMoscaMansionOnFinishSequencer::AMoscaMansionOnFinishSequencer()
 {
@@ -42,7 +44,40 @@ void AMoscaMansionOnFinishSequencer::Tick(float DeltaTime)
 
 void AMoscaMansionOnFinishSequencer::OnSceneFinish()
 {
-	// TODO PROGRAM WHEN SCENE FINISHES
+	if (const ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld())))
+	{
+		MyGameMode->CutsceneManager->SequencePlayer->Stop();
+		
+		if(DialogRef)
+		{
+			UDialog* Dialog = DialogRef.GetDefaultObject();
+			Dialog->OnDialogFinish.BindUFunction(this, "OnDialogFinish");
 
-	GEngine->AddOnScreenDebugMessage(rand(), 1, FColor::Red, "Scene Finished");
+			MyGameMode->DialogSystem->StartDialogSystem(Dialog);
+		}
+	}
+}
+
+void AMoscaMansionOnFinishSequencer::OnDialogFinish()
+{
+	if (const ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld())))
+	{
+		if(LastSequence)
+		{
+			FOnMovieSceneSequencePlayerEvent OnFinish;
+			OnFinish.AddDynamic(this, &AMoscaMansionOnFinishSequencer::OnLastSequenceFinish);
+			
+			MyGameMode->CutsceneManager->SetSequence(LastSequence);
+			MyGameMode->CutsceneManager->SetOnSceneFinished(OnFinish);
+			MyGameMode->CutsceneManager->PlayCurrentSequence();
+		}
+	}
+}
+
+void AMoscaMansionOnFinishSequencer::OnLastSequenceFinish()
+{
+	if (const ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld())))
+	{
+		MyGameMode->CutsceneManager->SequencePlayer->Stop();
+	}
 }

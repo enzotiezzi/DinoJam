@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Dialog.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "MoscaMansionOnFinishSequencer.generated.h"
@@ -22,8 +23,19 @@ protected:
 	UFUNCTION()
 	void OnSceneFinish();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Dialog to be played")
+	TSubclassOf<UDialog> DialogRef;
+
+	UFUNCTION(BlueprintCallable)
+	void OnDialogFinish();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Last intro sequence")
+	ULevelSequence* LastSequence;
+
+	UFUNCTION(BlueprintCallable)
+	void OnLastSequenceFinish();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
 };

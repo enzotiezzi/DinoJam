@@ -30,8 +30,6 @@ public:
 	void SetOnSceneFinished(FOnMovieSceneSequencePlayerEvent OnSceneFinished);
 
 	void SetSequence(ULevelSequence* NewSequence);
-
-protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	ULevelSequencePlayer* SequencePlayer;
 

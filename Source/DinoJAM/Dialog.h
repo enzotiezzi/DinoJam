@@ -41,6 +41,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="TextLine")
 	FString TextLine;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="TextLine")
+	FString NPCName;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Timer")
 	float DelayToNextDialog;

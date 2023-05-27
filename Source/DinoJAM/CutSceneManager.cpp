@@ -30,7 +30,6 @@ void ACutSceneManager::BeginPlay()
 
 		FMovieSceneSequencePlaybackSettings Settings;
 		Settings.bDisableMovementInput = true;
-		Settings.bPauseAtEnd = true;
 		Settings.bHidePlayer = true;
 
 		SequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), Sequence, Settings, Actor);
@@ -68,7 +67,6 @@ void ACutSceneManager::SetSequence(ULevelSequence* NewSequence)
 
 	FMovieSceneSequencePlaybackSettings Settings;
 	Settings.bDisableMovementInput = true;
-	Settings.bPauseAtEnd = true;
 	Settings.bHidePlayer = true;
 
 	if (SequencePlayer)
