@@ -3,6 +3,7 @@
 
 #include "Level3Hallway1DialogInit.h"
 
+#include "BookWorm.h"
 #include "WormPack.h"
 #include "DinoJAM/CutSceneManager.h"
 #include "DinoJAM/DialogSystem.h"
@@ -68,6 +69,13 @@ void ALevel3Hallway1DialogInit::OnLastDialogFinish()
 	{
 		AItem* WormPack = MyGameInstance->InventorySystem->GetItem<AWormPack>();
 		WormPack->bCanUse = true;
+	}
+
+	ABookWorm* BookWorm = Cast<ABookWorm>(UGameplayStatics::GetActorOfClass(GetWorld(), ABookWorm::StaticClass()));
+
+	if(BookWorm)
+	{
+		BookWorm->bCanMove = true;
 	}
 }
 

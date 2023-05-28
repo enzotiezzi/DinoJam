@@ -3,6 +3,7 @@
 
 #include "Level3WormBoxTriggerSphere.h"
 
+#include "BookWorm.h"
 #include "WormPack.h"
 #include "Components/BillboardComponent.h"
 #include "DinoJAM/InventorySystem.h"
@@ -24,6 +25,17 @@ void ALevel3WormBoxTriggerSphere::Interact(APS1Character* Interactor)
 			SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 				
 			AWormBook* WormBook = GetWorld()->SpawnActor<AWormBook>(WormBookRef, GetSpriteComponent()->GetComponentLocation(), GetSpriteComponent()->GetComponentRotation(), SpawnParameters);
+
+			if(WormBook)
+			{
+				ABookWorm* BookWorm = Cast<ABookWorm>(UGameplayStatics::GetActorOfClass(GetWorld(), ABookWorm::StaticClass()));
+
+				if(BookWorm)
+				{
+					BookWorm->bCanMove = false;
+					BookWorm->Dance();
+				}
+			}
 		}
 	}
 }
