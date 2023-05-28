@@ -9,7 +9,7 @@ void ABookWorm::Tick(float DeltaSeconds)
 
 	if(bCanMove)
 	{
-		AddMovementInput(GetActorForwardVector(), 1);
+		AddMovementInput(GetActorForwardVector(), .1);
 	}
 }
 

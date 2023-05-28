@@ -6,6 +6,7 @@
 #include "BookWorm.h"
 #include "WormPack.h"
 #include "Components/BillboardComponent.h"
+#include "DinoJAM/DialogSystem.h"
 #include "DinoJAM/InventorySystem.h"
 #include "DinoJAM/MyGameInstance.h"
 #include "DinoJAM/PianoBox.h"
@@ -34,6 +35,15 @@ void ALevel3WormBoxTriggerSphere::Interact(APS1Character* Interactor)
 				{
 					BookWorm->bCanMove = false;
 					BookWorm->Dance();
+
+					if(DialogRef)
+					{
+						if(ADinoJAMGameModeBase* MyGameMode = Cast<ADinoJAMGameModeBase>(UGameplayStatics::GetGameMode(GetWorld())))
+						{
+							
+							MyGameMode->DialogSystem->StartDialogSystem(DialogRef.GetDefaultObject());
+						}
+					}
 				}
 			}
 		}

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "WormBook.h"
+#include "DinoJAM/Dialog.h"
 #include "DinoJAM/Interactable.h"
 #include "Engine/TriggerSphere.h"
 #include "Level3WormBoxTriggerSphere.generated.h"
@@ -19,6 +20,9 @@ class DINOJAM_API ALevel3WormBoxTriggerSphere : public ATriggerSphere, public II
 public:
 	virtual void Interact(APS1Character* Interactor) override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="item")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
 	TSubclassOf<AWormBook> WormBookRef;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Dialog")
+	TSubclassOf<UDialog> DialogRef;
 };

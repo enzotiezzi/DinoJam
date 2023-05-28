@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BookWorm.h"
 #include "DinoJAM/Dialog.h"
 #include "GameFramework/Actor.h"
 #include "Level3Hallway1DialogInit.generated.h"
@@ -45,4 +46,7 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Objective")
 	AObjective* Objective;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Worm")
+	TSubclassOf<ABookWorm> BookWormRef;
 };
